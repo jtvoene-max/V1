@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0a0a0a"/>
+  <g stroke="rgba(255,255,255,.08)" stroke-width="1.5">
+    <path d="M-100 156 L 356 612 M-100 356 L 156 612 M156 -100 L 612 356 M356 -100 L 612 156 M-100 356 L 356 -100 M-100 156 L 156 -100 M156 612 L 612 156 M356 612 L 612 356"/>
+  </g>
+  <text x="256" y="238" font-family="Didot, 'Bodoni MT', Georgia, serif" font-size="112" fill="#fafafa"
+        text-anchor="middle" letter-spacing="10">S</text>
+  <text x="256" y="238" font-family="Didot, 'Bodoni MT', Georgia, serif" font-size="112" fill="#d8c49a"
+        text-anchor="middle" letter-spacing="10" dx="66">I</text>
+  <rect x="196" y="278" width="120" height="2" fill="#a8894f"/>
+  <text x="256" y="330" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="rgba(255,255,255,.55)"
+        text-anchor="middle" letter-spacing="7">STILL</text>
+  <text x="256" y="372" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="rgba(255,255,255,.55)"
+        text-anchor="middle" letter-spacing="7">ICONIC</text>
+</svg>

@@ -63,27 +63,50 @@ Labels voor alle drie de verzendbenen, tracking-webhooks die de order automatisc
 
 End-to-end tests op checkout, inspectie, retour en uitbetaling. Beveiligingsronde. AVG. Snelheidstest met 10.000+ listings. Pentest-bevindingen oplossen.
 
-## Wat betekent dat in kalendertijd
+## Herziene inschatting (die weken hierboven zijn te ruim)
 
-**Optelling: 17 tot 23 bouwweken.**
+De weken hierboven zijn traditionele inschattingen: wat een ontwikkelaar die alles typt eraan kwijt is. Dat klopt niet met hoe wij werken. Kijk naar één dag, 27 juli 2026: in die dag zijn milestone 1, 2 en 4 van de echte app gebouwd (datamodel, auth, zoeken/filteren, verkoopflow, atelier-dashboard, account), plus het platformbrede papertrail met CSV-export, plus de complete demo, plus het concurrentie-onderzoek over acht platformen. Traditioneel is dat maanden werk.
 
-| Jouw inzet | Kalendertijd tot live |
+**Het typen van code is niet meer de rem.** Wat wél tijd kost:
+
+| Wat | Waarom het niet sneller kan |
 |---|---|
-| Fulltime meekijken en testen | 4 tot 5 maanden |
-| Halve dagen, wat realistisch is naast je andere werk | 6 tot 8 maanden |
-| Een paar uur per week | 10 maanden of meer |
+| Jouw beslissingen en testrondes | Jij moet elke flow zelf doorlopen en goedkeuren |
+| Stripe-integratie | Hun sandbox, webhooks, echte betaalstatussen en randgevallen; hier gaat het echt om geld |
+| Stripe-verificatie van je bedrijf | Dagen tot weken wachten op goedkeuring, buiten onze invloed |
+| Sendcloud-koppeling | Echte labels, echte tracking-webhooks |
+| Pentest | Externe partij inplannen en bevindingen oplossen |
+| Jurist, boekhouder, verzekering | Afspraken, doorlooptijd, geen regel code |
 
-De rem zit niet in het bouwen. Die zit in testen, jouw akkoord per stap, en het debuggen van integraties met Stripe en Sendcloud, want daar bepaalt hun sandbox het tempo.
+**Realistische herziene inschatting:**
 
-**Sneller live kan, door minder te bouwen.** Een uitgeklede eerste versie is haalbaar in **10 tot 12 bouwweken**: blok A halveren (geen berichten, geen archief, geen rapportage, alleen NL/EN met de bestaande filters), blok B en C volledig, blok D handmatig doen (labels met de hand aanmaken tot het volume te groot wordt), blok E ingekort tot alleen de kritieke tests. Dat is een platform waarmee je echt kunt verkopen, en de rest bouw je terwijl er al geld binnenkomt. Mijn advies is deze route.
+| Blok | Traditioneel | Met deze werkwijze |
+|---|---|---|
+| A. Demo-beslissingen overbouwen | 6-8 weken | **3 tot 5 werksessies** |
+| B. Infrastructuur en e-mail | 2-3 weken | **2 tot 3 sessies**, plus jouw accountaanmaak |
+| C. Stripe | 5-7 weken | **1 tot 2 weken**, want testen en randgevallen bepalen het tempo |
+| D. Sendcloud | 2 weken | **2 tot 3 sessies** |
+| E. Klaarmaken voor livegang | 2-3 weken | **1 week bouwen, plus wachttijd op de pentest** |
+
+**Van hier tot live: 4 tot 8 weken kalendertijd,** als jij de testrondes bijhoudt.
+
+En daarmee verschuift de kritieke lijn: **niet de techniek is bepalend, maar het zakelijke spoor.** De merknaam vastleggen, Stripe-verificatie doorlopen, algemene voorwaarden laten opstellen, verzekering regelen. Als dat spoor stilligt, ligt de livegang stil, hoe snel de app ook af is. Begin daar dus vandaag mee, niet als de bouw af is.
+
+**De uitgeklede route** (geen berichten, geen archief, geen rapportage, verzendlabels eerst met de hand) scheelt nu nog maar een week of twee. Dat is het verschil niet meer waard: bouw het gewoon compleet.
 
 ## De app
 
 Belangrijk om te scheiden van bovenstaande: een app is een **apart traject**, geen onderdeel van de livegang.
 
-### Optie 1: installeerbare webapp (PWA) — 1 tot 2 weken
+### Optie 1: installeerbare webapp (PWA) — AF, gebouwd op 27 juli 2026
 
-De site is al mobiel bruikbaar. Met een paar aanpassingen (app-icoon, offline-scherm, "toevoegen aan beginscherm") krijg je iets dat op een telefoon voelt als een app: eigen icoon, eigen venster, geen browserbalk.
+De echte app is nu installeerbaar. Wat erin zit:
+
+- **Manifest** met naam, kleuren en snelkoppelingen naar de collectie, verkopen en je account (die verschijnen als je het icoon ingedrukt houdt)
+- **App-icoon** in maison-stijl: zwart met het ruitpatroon en de gouden initialen
+- **Standalone-weergave**: opent zonder browserbalk, met de donkere statusbalk
+- **Installatie-uitnodiging** onderin beeld, met de juiste tekst per apparaat (Android en desktop krijgen een installeerknop, iPhone de uitleg via het deelicoon), eenmalig weg te klikken
+- **Service worker** die statische bestanden bewaart voor snelheid, maar prijzen en voorraad altijd vers ophaalt, plus een offline-scherm
 
 - Werkt op iOS en Android zonder appstore
 - Geen goedkeuring van Apple of Google nodig
@@ -112,10 +135,10 @@ Reken voor de app dus op **plus 8 tot 12 weken, ergens in het jaar na livegang**
 
 ## Samengevat
 
-| Route | Bouwweken | Kalendertijd bij halve dagen |
-|---|---|---|
-| Uitgeklede eerste versie, echt kunnen verkopen | 10 tot 12 | 4 tot 5 maanden |
-| Volledig platform zoals in de demo | 17 tot 23 | 6 tot 8 maanden |
-| Plus een echte app | plus 8 tot 12 | daarna |
+| Route | Kalendertijd |
+|---|---|
+| Volledig platform zoals in de demo, live | 4 tot 8 weken |
+| Installeerbare webapp | af |
+| Echte app in de stores | plus 8 tot 12 weken, ná livegang |
 
-Wat nu al kan beginnen zonder op iets te wachten: blok A. Wat wacht op de merknaam: Stripe, e-mail op eigen domein, en dus de livegang.
+De techniek is niet meer de kritieke lijn. **Het zakelijke spoor is dat wel:** merknaam, Stripe-verificatie, algemene voorwaarden, verzekering. Start daar deze week mee, dan lopen beide sporen gelijk op en gaat het platform live zodra het klaar is in plaats van te wachten op papierwerk.

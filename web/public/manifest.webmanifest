@@ -1,0 +1,24 @@
+{
+  "name": "Still Iconic — La Maison de la Revente",
+  "short_name": "Still Iconic",
+  "description": "Vintage Chanel, expertised in our atelier before it reaches you.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fafafa",
+  "theme_color": "#0a0a0a",
+  "lang": "en",
+  "categories": ["shopping", "lifestyle"],
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "The Collection", "url": "/", "description": "Browse available pieces" },
+    { "name": "Sell a piece", "url": "/sell", "description": "List a piece for sale" },
+    { "name": "My account", "url": "/account", "description": "Orders, listings and payouts" }
+  ]
+}
