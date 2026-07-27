@@ -61,7 +61,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
 
         {/* Info */}
         <div>
-          <h1 className="mb-1 text-2xl font-semibold">{listing.title}</h1>
+          <h1 className="mb-1 font-serif text-3xl">{listing.title}</h1>
           <p className="mb-4 text-sm text-neutral-500">
             {categoryLabel}
             {listing.productionYear ? ` · ${listing.productionYear}` : ""}

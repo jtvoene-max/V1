@@ -41,7 +41,7 @@ export default async function AtelierDashboard() {
       <SiteHeader />
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">Atelier</h1>
+          <h1 className="font-serif text-3xl">Atelier</h1>
           <p className="text-sm text-neutral-500">
             {orders.length} lopende orders · {doneCount} afgerond of geannuleerd
           </p>

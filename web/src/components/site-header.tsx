@@ -9,7 +9,7 @@ export async function SiteHeader() {
   return (
     <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
       <div>
-        <Link href="/" className="text-xl font-semibold tracking-tight">
+        <Link href="/" className="font-serif text-2xl tracking-wide">
           Timeless Marketplace
         </Link>
         <p className="text-sm text-neutral-500">Vintage Chanel, geauthenticeerd door ons atelier</p>

@@ -56,7 +56,7 @@ export default async function AtelierOrderDetail({ params }: { params: Promise<{
 
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold">{order.listing.title}</h1>
+          <h1 className="font-serif text-3xl">{order.listing.title}</h1>
           <p className="text-sm text-neutral-500">
             Order {order.id.slice(-8)} · {CONDITION_LABELS[order.listing.condition]}
             {order.listing.serialNumber ? ` · serienummer ${order.listing.serialNumber}` : ""}

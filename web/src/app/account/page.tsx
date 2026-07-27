@@ -50,7 +50,7 @@ export default async function AccountPage() {
     <main className="mx-auto max-w-4xl px-6 py-8">
       <SiteHeader />
       <div className="mb-8">
-        <h1 className="text-2xl font-semibold">Mijn account</h1>
+        <h1 className="font-serif text-3xl">Mijn account</h1>
         <p className="text-sm text-neutral-500">
           {session.user.name} · {isBusiness ? "zakelijk account" : "particulier account"}
         </p>

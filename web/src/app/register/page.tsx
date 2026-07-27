@@ -10,7 +10,7 @@ export default function RegisterPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
-      <h1 className="mb-2 text-2xl font-semibold">Account aanmaken</h1>
+      <h1 className="mb-2 font-serif text-3xl">Account aanmaken</h1>
       <p className="mb-8 text-sm text-neutral-500">
         Al een account?{" "}
         <Link href="/login" className="underline">

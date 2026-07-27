@@ -19,7 +19,7 @@ export default async function SellPage() {
         </Link>{" "}
         / Verkopen
       </nav>
-      <h1 className="mb-2 text-2xl font-semibold">Item verkopen</h1>
+      <h1 className="mb-2 font-serif text-3xl">Item verkopen</h1>
       <p className="mb-8 text-sm text-neutral-600">
         Na verkoop stuur je het item naar ons atelier. Wij controleren de echtheid en conditie, en sturen het daarna door
         naar de koper. Uitbetaling volgt direct na levering.
