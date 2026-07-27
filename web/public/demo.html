@@ -261,6 +261,23 @@
   .allin { font-family: var(--sans); font-size: 11px; color: #4a4a4a; margin-top: 4px; }
   .verif-goud { color: var(--goud-diep); font-weight: 500; }
 
+  /* ─── Wishlist ─── */
+  .wens-knop {
+    position: absolute; top: 10px; right: 10px; z-index: 2;
+    width: 32px; height: 32px; border: 1px solid var(--lijn); background: rgba(255,255,255,.9);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; line-height: 1; color: #6a6a6a; transition: all .15s; padding: 0;
+  }
+  .wens-knop:hover { border-color: var(--goud); color: var(--goud-diep); }
+  .wens-knop.bewaard { border-color: var(--goud); color: var(--goud-diep); background: #fff; }
+  .kaart { position: relative; }
+  .wens-groot {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+    background: none; border: none; cursor: pointer; color: #4a4a4a; padding: 14px 0 0;
+  }
+  .wens-groot:hover, .wens-groot.bewaard { color: var(--goud-diep); }
+
   /* ─── Beschrijving en verkopersnotitie ─── */
   .ai-beschrijving {
     font-family: var(--sans); font-size: 14.5px; line-height: 1.7; color: #2e2e2e;
@@ -1009,12 +1026,12 @@ const VERIFICATIE = {
   ATELIER: { kort: 'Atelier-verified', lang: 'Physically inspected in our atelier', badge: 'goud' },
   ENTRUPY: { kort: 'Entrupy certified', lang: 'Machine-authenticated by Entrupy, certificate included', badge: 'goud' },
 };
-ITEMS.forEach((it, i) => {
-  // Demodata: een mix, met Entrupy alleen op tassen
-  it.verificatie = it.categorie === 'tas' && i % 3 === 0 ? 'ENTRUPY'
-    : it.prijs >= 1000 ? 'ATELIER'
-    : 'PHOTO';
-  it.viaAtelier = it.verificatie !== 'PHOTO';
+// De KOPER kiest de verificatie bij het afrekenen, niet de verkoper.
+// Elke listing start dus op fotocontrole; wat de koper kiest bepaalt of het
+// stuk rechtstreeks gaat of eerst langs ons atelier.
+ITEMS.forEach(it => {
+  it.verificatie = 'PHOTO';
+  it.viaAtelier = false;
 });
 const eraVan = it => `${String(Math.floor(it.jaar / 10) * 10)}s`;
 
@@ -1239,13 +1256,7 @@ function renderKoper() {
       ${selectVoor('hardware', 'Hardware', uniek('hardware'))}
       ${selectVoor('conditie', 'Condition', CONDITIES)}
       ${selectVoor('era', 'Era', uniek('era'))}
-      <div class="filterveld">
-        <span class="fl">Verification</span>
-        <select class="fsel" onchange="zetFilter('verificatie', this.value)">
-          <option value="">All</option>
-          ${Object.entries(VERIFICATIE).map(([k, v]) => `<option value="${k}" ${filt.verificatie === k ? 'selected' : ''}>${v.kort}</option>`).join('')}
-        </select>
-      </div>
+
       ${actieveFilters ? `<button class="filter-wissen" onclick="wisFilters()">Clear (${actieveFilters})</button>` : ''}
     </div>
     ${!filt.categorie && !filt.nieuw && !Object.values(filt).some(v => v && v !== false) ? htmlStatusbalk() : ''}
@@ -1256,12 +1267,13 @@ function renderKoper() {
         const verkocht = order && order.item.id === it.id;
         return `
         <div class="kaart ${verkocht ? 'verkocht-overlay' : ''}" onclick="kijkItem=ITEMS[${ITEMS.indexOf(it)}];biedOpen=false;biedVerstuurd=null;scherm='detail';render()">
+          <button class="wens-knop ${wishlist.has(it.id) ? 'bewaard' : ''}" title="${wishlist.has(it.id) ? 'Remove from wishlist' : 'Save to wishlist'}" onclick="toggleWish(${it.id}, event)">${wishlist.has(it.id) ? '&#9670;' : '&#9671;'}</button>
           <div class="kaart-foto quilt">${art(it.art)}</div>
           <div class="kaart-info">
             <div class="kaart-titel">Chanel ${it.titel}</div>
             <div class="kaart-meta">${it.jaar} &middot; ${it.conditie} &middot; ${it.hardware !== 'n/a' ? it.hardware + ' hardware &middot; ' : ''}${it.zakelijk ? 'Business' : 'Private'}</div>
             <div class="kaart-prijs ${verkocht ? 'verkocht' : ''}">${verkocht ? 'Sold' : eur(it.prijs)}</div>
-            ${verkocht ? '' : `<div class="allin"><span class="${VERIFICATIE[it.verificatie].badge ? 'verif-goud' : ''}">${VERIFICATIE[it.verificatie].kort}</span> &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. protection</div>`}
+            ${verkocht ? '' : `<div class="allin">${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. protection &middot; <span class="verif-goud">verification from ${eur(39)}</span></div>`}
           </div>
         </div>`;
       }).join('')}
@@ -1485,29 +1497,7 @@ function htmlListForm() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">5. Verification</div>
-      <p class="sub" style="margin:0 0 16px">Choose how your piece is verified. Verified pieces sell faster and command higher prices, because buyers know exactly what they are getting.</p>
-      ${[
-        ['PHOTO', 'Photo check', 'Free · ships directly to the buyer',
-         'Our team reviews your photographs before the listing goes live. Your piece never leaves your hands until it sells.'],
-        ['ATELIER', 'Atelier expertise', 'Recommended · via our atelier',
-         'You send the piece to us first. We verify authenticity and condition, sharpen the condition report, then forward it to the buyer. Available for every category.'],
-        ['ENTRUPY', 'Entrupy certificate', 'Bags only · via our atelier',
-         'Machine authentication with microscopic image analysis, on top of our own expertise. The certificate stays with the piece and can be passed on to the next owner.'],
-      ].map(([key, titel, meta, uitleg], i) => `
-        <label style="display:flex;gap:14px;border:1px solid ${i === 1 ? 'var(--goud)' : 'var(--lijn)'};padding:16px 18px;margin-bottom:10px;cursor:pointer">
-          <input type="radio" name="verificatie" ${i === 1 ? 'checked' : ''} style="margin-top:4px">
-          <span>
-            <span style="font-family:var(--serif);font-size:17px">${titel}</span>
-            <span class="caps-mini" style="font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--goud-diep);display:block;margin:3px 0 5px">${meta}</span>
-            <span class="stap-toel" style="max-width:none;display:block;margin:0">${uitleg}</span>
-          </span>
-        </label>`).join('')}
-      <p class="biedregel">Entrupy is only available for bags; the technology does not cover clothing or jewellery. For those, atelier expertise is the highest level.</p>
-    </div>
-
-    <div class="paneel">
-      <div class="sectiekop">6. Price and terms</div>
+      <div class="sectiekop">5. Price and terms</div>
       <div class="rapport-grid">
         ${veld('Asking price', inp('e.g. 5800', 'number'), 'Comparable pieces in our archive sold for € 5,100 to € 6,400.')}
         ${veld('Offers', sel(['Allow offers from 70% of the asking price', 'Fixed price, no offers']))}
@@ -1564,8 +1554,7 @@ function htmlDetail(it) {
           <div class="spec"><dt>Dimensions</dt><dd>${it.afmetingen}</dd></div>
           <div class="spec"><dt>Era</dt><dd>${it.serie}</dd></div>
           <div class="spec"><dt>Seller</dt><dd>${it.verkoper} <span class="goudtekst">&middot; ${it.zakelijk ? 'business' : 'private'}</span></dd></div>
-          <div class="spec"><dt>Verification</dt><dd>${VERIFICATIE[it.verificatie].lang}</dd></div>
-          <div class="spec"><dt>Shipping</dt><dd>${it.viaAtelier ? 'Via our atelier to you' : 'Directly from the seller'}</dd></div>
+          <div class="spec"><dt>Verification</dt><dd>You choose at checkout${it.categorie === 'tas' ? ', up to an Entrupy certificate' : ''}</dd></div>
           ${it.zakelijk ? '<div class="spec"><dt>Cooling-off period</dt><dd>14 days right of withdrawal</dd></div>' : ''}
         </dl>
 
@@ -1597,6 +1586,11 @@ function htmlDetail(it) {
           </dl>
           <p class="biedregel" style="margin-top:10px">Noted by the seller; our atelier checks and refines this report during the physical expertise.</p>
         </div>
+
+        <button class="wens-groot ${wishlist.has(it.id) ? 'bewaard' : ''}" onclick="toggleWish(${it.id}, event)">
+          <span style="font-size:15px">${wishlist.has(it.id) ? '&#9670;' : '&#9671;'}</span>
+          ${wishlist.has(it.id) ? 'Saved to your wishlist' : 'Save to wishlist'}
+        </button>
 
         ${VERKOPER_NOTITIE[it.id] ? `
         <div class="verkoper-notitie">
@@ -1635,15 +1629,30 @@ function verstuurBod(vraagprijs) {
   render();
 }
 
-// Koper kan de verificatie ophogen bij het afrekenen (Vestiaire-model:
-// authenticatie als keuze in de checkout). Kan alleen omhoog, nooit omlaag.
+// De koper kiest bij het afrekenen zelf hoe zeker hij het wil hebben.
+// Zijn keuze bepaalt ook de verzendroute: rechtstreeks of eerst via het atelier.
 const UPGRADE_PRIJS = { ATELIER: 39, ENTRUPY: 89 };
 let checkoutUpgrade = null;
+// Wishlist: bewaarde stukken. Levert de koper een geheugen en jou koopsignalen.
+let wishlist = new Set([4, 8, 10]);
+function toggleWish(id, e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  if (wishlist.has(id)) { wishlist.delete(id); toast('Removed from your wishlist.'); }
+  else { wishlist.add(id); toast('Saved to your wishlist. We will let you know if the price drops.'); }
+  render();
+}
 
-function beschikbareUpgrades(it) {
-  const opties = [];
-  if (it.verificatie === 'PHOTO') opties.push('ATELIER');
-  if (it.categorie === 'tas' && it.verificatie !== 'ENTRUPY') opties.push('ENTRUPY');
+function verificatieKeuzes(it) {
+  const opties = [
+    { key: null, titel: 'Photo check', prijs: 0, levertijd: 'Ships directly, 2 to 4 days',
+      uitleg: 'Our team has reviewed the photographs and the condition report before this listing went live.' },
+    { key: 'ATELIER', titel: 'Atelier expertise', prijs: UPGRADE_PRIJS.ATELIER, levertijd: 'Via our atelier, 5 to 7 days',
+      uitleg: 'We receive the piece first, verify authenticity and condition by hand, and only then send it on to you.' },
+  ];
+  if (it.categorie === 'tas') {
+    opties.push({ key: 'ENTRUPY', titel: 'Entrupy certificate', prijs: UPGRADE_PRIJS.ENTRUPY, levertijd: 'Via our atelier, 5 to 7 days',
+      uitleg: 'Our expertise plus machine authentication with microscopic image analysis. The certificate stays with the piece and passes to the next owner.' });
+  }
   return opties;
 }
 
@@ -1651,8 +1660,7 @@ function htmlCheckout(it) {
   const fee = it.prijs * KOPERSFEE;
   const upgradePrijs = checkoutUpgrade ? UPGRADE_PRIJS[checkoutUpgrade] : 0;
   const totaal = it.prijs + fee + VERZENDING + upgradePrijs;
-  const upgrades = beschikbareUpgrades(it);
-  const huidig = VERIFICATIE[it.verificatie];
+  const keuzes = verificatieKeuzes(it);
 
   return `
     <button class="terug" onclick="scherm='detail';render()">&larr; Back to the piece</button>
@@ -1661,24 +1669,24 @@ function htmlCheckout(it) {
       <h2 class="kop" style="font-size:24px">Chanel ${it.titel} ${it.jaar}</h2>
       <p class="sub" style="margin-bottom:14px">Your payment is held securely and only released to the seller after delivery.</p>
 
-      <div class="sectiekop" style="margin-top:22px">Verification</div>
-      <label style="display:flex;gap:12px;border:1px solid ${checkoutUpgrade ? 'var(--lijn)' : 'var(--goud)'};padding:14px 16px;margin-bottom:10px;cursor:pointer">
-        <input type="radio" name="upgrade" ${checkoutUpgrade ? '' : 'checked'} onchange="checkoutUpgrade=null;render()" style="margin-top:3px">
-        <span>
-          <span style="font-family:var(--serif);font-size:16px">${huidig.kort}</span>
-          <span class="stap-toel" style="max-width:none;display:block;margin:2px 0 0">${huidig.lang}. Included.</span>
-        </span>
-      </label>
-      ${upgrades.map(u => `
-        <label style="display:flex;gap:12px;border:1px solid ${checkoutUpgrade === u ? 'var(--goud)' : 'var(--lijn)'};padding:14px 16px;margin-bottom:10px;cursor:pointer">
-          <input type="radio" name="upgrade" ${checkoutUpgrade === u ? 'checked' : ''} onchange="checkoutUpgrade='${u}';render()" style="margin-top:3px">
-          <span>
-            <span style="font-family:var(--serif);font-size:16px">${VERIFICATIE[u].kort}</span>
-            <span style="font-family:var(--sans);font-size:12px;color:var(--goud-diep);margin-left:8px">+ ${eur(UPGRADE_PRIJS[u])}</span>
-            <span class="stap-toel" style="max-width:none;display:block;margin:2px 0 0">${VERIFICATIE[u].lang}. The piece travels via our atelier, which adds two to three days.</span>
+      <div class="sectiekop" style="margin-top:22px">How would you like it verified?</div>
+      <p class="biedregel" style="margin:-8px 0 14px">You decide how much certainty you want. Every option is covered by our buyer protection.</p>
+      ${keuzes.map(k => {
+        const gekozen = checkoutUpgrade === k.key;
+        return `
+        <label style="display:flex;gap:12px;border:1px solid ${gekozen ? 'var(--goud)' : 'var(--lijn)'};padding:14px 16px;margin-bottom:10px;cursor:pointer">
+          <input type="radio" name="verif" ${gekozen ? 'checked' : ''} onchange="checkoutUpgrade=${k.key ? `'${k.key}'` : 'null'};render()" style="margin-top:3px">
+          <span style="flex:1">
+            <span style="display:flex;justify-content:space-between;gap:10px;align-items:baseline">
+              <span style="font-family:var(--serif);font-size:16px">${k.titel}</span>
+              <span style="font-family:var(--sans);font-size:12.5px;color:${k.prijs ? 'var(--goud-diep)' : '#4a4a4a'}">${k.prijs ? '+ ' + eur(k.prijs) : 'Included'}</span>
+            </span>
+            <span class="stap-toel" style="max-width:none;display:block;margin:3px 0 0">${k.uitleg}</span>
+            <span class="biedregel" style="display:block;margin-top:4px">${k.levertijd}</span>
           </span>
-        </label>`).join('')}
-      ${upgrades.length === 0 ? '<p class="biedregel" style="margin-top:-4px">This piece already carries our highest level of verification.</p>' : ''}
+        </label>`;
+      }).join('')}
+      ${it.categorie !== 'tas' ? '<p class="biedregel" style="margin-top:-4px">Entrupy certification is available for bags only; the technology does not cover clothing, jewellery or accessories.</p>' : ''}
 
       <div class="bon" style="margin-top:20px">
         <div class="bon-rij"><span class="oms">The piece</span><span>${eur(it.prijs)}</span></div>
@@ -2100,7 +2108,7 @@ function navSecties() {
       ]},
       { groep: 'Overview', items: [
         { key: 'historie', label: 'Order history', telling: EERDERE_BESTELLINGEN.length },
-        { key: 'favorieten', label: 'Favourites', telling: 3 },
+        { key: 'favorieten', label: 'Wishlist', telling: wishlist.size },
         { key: 'mijn-biedingen', label: 'My offers', telling: biedVerstuurd ? 1 : 0 },
       ]},
       { groep: 'Administration', items: [
@@ -2211,19 +2219,24 @@ function htmlAccountKoper() {
       <p class="biedregel">Click an order for the full timeline and how it was handled.</p>`;
   }
   if (accountSectie === 'favorieten') {
-    const favs = [ITEMS[3], ITEMS[7], ITEMS[9]];
+    const favs = ITEMS.filter(i => wishlist.has(i.id));
     return `
-      <div class="sectiekop">Favourites (3)</div>
-      ${favs.map(f => `
+      <div class="sectiekop">Wishlist (${favs.length})</div>
+      ${favs.length === 0
+        ? `<div class="stap-uitleg">Your wishlist is empty. Save pieces in the <b>Boutique</b> using the diamond in the corner of each card.</div>`
+        : favs.map(f => {
+            const weg = order && order.item.id === f.id;
+            return `
         <div class="wachtrij-item" style="cursor:pointer" onclick="naarDetail(${ITEMS.indexOf(f)})">
           <div class="mini-foto quilt">${art(f.art)}</div>
           <div class="wachtrij-info">
             <div class="wachtrij-titel">Chanel ${f.titel} ${f.jaar}</div>
-            <div class="wachtrij-meta">${eur(f.prijs)} &middot; ${f.conditie} &middot; still available</div>
+            <div class="wachtrij-meta">${eur(f.prijs)} &middot; ${f.conditie} &middot; ${weg ? 'no longer available' : 'still available'}</div>
           </div>
-          <span class="status-chip">Saved</span>
-        </div>`).join('')}
-      <p class="biedregel">You are notified when the price drops or the piece is sold.</p>`;
+          <button class="knop klein sec" onclick="toggleWish(${f.id}, event)">Remove</button>
+        </div>`;
+          }).join('')}
+      <p class="biedregel">We notify you when the price drops, when someone else makes an offer, or when a piece is sold.</p>`;
   }
   if (accountSectie === 'mijn-biedingen') {
     return `

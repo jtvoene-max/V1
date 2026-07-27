@@ -100,27 +100,28 @@ De huidige 3 niveaus (Uitstekend/Goed/Gebruikssporen) zijn te grof vergeleken me
 
 De duurste operationele keuze. Vestiaire bewijst dat een drempel werkt: boven €1.000 verplicht via de hub, eronder mag rechtstreeks ("Direct Shipping"). Alles langs het atelier sturen is puur verlies op een sjaal van €200: de authenticatie kost meer tijd dan de marge oplevert, en de koper wacht onnodig lang.
 
-**Besluit (27 juli 2026): de verkoper kiest, in drie niveaus.**
+**Besluit (27 juli 2026): de KOPER kiest bij het afrekenen, in drie niveaus.**
 
-Niet het platform bepaalt de route, maar de verkoper vinkt zelf aan hoe zijn stuk wordt gecontroleerd. Dat is beter dan een vaste regel: je dwingt geen operationele kosten af op een sjaal van €200, en je maakt van de expertise een aantrekkelijke dienst in plaats van een verplichting.
+Niet het platform en niet de verkoper bepaalt de route, maar de koper kiest bij de checkout hoeveel zekerheid hij wil. Elke listing start dus gelijk; wat de koper kiest bepaalt of het stuk rechtstreeks gaat of eerst langs het atelier.
 
-| Niveau | Wat er gebeurt | Voor wie | Verzendroute |
-|---|---|---|---|
-| **1. Fotocontrole** | Ons team beoordeelt de acht standaardbeelden vóór de listing live gaat | standaard, alle categorieën | rechtstreeks van verkoper naar koper |
-| **2. Atelier-expertise** | Het stuk komt fysiek binnen, wordt beoordeeld op echtheid en conditie, en het conditierapport wordt door ons aangescherpt | optioneel, **alle categorieën** | via het atelier, drie verzendbenen |
-| **3. Entrupy-certificaat** | Machinale authenticatie met microscopische beeldanalyse, met een certificaat dat aan het stuk gekoppeld blijft | optioneel, **alleen tassen** (Entrupy dekt geen kleding of sieraden) | via het atelier |
+| Niveau | Wat er gebeurt | Prijs | Voor wie | Verzendroute |
+|---|---|---|---|---|
+| **1. Fotocontrole** | Ons team beoordeelde de acht standaardbeelden en het conditierapport vóór de listing live ging | inbegrepen | alle categorieën | rechtstreeks van verkoper naar koper, 2 tot 4 dagen |
+| **2. Atelier-expertise** | Het stuk komt fysiek binnen, wordt met de hand beoordeeld op echtheid en conditie, en gaat daarna door naar de koper | + € 39 | **alle categorieën** | via het atelier, 5 tot 7 dagen |
+| **3. Entrupy-certificaat** | Onze expertise plus machinale authenticatie met microscopische beeldanalyse; het certificaat blijft bij het stuk en gaat mee naar de volgende eigenaar | + € 89 | **alleen tassen** (Entrupy dekt geen kleding, sieraden of accessoires) | via het atelier, 5 tot 7 dagen |
 
-**Waarom dit sterker is dan een vaste regel:**
-- De verkoper met een twijfelgeval kiest zelf voor zekerheid, want een geverifieerd stuk verkoopt sneller en voor meer
-- Jij bouwt geen operationele last op waar de marge het niet draagt
-- Entrupy wordt een onderscheidende premiumlaag in plaats van een kostenpost: geen enkele Europese concurrent biedt machinale certificering standaard aan
-- Kopers krijgen een filter dat nergens anders bestaat: "alleen Entrupy-gecertificeerd"
+**Waarom de koper moet kiezen en niet de verkoper:**
+- De verkoper heeft geen enkele drempel meer: hij plaatst zijn stuk, klaar. Dat levert meer aanbod op
+- De koper betaalt voor de zekerheid die híj wil, en dat is precies de partij met het risico
+- Jij verdient aan verificatie in plaats van dat het een kostenpost is
+- Het pakt goed uit per prijsklasse: bij een sjaal van € 200 kiest niemand € 89 extra, bij een tas van € 8.000 vrijwel iedereen
+- De verzendroute volgt vanzelf: het label wordt pas ná de koop aangemaakt, dus wij sturen de verkoper naar het atelier of rechtstreeks naar de koper
 
 **Wat je moet vastleggen:**
-- Het niveau staat zichtbaar op elke listing en op de productkaart, zodat de koper weet wat hij koopt
-- Wie betaalt niveau 2 en 3? Advies: verwerk het in een iets hogere verkopersfee bij geverifieerde stukken, of reken een vast bedrag per certificaat. Neem dit mee in het gesprek met de boekhouder
+- De prijzen (€ 39 en € 89 in de demo) moeten je werkelijke kosten dekken, inclusief de extra verzendstap en ateliertijd. Reken dit door zodra je de Entrupy-tarieven kent
 - Entrupy vereist een abonnement plus apparatuur; onderzoek de kosten voordat je het aanbiedt
 - Bij niveau 1 blijft de kopersbescherming volledig gelden: het platform houdt het geld vast tot levering, en bij een geschil beslist ons team
+- Op de productkaart staat "verification from € 39", zodat de koper weet dat de mogelijkheid er is voordat hij doorklikt
 
 ### 5f. Nog te overwegen (later, uit het onderzoek)
 
