@@ -399,12 +399,7 @@
   .foto-hoofd { overflow: hidden; }
   .foto-binnen { width: 58%; height: 58%; transition: transform .3s ease; display: flex; align-items: center; justify-content: center; }
   .foto-binnen svg { width: 100%; height: 100%; }
-  .foto-strook { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--lijn); }
-  .foto-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
-  .foto-strook .foto-thumb { padding: 26px 14px 12px; }
-  .foto-strook .foto-thumb svg { width: 62%; height: auto; }
-  .foto-strook .thumb-serial { font-size: 34px; padding: 14px 0 8px; }
-  .foto-strook .tl { font-size: 8.5px; margin-top: 10px; }
+  .foto-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
   .foto-thumb {
     border: 1px solid var(--lijn); background: #f6f6f5; cursor: pointer;
     padding: 10px 6px 7px; text-align: center; transition: border-color .15s;
@@ -412,7 +407,7 @@
   .foto-thumb:hover { border-color: var(--inkt); }
   .foto-thumb.actief { border-color: var(--goud); }
   .foto-thumb svg { width: 44%; height: auto; }
-  .foto-thumb .tl { font-family: var(--sans); font-size: 7.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--grijs); margin-top: 5px; }
+  .foto-thumb .tl { font-family: var(--sans); font-size: 7.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: #3a3a3a; margin-top: 5px; }
   .thumb-serial { font-family: var(--serif); font-size: 20px; color: var(--goud-diep); padding: 8px 0 3px; }
   .serial-kaart { background: #fff; border: 1px solid var(--lijn); padding: 26px 34px; text-align: center; box-shadow: 0 10px 30px rgba(10,10,10,.06); }
   .sk-label { font-family: var(--sans); font-size: 8.5px; letter-spacing: .3em; text-transform: uppercase; color: var(--grijs); }
@@ -470,14 +465,13 @@
   .spec {
     display: flex; justify-content: space-between; gap: 20px;
     padding: 11px 0; border-bottom: 1px solid var(--lijn);
-    font-size: 15px;
   }
   .spec:first-child { border-top: 1px solid var(--lijn); }
   .spec dt {
     font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
     color: #3a3a3a; padding-top: 4px; white-space: nowrap;
   }
-  .spec dd { text-align: right; }
+  .spec dd { text-align: right; font-family: var(--sans); font-size: 13px; color: var(--inkt); }
   .goudtekst { color: var(--grijs); }
 
   /* ─── Knoppen ─── */
@@ -504,10 +498,10 @@
   .knop.klein { padding: 11px 20px; font-size: 9.5px; }
 
   /* ─── Checkout ─── */
-  .bon { font-size: 15px; margin: 8px 0 26px; }
+  .bon { font-family: var(--sans); font-size: 13px; margin: 8px 0 26px; }
   .bon-rij { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--lijn); }
-  .bon-rij .oms { font-family: var(--sans); font-size: 12.5px; color: #333333; letter-spacing: .04em; }
-  .bon-rij.totaal { border-bottom: none; padding-top: 18px; font-size: 19px; }
+  .bon-rij .oms { font-family: var(--sans); font-size: 12.5px; color: #333333; letter-spacing: .04em; font-weight: 400; }
+  .bon-rij.totaal { border-bottom: none; padding-top: 18px; font-family: var(--serif); font-size: 19px; }
   .bon-rij.totaal .oms { font-family: var(--sans); font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--inkt); padding-top: 6px; }
   .betaalopties { display: flex; gap: 10px; margin: 22px 0 26px; flex-wrap: wrap; }
   .betaaloptie {
@@ -946,10 +940,15 @@ let biedOpen = false, biedVerstuurd = null;
 // Fotonavigatie op de detailpagina + geopend verkocht stuk in het account
 let fotoView = 0;
 let verkochtDetail = null;
+// Acht standaardbeelden per listing, zoals onze fotorichtlijnen voorschrijven
 const FOTO_VIEWS = [
   { label: 'Voorkant' },
-  { label: 'Detail', stijl: 'transform:scale(2.2) translateY(-8%)' },
   { label: 'Achterzijde', stijl: 'transform:scaleX(-1)' },
+  { label: 'Zijkant', stijl: 'transform:rotate(-8deg) scale(.92)' },
+  { label: 'Onderkant', stijl: 'transform:rotate(180deg) scale(.94)' },
+  { label: 'Binnenkant', stijl: 'transform:scale(1.35) translateY(6%)' },
+  { label: 'Hardware', stijl: 'transform:scale(2.4) translateY(-6%)' },
+  { label: 'Slijtage', stijl: 'transform:scale(2) translate(12%, 12%)' },
   { label: 'Serienummer', serial: true },
 ];
 function naarDetail(idx) {
@@ -1301,10 +1300,17 @@ function htmlDetail(it) {
           ${FOTO_VIEWS[fotoView].serial
             ? `<div class="serial-kaart">
                  <div class="sk-label">Authenticiteitskaart</div>
-                 <div class="sk-nr">${it.serie.replace('Serie ', 'Serie ')}</div>
+                 <div class="sk-nr">${it.serie}</div>
                  <div class="sk-sub">Serienummer gecontroleerd door ons atelier</div>
                </div>`
             : `<div class="foto-binnen" style="${FOTO_VIEWS[fotoView].stijl || ''}">${art(it.art)}</div>`}
+        </div>
+        <div class="foto-thumbs">
+          ${FOTO_VIEWS.map((f, i) => `
+            <div class="foto-thumb ${i === fotoView ? 'actief' : ''}" onclick="fotoView=${i};render()">
+              ${f.serial ? '<div class="thumb-serial">N&deg;</div>' : `<div style="${f.stijl ? f.stijl.replace(/scale\(([\d.]+)\)/, (m, n) => `scale(${Math.min(Number(n), 1.4)})`) : ''}">${art(it.art)}</div>`}
+              <div class="tl">${f.label}</div>
+            </div>`).join('')}
         </div>
       </div>
       <div class="detail-info">
@@ -1356,17 +1362,6 @@ function htmlDetail(it) {
         ${!it.zakelijk ? '<p class="sub" style="margin-top:18px">U koopt van een particulier; wettelijk herroepingsrecht is niet van toepassing. Elk stuk wordt v&oacute;&oacute;r verzending fysiek ge&euml;xpertiseerd.</p>' : ''}
       </div>
 
-      <div class="foto-strook" style="flex-basis:100%">
-        <div class="sectiekop">Alle beelden</div>
-        <div class="foto-thumbs">
-          ${FOTO_VIEWS.map((f, i) => `
-            <div class="foto-thumb ${i === fotoView ? 'actief' : ''}" onclick="fotoView=${i};render();window.scrollTo({top:0,behavior:'smooth'})">
-              ${f.serial ? '<div class="thumb-serial">N&deg;</div>' : `<div style="${f.stijl ? f.stijl.replace('2.2', '1.6') : ''}">${art(it.art)}</div>`}
-              <div class="tl">${f.label}</div>
-            </div>`).join('')}
-        </div>
-        <p class="biedregel">Klik op een beeld om het groot te bekijken. Ons atelier voegt na de expertise eigen detailfoto&rsquo;s toe.</p>
-      </div>
     </div>`;
 }
 
