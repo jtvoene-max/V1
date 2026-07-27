@@ -50,7 +50,69 @@ const CHANEL_MODELS: { model: string; category: string; min: number; max: number
   { model: "Sunglasses Vintage", category: "accessory", min: 200, max: 800 },
 ];
 
-const CONDITIONS: Condition[] = [Condition.EXCELLENT, Condition.GOOD, Condition.VISIBLE_WEAR];
+const CONDITIONS: Condition[] = [
+  Condition.NEW,
+  Condition.EXCELLENT,
+  Condition.VERY_GOOD,
+  Condition.GOOD,
+  Condition.VISIBLE_WEAR,
+];
+
+// Attributen per categorie, zodat de combinaties realistisch blijven:
+// een sjaal is nooit van caviar-leer en een ketting heeft geen hengseldrop.
+const KLEUREN = ["Black", "Beige", "Brown", "Navy", "Red", "Pink", "Ivory", "Grey", "Gold", "Multicolour"];
+const MATERIALEN: Record<string, string[]> = {
+  bag: ["Lambskin", "Caviar", "Calfskin", "Aged calfskin", "Patent leather", "Tweed", "Canvas"],
+  jewelry: ["Gilt metal", "Gilt metal"],
+  accessory: ["Silk", "Acetate", "Gilt metal", "Canvas"],
+};
+const HARDWARE_OPTIES = ["Gold", "Silver", "Ruthenium", "Mixed"];
+const INCLUSIE_OPTIES = ["Dust bag", "Authenticity card", "Box", "Receipt", "Care booklet"];
+
+// Slijtage per zone, passend bij de conditie
+const SLIJTAGE: Record<string, Record<string, string>> = {
+  NEW: {
+    EXTERIOR: "Unworn, only creases from the box",
+    CORNERS_EDGES: "Pristine",
+    HARDWARE: "Protective film still in place",
+    INTERIOR: "As new",
+  },
+  EXCELLENT: {
+    EXTERIOR: "Light cushioning loss in the quilting, otherwise crisp",
+    CORNERS_EDGES: "Minimal rubbing on the base corners",
+    HARDWARE: "Fine hairline scratches on the turnlock",
+    INTERIOR: "Light imprints, clean",
+  },
+  VERY_GOOD: {
+    EXTERIOR: "Soft cushioning loss in keeping with the era",
+    CORNERS_EDGES: "Slight wear on two corners",
+    HARDWARE: "Gilding largely intact, light scratching",
+    INTERIOR: "Light signs of use",
+  },
+  GOOD: {
+    EXTERIOR: "Visible carry marks across the flap",
+    CORNERS_EDGES: "Wear on all four corners",
+    HARDWARE: "Dull patches on the chain",
+    INTERIOR: "Signs of use, one pen mark",
+  },
+  VISIBLE_WEAR: {
+    EXTERIOR: "Leather discoloured in places",
+    CORNERS_EDGES: "Fraying along the base",
+    HARDWARE: "Gilding worn through on the clasp",
+    INTERIOR: "Staining on the base of the lining",
+  },
+};
+
+function afmetingVoor(categorie: string): string | null {
+  if (categorie === "bag") {
+    const b = faker.number.int({ min: 18, max: 38 });
+    const h = faker.number.int({ min: 11, max: 30 });
+    const d = faker.number.int({ min: 4, max: 18 });
+    return `${b} × ${h} × ${d} cm · strap drop ${faker.number.int({ min: 45, max: 60 })} cm`;
+  }
+  if (categorie === "jewelry") return `Length ${faker.number.int({ min: 40, max: 90 })} cm`;
+  return `${faker.number.int({ min: 8, max: 90 })} × ${faker.number.int({ min: 5, max: 90 })} cm`;
+}
 
 function priceFor(min: number, max: number): number {
   // Prijzen in centen, afgerond op hele tientjes
@@ -185,9 +247,11 @@ async function main() {
   for (let i = 0; i < TOTAL; i++) {
     const spec = faker.helpers.arrayElement(CHANEL_MODELS);
     const condition = faker.helpers.weightedArrayElement([
-      { value: CONDITIONS[0], weight: 3 },
-      { value: CONDITIONS[1], weight: 5 },
-      { value: CONDITIONS[2], weight: 2 },
+      { value: Condition.NEW, weight: 1 },
+      { value: Condition.EXCELLENT, weight: 3 },
+      { value: Condition.VERY_GOOD, weight: 4 },
+      { value: Condition.GOOD, weight: 3 },
+      { value: Condition.VISIBLE_WEAR, weight: 2 },
     ]);
     const year = faker.number.int({ min: 1985, max: 2018 });
     const seller = faker.helpers.arrayElement(allSellers);
@@ -198,17 +262,26 @@ async function main() {
       { value: ListingStatus.WITHDRAWN, weight: 5 },
     ]);
 
+    const kleur = faker.helpers.arrayElement(KLEUREN);
+    const materiaal = faker.helpers.arrayElement(MATERIALEN[spec.category] ?? MATERIALEN.bag);
+    const hardware = spec.category === "accessory" && materiaal === "Silk"
+      ? "None"
+      : faker.helpers.arrayElement(HARDWARE_OPTIES);
+    const conditieTekst = {
+      NEW: "Unworn, exactly as it left the boutique.",
+      EXCELLENT: "In excellent condition, barely worn.",
+      VERY_GOOD: "Lightly worn, with the patina you expect of the era.",
+      GOOD: "In good condition with signs of wear in keeping with its age.",
+      VISIBLE_WEAR: "Clear signs of wear, see photographs. Priced accordingly.",
+    }[condition];
+
     const listing = await prisma.listing.create({
       data: {
         sellerId: seller.id,
         title: `Chanel ${spec.model} ${year}`,
         description: [
-          `Vintage Chanel ${spec.model} from ${year}.`,
-          condition === Condition.EXCELLENT
-            ? "In excellent condition, barely worn."
-            : condition === Condition.GOOD
-              ? "In good condition with light signs of wear in keeping with its age."
-              : "Clear signs of wear, see photographs. Priced accordingly.",
+          `Vintage Chanel ${spec.model} from ${year} in ${kleur.toLowerCase()} ${materiaal.toLowerCase()}.`,
+          conditieTekst,
           "Comes with an authenticity check by our atelier.",
         ].join(" "),
         category: spec.category,
@@ -216,6 +289,11 @@ async function main() {
         condition,
         productionYear: year,
         serialNumber: faker.string.numeric(8),
+        color: kleur,
+        material: materiaal,
+        hardware,
+        dimensions: afmetingVoor(spec.category),
+        inclusions: faker.helpers.arrayElements(INCLUSIE_OPTIES, { min: 0, max: 4 }),
         priceCents: priceFor(spec.min, spec.max),
         status,
         allowOffers: faker.datatype.boolean({ probability: 0.8 }),
@@ -223,6 +301,13 @@ async function main() {
           create: [0, 1, 2, 3].map((p) => ({
             url: `https://picsum.photos/seed/tm-${i}-${p}/800/800`,
             position: p,
+          })),
+        },
+        wearNotes: {
+          create: (["EXTERIOR", "CORNERS_EDGES", "HARDWARE", "INTERIOR"] as const).map((zone) => ({
+            zone,
+            note: SLIJTAGE[condition][zone],
+            verifiedByAtelier: faker.datatype.boolean({ probability: 0.3 }),
           })),
         },
       },

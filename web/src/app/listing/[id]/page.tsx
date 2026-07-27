@@ -4,7 +4,11 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/site-header";
 import { t } from "@/lib/i18n";
-import { CATEGORIES, CONDITION_LABELS, formatPrice } from "@/lib/listing-search";
+import { CATEGORIES, CONDITION_LABELS, eraLabel, formatPrice } from "@/lib/listing-search";
+import type { WearZone } from "@/generated/prisma/client";
+
+// Vaste volgorde, zodat het rapport op elke pagina hetzelfde leest
+const ZONE_ORDER: WearZone[] = ["EXTERIOR", "CORNERS_EDGES", "HARDWARE", "INTERIOR"];
 
 export default async function ListingDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -13,6 +17,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
     where: { id },
     include: {
       photos: { orderBy: { position: "asc" } },
+      wearNotes: true,
       seller: { select: { name: true, accountType: true, companyName: true } },
     },
   });
@@ -25,6 +30,11 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
   const sellerLabel = isBusiness ? (listing.seller.companyName ?? listing.seller.name) : listing.seller.name.split(" ")[0];
   const categoryLabel = CATEGORIES.find((c) => c.value === listing.category)?.label ?? listing.category;
   const sold = listing.status === "SOLD" || listing.status === "RESERVED";
+  const era = eraLabel(listing.productionYear);
+
+  const sortedNotes = ZONE_ORDER.map((z) => listing.wearNotes.find((n) => n.zone === z)).filter(
+    (n): n is NonNullable<typeof n> => Boolean(n)
+  );
 
   const spec = (label: string, value: React.ReactNode) => (
     <div className="flex items-baseline justify-between gap-6 border-b hairline py-3">
@@ -59,7 +69,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
           </div>
           {listing.photos.length > 1 && (
             <div className="grid grid-cols-4 gap-3">
-              {listing.photos.slice(1, 5).map((photo) => (
+              {listing.photos.slice(1, 9).map((photo) => (
                 <div key={photo.id} className="relative aspect-square overflow-hidden border hairline bg-neutral-100">
                   <Image src={photo.url} alt={listing.title} fill sizes="12vw" className="object-cover" />
                 </div>
@@ -71,7 +81,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
         {/* Info */}
         <div>
           <p className="caps-gold mb-3">
-            {categoryLabel}
+            {listing.model ?? categoryLabel}
             {listing.productionYear ? ` · ${listing.productionYear}` : ""} · {t.listing.vintage}
           </p>
           <h1 className="font-serif text-4xl">{listing.title}</h1>
@@ -96,7 +106,11 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
 
           <dl className="mt-9 border-t hairline">
             {spec(t.listing.conditie, CONDITION_LABELS[listing.condition])}
-            {listing.model && spec(t.listing.model, listing.model)}
+            {listing.color && spec(t.attributen.kleur, listing.color)}
+            {listing.material && spec(t.attributen.materiaal, listing.material)}
+            {listing.hardware && spec(t.attributen.hardware, listing.hardware)}
+            {listing.dimensions && spec(t.attributen.afmetingen, listing.dimensions)}
+            {era && spec(t.attributen.era, era)}
             {spec(
               t.listing.verkoper,
               <>
@@ -110,8 +124,41 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
             {isBusiness && spec(t.listing.bedenktijd, t.listing.bedenktijdWaarde)}
           </dl>
 
+          {listing.inclusions.length > 0 && (
+            <div className="mt-7">
+              <p className="caps-label mb-2">{t.attributen.inclusies}</p>
+              <div className="flex flex-wrap gap-2">
+                {listing.inclusions.map((i) => (
+                  <span key={i} className="border border-[#a8894f]/35 px-2.5 py-1 text-[11px] uppercase tracking-wider text-[#8a6f3c]">
+                    {i}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           <h2 className="caps-label mt-9 mb-3">{t.listing.beschrijving}</h2>
           <p className="whitespace-pre-line text-sm leading-relaxed text-neutral-700">{listing.description}</p>
+
+          {sortedNotes.length > 0 && (
+            <div className="mt-9">
+              <h2 className="caps-label mb-1">{t.attributen.conditierapport}</h2>
+              <dl className="border-t hairline">
+                {sortedNotes.map((n) => (
+                  <div key={n.id} className="flex items-baseline justify-between gap-6 border-b hairline py-3">
+                    <dt className="caps-label whitespace-nowrap">
+                      {t.zones[n.zone]}
+                      {n.verifiedByAtelier && <span className="ml-1 text-[#a8894f]">◆</span>}
+                    </dt>
+                    <dd className="text-right text-sm text-neutral-700">{n.note}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-3 text-xs leading-relaxed text-neutral-500">
+                {t.attributen.conditierapportVoetnoot}
+              </p>
+            </div>
+          )}
 
           {!isBusiness && (
             <p className="mt-7 border-l-2 border-[#a8894f] bg-white px-4 py-3 text-xs leading-relaxed text-neutral-500">

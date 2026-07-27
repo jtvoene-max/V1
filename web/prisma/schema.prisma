@@ -24,10 +24,23 @@ enum UserRole {
   ADMIN
 }
 
+// Vijf niveaus, zoals de concurrentie hanteert (Fashionphile, RealReal,
+// Vestiaire). Drie was te grof voor luxe; alleen Marktplaats zit lager.
 enum Condition {
+  NEW
   EXCELLENT
+  VERY_GOOD
   GOOD
   VISIBLE_WEAR
+}
+
+// Zones waarop conditie apart wordt beoordeeld (Fashionphile-model).
+// De verkoper vult ze in, het atelier scherpt ze aan bij de inspectie.
+enum WearZone {
+  EXTERIOR
+  CORNERS_EDGES
+  HARDWARE
+  INTERIOR
 }
 
 enum ListingStatus {
@@ -170,6 +183,15 @@ model Listing {
   productionYear Int?
   serialNumber   String? // alleen zichtbaar voor team
 
+  // Attributen waarop kenners zoeken. Uit het concurrentieonderzoek:
+  // model is het belangrijkste facet, hardware biedt geen enkele
+  // concurrent terwijl elke Chanel-koper erop selecteert.
+  color        String? // "Black", "Beige", ...
+  material     String? // "Lambskin", "Caviar", "Tweed", ...
+  hardware     String? // "Gold", "Silver", "Ruthenium", "Mixed"
+  dimensions   String? // "25.5 × 16 × 7.5 cm · strap drop 48 cm"
+  inclusions   String[] @default([]) // "Dust bag", "Authenticity card", ...
+
   priceCents Int // vraagprijs in centen
   currency   String @default("EUR")
 
@@ -180,14 +202,36 @@ model Listing {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  photos ListingPhoto[]
-  offers Offer[]
-  order  Order? // uniek item: maximaal één (actieve) order
+  photos    ListingPhoto[]
+  wearNotes WearNote[]
+  offers    Offer[]
+  order     Order? // uniek item: maximaal één (actieve) order
 
   @@index([status, createdAt])
   @@index([sellerId])
   @@index([category, status])
   @@index([priceCents])
+  @@index([status, color])
+  @@index([status, material])
+  @@index([status, hardware])
+  @@index([status, productionYear])
+  @@index([status, model])
+}
+
+// Conditie per zone: het professionele hart van de productpagina.
+// Genoteerd door de verkoper, gecontroleerd en aangescherpt door het atelier.
+model WearNote {
+  id        String   @id @default(cuid())
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  zone      WearZone
+  note      String
+
+  // Wordt true zodra het atelier de notitie heeft gecontroleerd
+  verifiedByAtelier Boolean @default(false)
+
+  @@unique([listingId, zone])
+  @@index([listingId])
 }
 
 model ListingPhoto {

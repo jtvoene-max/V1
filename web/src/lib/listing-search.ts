@@ -14,6 +14,9 @@ export const CATEGORIES = [
 
 export const CONDITION_LABELS: Record<string, string> = t.condities;
 
+/** Volgorde van best naar meest gedragen, voor keuzelijsten. */
+export const CONDITION_ORDER = ["NEW", "EXCELLENT", "VERY_GOOD", "GOOD", "VISIBLE_WEAR"] as const;
+
 export const SORT_OPTIONS = [
   { value: "newest", label: t.sortering.newest },
   { value: "price_asc", label: t.sortering.price_asc },
@@ -25,7 +28,12 @@ export type SearchFilters = {
   category?: string;
   condition?: string;
   sellerType?: string;
-  minPrice?: string; // in euro's, uit de querystring
+  color?: string;
+  material?: string;
+  hardware?: string;
+  model?: string;
+  era?: string; // "1990" betekent 1990 t/m 1999
+  minPrice?: string;
   maxPrice?: string;
   sort?: string;
   page?: string;
@@ -38,6 +46,11 @@ export function parseFilters(params: Record<string, string | string[] | undefine
     category: first(params.category),
     condition: first(params.condition),
     sellerType: first(params.sellerType),
+    color: first(params.color),
+    material: first(params.material),
+    hardware: first(params.hardware),
+    model: first(params.model),
+    era: first(params.era),
     minPrice: first(params.minPrice),
     maxPrice: first(params.maxPrice),
     sort: first(params.sort),
@@ -65,6 +78,17 @@ export function buildWhere(f: SearchFilters): Prisma.ListingWhereInput {
   if (f.sellerType === "PRIVATE" || f.sellerType === "BUSINESS") {
     where.seller = { accountType: f.sellerType };
   }
+  if (f.color?.trim()) where.color = f.color.trim();
+  if (f.material?.trim()) where.material = f.material.trim();
+  if (f.hardware?.trim()) where.hardware = f.hardware.trim();
+  if (f.model?.trim()) where.model = f.model.trim();
+
+  // Era: het decennium waarin het stuk gemaakt is
+  const decennium = Number(f.era);
+  if (Number.isInteger(decennium) && decennium > 1900) {
+    where.productionYear = { gte: decennium, lte: decennium + 9 };
+  }
+
   const min = Number(f.minPrice);
   const max = Number(f.maxPrice);
   if (Number.isFinite(min) && min > 0) {
@@ -92,7 +116,13 @@ export function pageNumber(f: SearchFilters): number {
   return Number.isInteger(p) && p >= 1 ? p : 1;
 }
 
-/** Querystring voor pagineringslinks, met behoud van actieve filters. */
+/** "1990s" uit een productiejaar */
+export function eraLabel(year: number | null | undefined): string | null {
+  if (!year) return null;
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+/** Querystring voor pagineringslinks en menu-links, met behoud van filters. */
 export function filterQuery(f: SearchFilters, overrides: Partial<SearchFilters>): string {
   const merged = { ...f, ...overrides };
   const params = new URLSearchParams();
@@ -101,4 +131,12 @@ export function filterQuery(f: SearchFilters, overrides: Partial<SearchFilters>)
   }
   const s = params.toString();
   return s ? `?${s}` : "";
+}
+
+/** Aantal actieve filters, voor de "wissen"-knop. */
+export function activeFilterCount(f: SearchFilters): number {
+  const telbaar: (keyof SearchFilters)[] = [
+    "q", "category", "condition", "sellerType", "color", "material", "hardware", "model", "era", "minPrice", "maxPrice",
+  ];
+  return telbaar.filter((k) => f[k]).length;
 }

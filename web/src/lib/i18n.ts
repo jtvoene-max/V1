@@ -52,9 +52,43 @@ export const t = {
   },
 
   condities: {
+    NEW: "New",
     EXCELLENT: "Excellent",
+    VERY_GOOD: "Very good",
     GOOD: "Good",
     VISIBLE_WEAR: "Visible wear",
+  },
+
+  zones: {
+    EXTERIOR: "Exterior",
+    CORNERS_EDGES: "Corners and edges",
+    HARDWARE: "Hardware",
+    INTERIOR: "Interior",
+  },
+
+  attributen: {
+    kleur: "Colour",
+    materiaal: "Material",
+    hardware: "Hardware",
+    afmetingen: "Dimensions",
+    era: "Era",
+    inclusies: "Comes with",
+    conditierapport: "Condition report",
+    conditierapportVoetnoot:
+      "Noted by the seller; our atelier checks and refines this report during the physical expertise.",
+    geverifieerd: "verified by our atelier",
+  },
+
+  megamenu: {
+    modellen: "Models",
+    type: "Type",
+    materiaal: "Material",
+    kleur: "Colour",
+    era: "Era",
+    uitgelicht: "Featured",
+    allesBekijken: (categorie: string) => `View all ${categorie.toLowerCase()} →`,
+    nieuwBinnen: "New arrivals",
+    deCollectie: "The collection",
   },
 
   sortering: {
