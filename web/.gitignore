@@ -43,3 +43,6 @@ next-env.d.ts
 
 # prisma (gegenereerde client, herstel met: npx prisma generate)
 /src/generated/
+
+# lokale foto-uploads (cloud-opslag komt bij de hosting-milestone)
+/public/uploads/
