@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -451,8 +451,8 @@
   .kaart-info { padding: 18px 20px 22px; text-align: center; }
   .kaart-titel { font-size: 16px; letter-spacing: .02em; }
   .kaart-meta {
-    font-family: var(--sans); font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-    color: #3a3a3a; margin: 8px 0 10px;
+    font-family: var(--sans); font-size: 9.5px; font-weight: 400; letter-spacing: .1em; text-transform: uppercase;
+    color: #7a7a7a; margin: 7px 0 9px;
   }
   .kaart-prijs { font-size: 17px; color: var(--inkt); }
   .kaart-prijs.verkocht { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--grijs); }
@@ -724,90 +724,90 @@ const TEKENINGEN = {
 // Demodata — één order stroomt door alle drie de rollen
 // ─────────────────────────────────────────────────────────
 // Conditie: 5 niveaus (advies uit het concurrentie-onderzoek)
-const CONDITIES = ['Nieuw', 'Uitstekend', 'Heel goed', 'Goed', 'Gebruikssporen'];
+const CONDITIES = ['New', 'Excellent', 'Very good', 'Good', 'Signs of wear'];
 
 const ITEMS = [
-  { id: 1, art: 'flap', titel: 'Classic Flap Medium', model: 'Classic Flap', jaar: 1995, conditie: 'Uitstekend',
-    kleur: 'Zwart', materiaal: 'Lamsleer', hardware: 'Goud', verkoper: 'Vera V.', zakelijk: false, prijs: 5800,
-    afmetingen: '25,5 × 16 × 7,5 cm · hengseldrop 48 cm', serie: 'Serie 4 · 1994-1996',
-    inclusies: ['Dustbag', 'Authenticiteitskaart'],
-    slijtage: { 'Buitenkant': 'Licht kussenverlies in het quilting, verder strak', 'Hoeken en randen': 'Minimale wrijving op de onderhoeken', 'Hardware': 'Fijne haarkrasjes op het draaislot', 'Binnenkant': 'Lichte imprints, schoon' } },
-  { id: 2, art: 'boy', titel: 'Boy Bag Old Medium', model: 'Boy', jaar: 2012, conditie: 'Goed',
-    kleur: 'Zwart', materiaal: 'Kalfsleer', hardware: 'Ruthenium', verkoper: 'Vintage Boetiek B.V.', zakelijk: true, prijs: 3400,
-    afmetingen: '25 × 15 × 9 cm · kettingdrop 55 cm', serie: 'Serie 16 · 2011-2012',
-    inclusies: ['Dustbag', 'Box'],
-    slijtage: { 'Buitenkant': 'Zichtbare draagplekken op de flap', 'Hoeken en randen': 'Slijtage op alle vier de hoeken', 'Hardware': 'Doffe plekken op de ketting', 'Binnenkant': 'Gebruikssporen, één pennenstreep' } },
-  { id: 3, art: 'ketting', titel: 'Gripoix Ketting', model: 'Gripoix', jaar: 1989, conditie: 'Heel goed',
-    kleur: 'Goud', materiaal: 'Verguld metaal', hardware: 'Goud', verkoper: 'Maison Réédition', zakelijk: true, prijs: 1650,
-    afmetingen: 'Lengte 78 cm', serie: 'Gemarkeerd "2 CC 9"',
-    inclusies: ['Origineel doosje'],
-    slijtage: { 'Buitenkant': 'Glaswerk gaaf, warm patina op het goud', 'Hoeken en randen': 'n.v.t.', 'Hardware': 'Sluiting werkt strak', 'Binnenkant': 'n.v.t.' } },
-  { id: 4, art: 'reissue', titel: '2.55 Reissue 226', model: '2.55 Reissue', jaar: 2006, conditie: 'Uitstekend',
-    kleur: 'Bruin', materiaal: 'Aged kalfsleer', hardware: 'Goud', verkoper: 'Harold B.', zakelijk: false, prijs: 7200,
-    afmetingen: '28 × 17 × 8 cm · kettingdrop 52 cm', serie: 'Serie 11 · 2006-2008',
-    inclusies: ['Dustbag', 'Authenticiteitskaart', 'Box'],
-    slijtage: { 'Buitenkant': 'Bewust distressed leer, geen schade', 'Hoeken en randen': 'Gaaf', 'Hardware': 'Mademoiselle-slot vrijwel krasvrij', 'Binnenkant': 'Als nieuw' } },
-  { id: 5, art: 'zonnebril', titel: 'Zonnebril Vintage', model: 'Zonnebril', jaar: 1992, conditie: 'Gebruikssporen',
-    kleur: 'Schildpad', materiaal: 'Acetaat', hardware: 'Goud', verkoper: 'Sophie L.', zakelijk: false, prijs: 420,
-    afmetingen: 'Glasbreedte 54 mm', serie: 'Jaren ’90',
-    inclusies: ['Origineel etui'],
-    slijtage: { 'Buitenkant': 'Krasjes op beide glazen', 'Hoeken en randen': 'Slijtage op de poten', 'Hardware': 'CC-logo’s intact', 'Binnenkant': 'n.v.t.' } },
-  { id: 6, art: 'sjaal', titel: 'Zijden Sjaal Camélia', model: 'Sjaal', jaar: 2001, conditie: 'Nieuw',
-    kleur: 'Roze', materiaal: 'Zijde', hardware: 'n.v.t.', verkoper: 'Vintage Boetiek B.V.', zakelijk: true, prijs: 310,
-    afmetingen: '90 × 90 cm', serie: 'Jaren ’00',
-    inclusies: ['Originele box', 'Aankoopbon'],
-    slijtage: { 'Buitenkant': 'Ongedragen, vouwen uit de box', 'Hoeken en randen': 'Handgerolde randen gaaf', 'Hardware': 'n.v.t.', 'Binnenkant': 'n.v.t.' } },
-  { id: 7, art: 'flap', titel: 'Chanel 19 Large', model: 'Chanel 19', jaar: 2019, conditie: 'Heel goed',
-    kleur: 'Beige', materiaal: 'Lamsleer', hardware: 'Gemixt', verkoper: 'Isabelle K.', zakelijk: false, prijs: 4900,
-    afmetingen: '30 × 20 × 10 cm · kettingdrop 53 cm', serie: 'Serie 28 · 2019-2020',
-    inclusies: ['Dustbag', 'Authenticiteitskaart'],
-    slijtage: { 'Buitenkant': 'Zacht kussenverlies, past bij het model', 'Hoeken en randen': 'Nauwelijks slijtage', 'Hardware': 'Lichte krasjes op de grote CC', 'Binnenkant': 'Schoon' } },
-  { id: 8, art: 'flap', titel: 'Wallet on Chain', model: 'WOC', jaar: 2015, conditie: 'Uitstekend',
-    kleur: 'Rood', materiaal: 'Caviar', hardware: 'Zilver', verkoper: 'Vintage Boetiek B.V.', zakelijk: true, prijs: 2450,
-    afmetingen: '19 × 12 × 3,5 cm · kettingdrop 60 cm', serie: 'Serie 20 · 2014-2015',
-    inclusies: ['Dustbag', 'Authenticiteitskaart', 'Box', 'Aankoopbon'],
-    slijtage: { 'Buitenkant': 'Caviar vrijwel onberispelijk', 'Hoeken en randen': 'Gaaf', 'Hardware': 'Ketting glanst, geen dofheid', 'Binnenkant': 'Kaartvakjes ongebruikt' } },
-  { id: 9, art: 'boy', titel: 'Vanity Case', model: 'Vanity', jaar: 1997, conditie: 'Goed',
-    kleur: 'Zwart', materiaal: 'Caviar', hardware: 'Goud', verkoper: 'Nadia R.', zakelijk: false, prijs: 2900,
-    afmetingen: '18 × 16 × 11 cm', serie: 'Serie 5 · 1997-1999',
-    inclusies: ['Dustbag'],
-    slijtage: { 'Buitenkant': 'Draagplekken rondom', 'Hoeken en randen': 'Hoekslijtage zichtbaar', 'Hardware': 'Patina op de rits', 'Binnenkant': 'Spiegel gaaf, lichte vlekjes voering' } },
-  { id: 10, art: 'flap', titel: 'Diana Flap', model: 'Diana', jaar: 1990, conditie: 'Heel goed',
-    kleur: 'Navy', materiaal: 'Lamsleer', hardware: 'Goud', verkoper: 'Maison Réédition', zakelijk: true, prijs: 6300,
-    afmetingen: '25 × 17 × 7 cm · kettingdrop 58 cm', serie: 'Serie 1 · 1989-1991',
-    inclusies: ['Dustbag', 'Authenticiteitskaart'],
-    slijtage: { 'Buitenkant': 'Diep navy egaal, licht kussenverlies', 'Hoeken en randen': 'Minimale wrijving', 'Hardware': 'Vergulding 24k vrijwel intact', 'Binnenkant': 'Lichte gebruikssporen' } },
-  { id: 11, art: 'ketting', titel: 'Parelketting CC', model: 'Parelketting', jaar: 1985, conditie: 'Goed',
-    kleur: 'Parel', materiaal: 'Kunstparel en verguld metaal', hardware: 'Goud', verkoper: 'Sophie L.', zakelijk: false, prijs: 980,
-    afmetingen: 'Lengte 84 cm', serie: 'Gemarkeerd "CHANEL"',
+  { id: 1, art: 'flap', titel: 'Classic Flap Medium', model: 'Classic Flap', jaar: 1995, conditie: 'Excellent',
+    kleur: 'Black', materiaal: 'Lambskin', hardware: 'Gold', verkoper: 'Vera V.', zakelijk: false, prijs: 5800,
+    afmetingen: '25.5 × 16 × 7.5 cm · handle drop 48 cm', serie: 'Series 4 · 1994-1996',
+    inclusies: ['Dust bag', 'Authenticity card'],
+    slijtage: { 'Exterior': 'Slight loss of puffiness in the quilting, otherwise crisp', 'Corners and edges': 'Minimal rubbing on the bottom corners', 'Hardware': 'Fine hairline scratches on the turnlock', 'Interior': 'Light imprints, clean' } },
+  { id: 2, art: 'boy', titel: 'Boy Bag Old Medium', model: 'Boy', jaar: 2012, conditie: 'Good',
+    kleur: 'Black', materiaal: 'Calfskin', hardware: 'Ruthenium', verkoper: 'Vintage Boutique Ltd', zakelijk: true, prijs: 3400,
+    afmetingen: '25 × 15 × 9 cm · chain drop 55 cm', serie: 'Series 16 · 2011-2012',
+    inclusies: ['Dust bag', 'Box'],
+    slijtage: { 'Exterior': 'Visible wear marks on the flap', 'Corners and edges': 'Wear on all four corners', 'Hardware': 'Dull patches on the chain', 'Interior': 'Signs of use, one pen mark' } },
+  { id: 3, art: 'ketting', titel: 'Gripoix Necklace', model: 'Gripoix', jaar: 1989, conditie: 'Very good',
+    kleur: 'Gold', materiaal: 'Gilt metal', hardware: 'Gold', verkoper: 'Maison Réédition', zakelijk: true, prijs: 1650,
+    afmetingen: 'Length 78 cm', serie: 'Marked "2 CC 9"',
+    inclusies: ['Original box'],
+    slijtage: { 'Exterior': 'Glasswork flawless, warm patina on the gold', 'Corners and edges': 'n/a', 'Hardware': 'Clasp closes firmly', 'Interior': 'n/a' } },
+  { id: 4, art: 'reissue', titel: '2.55 Reissue 226', model: '2.55 Reissue', jaar: 2006, conditie: 'Excellent',
+    kleur: 'Brown', materiaal: 'Aged calfskin', hardware: 'Gold', verkoper: 'Harold B.', zakelijk: false, prijs: 7200,
+    afmetingen: '28 × 17 × 8 cm · chain drop 52 cm', serie: 'Series 11 · 2006-2008',
+    inclusies: ['Dust bag', 'Authenticity card', 'Box'],
+    slijtage: { 'Exterior': 'Deliberately distressed leather, no damage', 'Corners and edges': 'Flawless', 'Hardware': 'Mademoiselle lock almost scratch-free', 'Interior': 'As new' } },
+  { id: 5, art: 'zonnebril', titel: 'Vintage Sunglasses', model: 'Sunglasses', jaar: 1992, conditie: 'Signs of wear',
+    kleur: 'Tortoiseshell', materiaal: 'Acetate', hardware: 'Gold', verkoper: 'Sophie L.', zakelijk: false, prijs: 420,
+    afmetingen: 'Lens width 54 mm', serie: '1990s',
+    inclusies: ['Original case'],
+    slijtage: { 'Exterior': 'Scratches on both lenses', 'Corners and edges': 'Wear on the temples', 'Hardware': 'CC logos intact', 'Interior': 'n/a' } },
+  { id: 6, art: 'sjaal', titel: 'Camélia Silk Scarf', model: 'Scarf', jaar: 2001, conditie: 'New',
+    kleur: 'Pink', materiaal: 'Silk', hardware: 'n/a', verkoper: 'Vintage Boutique Ltd', zakelijk: true, prijs: 310,
+    afmetingen: '90 × 90 cm', serie: '2000s',
+    inclusies: ['Original box', 'Purchase receipt'],
+    slijtage: { 'Exterior': 'Unworn, folds from the box', 'Corners and edges': 'Hand-rolled edges flawless', 'Hardware': 'n/a', 'Interior': 'n/a' } },
+  { id: 7, art: 'flap', titel: 'Chanel 19 Large', model: 'Chanel 19', jaar: 2019, conditie: 'Very good',
+    kleur: 'Beige', materiaal: 'Lambskin', hardware: 'Mixed', verkoper: 'Isabelle K.', zakelijk: false, prijs: 4900,
+    afmetingen: '30 × 20 × 10 cm · chain drop 53 cm', serie: 'Series 28 · 2019-2020',
+    inclusies: ['Dust bag', 'Authenticity card'],
+    slijtage: { 'Exterior': 'Gentle loss of puffiness, in keeping with the model', 'Corners and edges': 'Barely any wear', 'Hardware': 'Light scratches on the large CC', 'Interior': 'Clean' } },
+  { id: 8, art: 'flap', titel: 'Wallet on Chain', model: 'WOC', jaar: 2015, conditie: 'Excellent',
+    kleur: 'Red', materiaal: 'Caviar', hardware: 'Silver', verkoper: 'Vintage Boutique Ltd', zakelijk: true, prijs: 2450,
+    afmetingen: '19 × 12 × 3.5 cm · chain drop 60 cm', serie: 'Series 20 · 2014-2015',
+    inclusies: ['Dust bag', 'Authenticity card', 'Box', 'Purchase receipt'],
+    slijtage: { 'Exterior': 'Caviar all but immaculate', 'Corners and edges': 'Flawless', 'Hardware': 'Chain still bright, no dullness', 'Interior': 'Card slots unused' } },
+  { id: 9, art: 'boy', titel: 'Vanity Case', model: 'Vanity', jaar: 1997, conditie: 'Good',
+    kleur: 'Black', materiaal: 'Caviar', hardware: 'Gold', verkoper: 'Nadia R.', zakelijk: false, prijs: 2900,
+    afmetingen: '18 × 16 × 11 cm', serie: 'Series 5 · 1997-1999',
+    inclusies: ['Dust bag'],
+    slijtage: { 'Exterior': 'Wear marks throughout', 'Corners and edges': 'Corner wear visible', 'Hardware': 'Patina on the zip', 'Interior': 'Mirror intact, light marks on the lining' } },
+  { id: 10, art: 'flap', titel: 'Diana Flap', model: 'Diana', jaar: 1990, conditie: 'Very good',
+    kleur: 'Navy', materiaal: 'Lambskin', hardware: 'Gold', verkoper: 'Maison Réédition', zakelijk: true, prijs: 6300,
+    afmetingen: '25 × 17 × 7 cm · chain drop 58 cm', serie: 'Series 1 · 1989-1991',
+    inclusies: ['Dust bag', 'Authenticity card'],
+    slijtage: { 'Exterior': 'Deep even navy, slight loss of puffiness', 'Corners and edges': 'Minimal rubbing', 'Hardware': '24k gilding all but intact', 'Interior': 'Light signs of use' } },
+  { id: 11, art: 'ketting', titel: 'CC Pearl Necklace', model: 'Pearl necklace', jaar: 1985, conditie: 'Good',
+    kleur: 'Pearl', materiaal: 'Faux pearl and gilt metal', hardware: 'Gold', verkoper: 'Sophie L.', zakelijk: false, prijs: 980,
+    afmetingen: 'Length 84 cm', serie: 'Marked "CHANEL"',
     inclusies: [],
-    slijtage: { 'Buitenkant': 'Parels met licht patina', 'Hoeken en randen': 'n.v.t.', 'Hardware': 'Vergulding plaatselijk gesleten', 'Binnenkant': 'n.v.t.' } },
-  { id: 13, art: 'jasje', titel: 'Tweed Jasje Maat 38', model: 'Tweed jasje', jaar: 1996, conditie: 'Heel goed',
-    kleur: 'Roze', materiaal: 'Tweed', hardware: 'Goud', verkoper: 'Maison Réédition', zakelijk: true, prijs: 3200,
-    afmetingen: 'Maat 38 (FR) · schouderbreedte 39 cm', serie: 'Collectie herfst 1996',
-    inclusies: ['Kledinghoes', 'Reservenknopen'],
-    slijtage: { 'Buitenkant': 'Tweed vol en egaal, geen pilling', 'Hoeken en randen': 'Manchetten gaaf', 'Hardware': 'CC-knopen compleet en glanzend', 'Binnenkant': 'Voering intact, label leesbaar' } },
-  { id: 14, art: 'jasje', titel: 'Zijden Blouse Maat 36', model: 'Blouse', jaar: 2004, conditie: 'Uitstekend',
-    kleur: 'Ivoor', materiaal: 'Zijde', hardware: 'Goud', verkoper: 'Vera V.', zakelijk: false, prijs: 890,
-    afmetingen: 'Maat 36 (FR)', serie: 'Collectie voorjaar 2004',
-    inclusies: ['Kledinghoes'],
-    slijtage: { 'Buitenkant': 'Zijde glanzend, geen vlekken', 'Hoeken en randen': 'Zomen strak', 'Hardware': 'CC-knoopjes compleet', 'Binnenkant': 'Als nieuw' } },
-  { id: 12, art: 'boy', titel: 'Deauville Tote Large', model: 'Deauville', jaar: 2017, conditie: 'Gebruikssporen',
-    kleur: 'Beige', materiaal: 'Canvas', hardware: 'Zilver', verkoper: 'Vera V.', zakelijk: false, prijs: 1750,
-    afmetingen: '38 × 30 × 18 cm · hengseldrop 28 cm', serie: 'Serie 23 · 2016-2017',
-    inclusies: ['Dustbag'],
-    slijtage: { 'Buitenkant': 'Canvas plaatselijk verkleurd', 'Hoeken en randen': 'Rafelrandjes onderaan', 'Hardware': 'Kettingdetail intact', 'Binnenkant': 'Vlekken op de bodem' } },
+    slijtage: { 'Exterior': 'Pearls with a light patina', 'Corners and edges': 'n/a', 'Hardware': 'Gilding worn in places', 'Interior': 'n/a' } },
+  { id: 13, art: 'jasje', titel: 'Tweed Jacket Size 38', model: 'Tweed jacket', jaar: 1996, conditie: 'Very good',
+    kleur: 'Pink', materiaal: 'Tweed', hardware: 'Gold', verkoper: 'Maison Réédition', zakelijk: true, prijs: 3200,
+    afmetingen: 'Size 38 (FR) · shoulder width 39 cm', serie: 'Autumn 1996 collection',
+    inclusies: ['Garment cover', 'Spare buttons'],
+    slijtage: { 'Exterior': 'Tweed full and even, no pilling', 'Corners and edges': 'Cuffs flawless', 'Hardware': 'CC buttons complete and bright', 'Interior': 'Lining intact, label legible' } },
+  { id: 14, art: 'jasje', titel: 'Silk Blouse Size 36', model: 'Blouse', jaar: 2004, conditie: 'Excellent',
+    kleur: 'Ivory', materiaal: 'Silk', hardware: 'Gold', verkoper: 'Vera V.', zakelijk: false, prijs: 890,
+    afmetingen: 'Size 36 (FR)', serie: 'Spring 2004 collection',
+    inclusies: ['Garment cover'],
+    slijtage: { 'Exterior': 'Silk lustrous, no stains', 'Corners and edges': 'Hems crisp', 'Hardware': 'CC buttons complete', 'Interior': 'As new' } },
+  { id: 12, art: 'boy', titel: 'Deauville Tote Large', model: 'Deauville', jaar: 2017, conditie: 'Signs of wear',
+    kleur: 'Beige', materiaal: 'Canvas', hardware: 'Silver', verkoper: 'Vera V.', zakelijk: false, prijs: 1750,
+    afmetingen: '38 × 30 × 18 cm · handle drop 28 cm', serie: 'Series 23 · 2016-2017',
+    inclusies: ['Dust bag'],
+    slijtage: { 'Exterior': 'Canvas discoloured in places', 'Corners and edges': 'Slight fraying along the bottom', 'Hardware': 'Chain detail intact', 'Interior': 'Marks on the base' } },
 ];
 
 const STAPPEN = [
-  { key: 'PAID',             titel: 'Betaald',                        toel: 'Uw betaling staat veilig vast bij het platform (Stripe) en wordt pas vrijgegeven na levering.' },
-  { key: 'AWAITING_ITEM',    titel: 'Onderweg naar het atelier',      toel: 'De verkoper verzendt het stuk verzekerd naar ons atelier.' },
-  { key: 'ITEM_RECEIVED',    titel: 'Ontvangen in het atelier',       toel: 'Het stuk is fysiek binnen en wordt klaargelegd voor expertise.' },
-  { key: 'IN_INSPECTION',    titel: 'Expertise en authenticatie',     toel: 'Ons atelier controleert echtheid, conditie en overeenstemming met de beschrijving.' },
-  { key: 'APPROVED',         titel: 'Authentiek bevonden',            toel: 'Goedgekeurd door onze experts. Het stuk wordt zorgvuldig verpakt.' },
-  { key: 'SHIPPED_TO_BUYER', titel: 'Onderweg naar u',                toel: 'Verzekerd verzonden met track en trace.' },
-  { key: 'DELIVERED',        titel: 'Geleverd',                       toel: 'Het pakket is bij u bezorgd.' },
-  { key: 'COMPLETED',        titel: 'Voltooid',                       toel: 'De verkoper is direct uitbetaald. Veel plezier met uw aanwinst.' },
+  { key: 'PAID',             titel: 'Paid',                           toel: 'Your payment is held securely by the platform (Stripe) and is only released after delivery.' },
+  { key: 'AWAITING_ITEM',    titel: 'On its way to the atelier',      toel: 'The seller ships the piece to our atelier, fully insured.' },
+  { key: 'ITEM_RECEIVED',    titel: 'Received at the atelier',        toel: 'The piece has physically arrived and is being prepared for expertise.' },
+  { key: 'IN_INSPECTION',    titel: 'Expertise and authentication',   toel: 'Our atelier verifies authenticity, condition and agreement with the description.' },
+  { key: 'APPROVED',         titel: 'Found authentic',                toel: 'Approved by our experts. The piece is being packed with care.' },
+  { key: 'SHIPPED_TO_BUYER', titel: 'On its way to you',              toel: 'Sent insured, with track and trace.' },
+  { key: 'DELIVERED',        titel: 'Delivered',                      toel: 'The parcel has been delivered to you.' },
+  { key: 'COMPLETED',        titel: 'Completed',                      toel: 'The seller has been paid out straight away. Enjoy your acquisition.' },
 ];
 
 const KOPERSFEE = 0.05, VERKOPERSFEE = 0.10, VERZENDING = 12.50, RETOURKOSTEN = 9.50;
@@ -828,61 +828,61 @@ let openGesprek = null;
 // Les van Marktplaats: chat werkt, maar daar mist de koppeling en de veiligheid.
 const GESPREKKEN = [
   {
-    id: 'G1', met: 'Mika S.', rol: 'Koper', over: 'Deauville Tote Large 2017',
+    id: 'G1', met: 'Mika S.', rol: 'Buyer', over: 'Deauville Tote Large 2017',
     ongelezen: true, tijd: '14:20',
     berichten: [
-      { van: 'hun', tekst: 'Goedemiddag, is deze tas ook los verkrijgbaar zonder de dustbag? En zit er slijtage aan de binnenkant?', tijd: 'vandaag 13:55' },
-      { van: 'ik', tekst: 'Dag Mika, de dustbag zit er standaard bij. De binnenkant heeft vlekken op de bodem, dat staat ook in het conditierapport.', tijd: 'vandaag 14:05' },
-      { van: 'systeem', tekst: 'Mika S. bracht een bod uit van € 1.550', tijd: 'vandaag 14:18' },
-      { van: 'hun', tekst: 'Dank u wel. Ik heb een bod gedaan, hoor graag of dat werkt.', tijd: 'vandaag 14:20' },
+      { van: 'hun', tekst: 'Good afternoon, is this bag also available on its own, without the dust bag? And is there any wear on the inside?', tijd: 'today 13:55' },
+      { van: 'ik', tekst: 'Hello Mika, the dust bag is always included. The interior has marks on the base, which is noted in the condition report as well.', tijd: 'today 14:05' },
+      { van: 'systeem', tekst: 'Mika S. made an offer of € 1,550', tijd: 'today 14:18' },
+      { van: 'hun', tekst: 'Thank you. I have made an offer, do let me know if that works.', tijd: 'today 14:20' },
     ],
   },
   {
-    id: 'G2', met: 'Still Iconic — Atelier', rol: 'Ons team', over: 'Order SI-2026-0128',
-    ongelezen: false, tijd: 'gisteren',
+    id: 'G2', met: 'Still Iconic — Atelier', rol: 'Our team', over: 'Order SI-2026-0128',
+    ongelezen: false, tijd: 'yesterday',
     berichten: [
-      { van: 'systeem', tekst: 'Uw stuk is ontvangen in het atelier', tijd: 'gisteren 09:14' },
-      { van: 'hun', tekst: 'Goedemorgen Vera, uw Kettingriem is binnen en ziet er prachtig uit. De expertise staat voor morgenochtend gepland.', tijd: 'gisteren 09:30' },
-      { van: 'systeem', tekst: 'Expertise afgerond: authentiek bevonden', tijd: 'gisteren 11:02' },
-      { van: 'hun', tekst: 'Alles klopt met uw beschrijving. Het stuk gaat vandaag nog verzekerd naar de koper.', tijd: 'gisteren 11:10' },
+      { van: 'systeem', tekst: 'Your piece has been received at the atelier', tijd: 'yesterday 09:14' },
+      { van: 'hun', tekst: 'Good morning Vera, your chain belt has arrived and looks beautiful. The expertise is scheduled for tomorrow morning.', tijd: 'yesterday 09:30' },
+      { van: 'systeem', tekst: 'Expertise completed: found authentic', tijd: 'yesterday 11:02' },
+      { van: 'hun', tekst: 'Everything matches your description. The piece goes out to the buyer today, fully insured.', tijd: 'yesterday 11:10' },
     ],
   },
   {
-    id: 'G3', met: 'Jules B.', rol: 'Koper', over: 'Kettingriem Vintage 1998',
-    ongelezen: false, tijd: '18 juni',
+    id: 'G3', met: 'Jules B.', rol: 'Buyer', over: 'Vintage Chain Belt 1998',
+    ongelezen: false, tijd: '18 June',
     berichten: [
-      { van: 'hun', tekst: 'Zou u akkoord gaan met € 1.350?', tijd: '18 juni 10:12' },
-      { van: 'ik', tekst: 'Dat is wat laag voor deze staat. Ik doe hem voor € 1.480, inclusief verzending naar het atelier.', tijd: '18 juni 10:40' },
-      { van: 'systeem', tekst: 'Tegenbod van € 1.480 geaccepteerd door Jules B.', tijd: '18 juni 11:05' },
-      { van: 'hun', tekst: 'Perfect, akkoord. Fijn dat alles via jullie atelier gaat.', tijd: '18 juni 11:06' },
+      { van: 'hun', tekst: 'Would you agree to € 1,350?', tijd: '18 June 10:12' },
+      { van: 'ik', tekst: 'That is a little low for this condition. I can do € 1,480, including shipping to the atelier.', tijd: '18 June 10:40' },
+      { van: 'systeem', tekst: 'Counter-offer of € 1,480 accepted by Jules B.', tijd: '18 June 11:05' },
+      { van: 'hun', tekst: 'Perfect, agreed. Good to know everything goes through your atelier.', tijd: '18 June 11:06' },
     ],
   },
 ];
 
 // Historische voorbeeld-bestellingen (koperzijde), zodat de lijst realistisch voelt
 const EERDERE_BESTELLINGEN = [
-  { id: 'H1', art: 'boy', titel: 'Vanity Case', jaar: 1997, prijs: 2900, status: 'COMPLETED', datum: '12 juli 2026' },
-  { id: 'H2', art: 'zonnebril', titel: 'Zonnebril Vintage', jaar: 1992, prijs: 420, status: 'REFUNDED', datum: '28 juni 2026' },
+  { id: 'H1', art: 'boy', titel: 'Vanity Case', jaar: 1997, prijs: 2900, status: 'COMPLETED', datum: '12 July 2026' },
+  { id: 'H2', art: 'zonnebril', titel: 'Vintage Sunglasses', jaar: 1992, prijs: 420, status: 'REFUNDED', datum: '28 June 2026' },
 ];
 // Verkoophistorie, biedingen en facturen (verkoperzijde)
 const EERDERE_VERKOPEN = [
-  { titel: 'Zijden Sjaal Camélia 2001', art: 'sjaal', prijs: 310, netto: 269.5, datum: '3 juli 2026', factuur: 'TM-F-2026-0142' },
-  { titel: 'Kettingriem Vintage 1998', art: 'ketting', prijs: 1480, netto: 1322.5, datum: '19 juni 2026', factuur: 'TM-F-2026-0117' },
+  { titel: 'Camélia Silk Scarf 2001', art: 'sjaal', prijs: 310, netto: 269.5, datum: '3 July 2026', factuur: 'TM-F-2026-0142' },
+  { titel: 'Vintage Chain Belt 1998', art: 'ketting', prijs: 1480, netto: 1322.5, datum: '19 June 2026', factuur: 'TM-F-2026-0117' },
 ];
 const EERDERE_BIEDINGEN = [
-  { stuk: 'Classic Flap Medium 1995', bieder: 'Amber D.', bedrag: 4950, status: 'Afgewezen', datum: '24 juli 2026' },
-  { stuk: 'Kettingriem Vintage 1998', bieder: 'Jules B.', bedrag: 1350, status: 'Tegenbod € 1.480 · geaccepteerd', datum: '18 juni 2026' },
-  { stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1250, status: 'Verlopen (48 uur)', datum: '11 juni 2026' },
+  { stuk: 'Classic Flap Medium 1995', bieder: 'Amber D.', bedrag: 4950, status: 'Declined', datum: '24 July 2026' },
+  { stuk: 'Vintage Chain Belt 1998', bieder: 'Jules B.', bedrag: 1350, status: 'Counter-offer € 1,480 · accepted', datum: '18 June 2026' },
+  { stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1250, status: 'Expired (48 hours)', datum: '11 June 2026' },
 ];
 
 // Andere orders in het atelier, zodat het dashboard gevuld aanvoelt
 // De vijf werkfasen van het atelier. Elke order zit in precies een fase.
 const ATELIER_FASEN = [
-  { key: 'AWAITING_ITEM',    nr: 'I',   titel: 'Onderweg naar het atelier', uitleg: 'Label door ons gegenereerd; wij volgen de zending live en de koper ziet dezelfde tracking.' },
-  { key: 'ITEM_RECEIVED',    nr: 'II',  titel: 'Te behandelen',             uitleg: 'Binnengescand en klaargelegd. Oudste binnenkomst bovenaan.' },
-  { key: 'IN_INSPECTION',    nr: 'III', titel: 'In expertise',              uitleg: 'Expert vult het rapport in: echtheid, conditie per zone en vergelijking met de listing.' },
-  { key: 'APPROVED',         nr: 'IV',  titel: 'Klaar voor verzending',     uitleg: 'Goedgekeurd. Bij doorzetten genereren wij automatisch het label naar de koper.' },
-  { key: 'SHIPPED_TO_BUYER', nr: 'V',   titel: 'Onderweg naar de koper',    uitleg: 'Verzekerd verzonden; de koper volgt de zending met dezelfde code.' },
+  { key: 'AWAITING_ITEM',    nr: 'I',   titel: 'On its way to the atelier', uitleg: 'Label generated by us; we follow the shipment live and the buyer sees the same tracking.' },
+  { key: 'ITEM_RECEIVED',    nr: 'II',  titel: 'To be handled',             uitleg: 'Scanned in and set aside. Oldest arrival at the top.' },
+  { key: 'IN_INSPECTION',    nr: 'III', titel: 'In expertise',              uitleg: 'The expert completes the report: authenticity, condition per zone and comparison with the listing.' },
+  { key: 'APPROVED',         nr: 'IV',  titel: 'Ready for dispatch',        uitleg: 'Approved. On release we automatically generate the label to the buyer.' },
+  { key: 'SHIPPED_TO_BUYER', nr: 'V',   titel: 'On its way to the buyer',   uitleg: 'Sent insured; the buyer follows the shipment with the same code.' },
 ];
 
 // Trackingcodes: PostNL-formaat, deterministisch opgebouwd zodat ze stabiel blijven
@@ -895,39 +895,39 @@ function trackCode(zaad) {
 // Archief: publiek zichtbare verkochte stukken als prijsreferentie
 // (Fashionphile houdt zijn sold-archief open; sterk voor vertrouwen en SEO)
 const ARCHIEF = [
-  { art: 'flap',      titel: 'Classic Flap Medium',   jaar: 1994, kleur: 'Zwart',  materiaal: 'Lamsleer',       conditie: 'Uitstekend',     prijs: 5450, datum: 'juli 2026' },
-  { art: 'reissue',   titel: '2.55 Reissue 225',      jaar: 2005, kleur: 'Zwart',  materiaal: 'Aged kalfsleer', conditie: 'Heel goed',      prijs: 6800, datum: 'juli 2026' },
-  { art: 'boy',       titel: 'Boy Bag Old Medium',    jaar: 2011, kleur: 'Grijs',  materiaal: 'Kalfsleer',      conditie: 'Goed',           prijs: 3150, datum: 'juni 2026' },
-  { art: 'flap',      titel: 'Classic Flap Jumbo',    jaar: 2001, kleur: 'Beige',  materiaal: 'Caviar',         conditie: 'Heel goed',      prijs: 7900, datum: 'juni 2026' },
-  { art: 'ketting',   titel: 'Gripoix Sautoir',       jaar: 1988, kleur: 'Goud',   materiaal: 'Verguld metaal', conditie: 'Heel goed',      prijs: 2400, datum: 'juni 2026' },
-  { art: 'jasje',     titel: 'Tweed Jasje Maat 40',   jaar: 1994, kleur: 'Zwart',  materiaal: 'Tweed',          conditie: 'Uitstekend',     prijs: 3600, datum: 'mei 2026' },
-  { art: 'sjaal',     titel: 'Zijden Sjaal Camélia',  jaar: 1999, kleur: 'Blauw',  materiaal: 'Zijde',          conditie: 'Uitstekend',     prijs: 340,  datum: 'mei 2026' },
-  { art: 'zonnebril', titel: 'Zonnebril Vintage',     jaar: 1996, kleur: 'Zwart',  materiaal: 'Acetaat',        conditie: 'Gebruikssporen', prijs: 380,  datum: 'mei 2026' },
+  { art: 'flap',      titel: 'Classic Flap Medium',   jaar: 1994, kleur: 'Black',  materiaal: 'Lambskin',       conditie: 'Excellent',      prijs: 5450, datum: 'July 2026' },
+  { art: 'reissue',   titel: '2.55 Reissue 225',      jaar: 2005, kleur: 'Black',  materiaal: 'Aged calfskin',  conditie: 'Very good',      prijs: 6800, datum: 'July 2026' },
+  { art: 'boy',       titel: 'Boy Bag Old Medium',    jaar: 2011, kleur: 'Grey',   materiaal: 'Calfskin',       conditie: 'Good',           prijs: 3150, datum: 'June 2026' },
+  { art: 'flap',      titel: 'Classic Flap Jumbo',    jaar: 2001, kleur: 'Beige',  materiaal: 'Caviar',         conditie: 'Very good',      prijs: 7900, datum: 'June 2026' },
+  { art: 'ketting',   titel: 'Gripoix Sautoir',       jaar: 1988, kleur: 'Gold',   materiaal: 'Gilt metal',     conditie: 'Very good',      prijs: 2400, datum: 'June 2026' },
+  { art: 'jasje',     titel: 'Tweed Jacket Size 40',  jaar: 1994, kleur: 'Black',  materiaal: 'Tweed',          conditie: 'Excellent',      prijs: 3600, datum: 'May 2026' },
+  { art: 'sjaal',     titel: 'Camélia Silk Scarf',    jaar: 1999, kleur: 'Blue',   materiaal: 'Silk',           conditie: 'Excellent',      prijs: 340,  datum: 'May 2026' },
+  { art: 'zonnebril', titel: 'Vintage Sunglasses',    jaar: 1996, kleur: 'Black',  materiaal: 'Acetate',        conditie: 'Signs of wear',  prijs: 380,  datum: 'May 2026' },
 ];
 
 // Andere orders in het atelier, per fase, zodat het bord gevuld aanvoelt
 const ANDERE_ORDERS = [
-  { nr: 'SI-2026-0142', art: 'reissue',   titel: '2.55 Reissue 227 2009',      prijs: 6400, verkoper: 'Maison Réédition',     fase: 'AWAITING_ITEM',    wacht: 'verzonden gisteren 16:40' },
-  { nr: 'SI-2026-0141', art: 'flap',      titel: 'Classic Flap Jumbo 2004',    prijs: 8900, verkoper: 'Isabelle K.',          fase: 'AWAITING_ITEM',    wacht: 'label gegenereerd, nog niet gescand' },
-  { nr: 'SI-2026-0139', art: 'boy',       titel: 'Boy Bag New Medium 2016',    prijs: 3950, verkoper: 'Vintage Boetiek B.V.', fase: 'ITEM_RECEIVED',    wacht: 'binnen sinds 09:14' },
-  { nr: 'SI-2026-0140', art: 'flap',      titel: 'Wallet on Chain 2013',       prijs: 2100, verkoper: 'Nadia R.',             fase: 'ITEM_RECEIVED',    wacht: 'binnen sinds 11:35' },
-  { nr: 'SI-2026-0138', art: 'ketting',   titel: 'Gripoix Collier 1991',       prijs: 2250, verkoper: 'Nadia R.',             fase: 'IN_INSPECTION',    wacht: 'expert: Lotte, sinds 12:05' },
-  { nr: 'SI-2026-0136', art: 'sjaal',     titel: 'Zijden Sjaal Camélia 1998',  prijs: 280,  verkoper: 'Sophie L.',            fase: 'APPROVED',         wacht: 'goedgekeurd 11:02', chipKlasse: 'groen' },
-  { nr: 'SI-2026-0134', art: 'zonnebril', titel: 'Zonnebril Vintage 1994',     prijs: 390,  verkoper: 'Harold B.',            fase: 'SHIPPED_TO_BUYER', wacht: 'bezorging verwacht morgen', chipKlasse: 'groen' },
+  { nr: 'SI-2026-0142', art: 'reissue',   titel: '2.55 Reissue 227 2009',      prijs: 6400, verkoper: 'Maison Réédition',    fase: 'AWAITING_ITEM',    wacht: 'sent yesterday 16:40' },
+  { nr: 'SI-2026-0141', art: 'flap',      titel: 'Classic Flap Jumbo 2004',    prijs: 8900, verkoper: 'Isabelle K.',         fase: 'AWAITING_ITEM',    wacht: 'label generated, not yet scanned' },
+  { nr: 'SI-2026-0139', art: 'boy',       titel: 'Boy Bag New Medium 2016',    prijs: 3950, verkoper: 'Vintage Boutique Ltd', fase: 'ITEM_RECEIVED',    wacht: 'in since 09:14' },
+  { nr: 'SI-2026-0140', art: 'flap',      titel: 'Wallet on Chain 2013',       prijs: 2100, verkoper: 'Nadia R.',            fase: 'ITEM_RECEIVED',    wacht: 'in since 11:35' },
+  { nr: 'SI-2026-0138', art: 'ketting',   titel: 'Gripoix Collier 1991',       prijs: 2250, verkoper: 'Nadia R.',            fase: 'IN_INSPECTION',    wacht: 'expert: Lotte, since 12:05' },
+  { nr: 'SI-2026-0136', art: 'sjaal',     titel: 'Camélia Silk Scarf 1998',    prijs: 280,  verkoper: 'Sophie L.',           fase: 'APPROVED',         wacht: 'approved 11:02', chipKlasse: 'groen' },
+  { nr: 'SI-2026-0134', art: 'zonnebril', titel: 'Vintage Sunglasses 1994',    prijs: 390,  verkoper: 'Harold B.',           fase: 'SHIPPED_TO_BUYER', wacht: 'delivery expected tomorrow', chipKlasse: 'groen' },
 ];
 
 // Openstaande biedingen: de actie-inbox van de verkoper.
 // Hier moet gehandeld worden; al het andere in het account is administratie.
 let openBiedingen = [
-  { id: 'B1', stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1550, vraagprijs: 1750, verloopt: 'verloopt over 11 uur' },
+  { id: 'B1', stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1550, vraagprijs: 1750, verloopt: 'expires in 11 hours' },
 ];
 let biedHistorie = [...EERDERE_BIEDINGEN];
 let bodTeller = 1;
 
 function simuleerBod() {
-  openBiedingen.unshift({ id: 'S' + (++bodTeller), stuk: 'Classic Flap Medium 1995', bieder: 'Koos K.', bedrag: 5200, vraagprijs: 5800, verloopt: 'verloopt over 48 uur' });
+  openBiedingen.unshift({ id: 'S' + (++bodTeller), stuk: 'Classic Flap Medium 1995', bieder: 'Koos K.', bedrag: 5200, vraagprijs: 5800, verloopt: 'expires in 48 hours' });
   notif('account', true);
-  toast('Nieuw bod ontvangen. <b>Bekijk het onder Mijn account &rsaquo; Als verkoper.</b>');
+  toast('New offer received. <b>View it under My account &rsaquo; As seller.</b>');
   render();
 }
 
@@ -937,17 +937,17 @@ function bodActie(id, actie) {
   const b = openBiedingen.splice(i, 1)[0];
   let status;
   if (actie === 'accepteer') {
-    status = 'Geaccepteerd';
-    toast(`Bod van <b>${eur(b.bedrag)}</b> geaccepteerd. De koper heeft 24 uur om af te rekenen; het stuk staat zolang gereserveerd.`);
+    status = 'Accepted';
+    toast(`Offer of <b>${eur(b.bedrag)}</b> accepted. The buyer has 24 hours to pay; the piece stays reserved until then.`);
   } else if (actie === 'tegenbod') {
     const tegen = Math.round((b.bedrag + b.vraagprijs) / 2 / 50) * 50;
-    status = `Tegenbod ${eur(tegen)} verstuurd`;
-    toast(`Tegenbod van <b>${eur(tegen)}</b> verstuurd. De koper kan accepteren, afwijzen of opnieuw bieden.`);
+    status = `Counter-offer ${eur(tegen)} sent`;
+    toast(`Counter-offer of <b>${eur(tegen)}</b> sent. The buyer can accept, decline or bid again.`);
   } else {
-    status = 'Afgewezen';
-    toast('Bod afgewezen. Het stuk blijft in de collectie.');
+    status = 'Declined';
+    toast('Offer declined. The piece stays in the collection.');
   }
-  biedHistorie.unshift({ stuk: b.stuk, bieder: b.bieder, bedrag: b.bedrag, status, datum: 'vandaag' });
+  biedHistorie.unshift({ stuk: b.stuk, bieder: b.bieder, bedrag: b.bedrag, status, datum: 'today' });
   render();
 }
 
@@ -960,14 +960,14 @@ let fotoView = 0;
 let verkochtDetail = null;
 // Acht standaardbeelden per listing, zoals onze fotorichtlijnen voorschrijven
 const FOTO_VIEWS = [
-  { label: 'Voorkant' },
-  { label: 'Achterzijde', stijl: 'transform:scaleX(-1)' },
-  { label: 'Zijkant', stijl: 'transform:rotate(-8deg) scale(.92)' },
-  { label: 'Onderkant', stijl: 'transform:rotate(180deg) scale(.94)' },
-  { label: 'Binnenkant', stijl: 'transform:scale(1.35) translateY(6%)' },
+  { label: 'Front' },
+  { label: 'Back', stijl: 'transform:scaleX(-1)' },
+  { label: 'Side', stijl: 'transform:rotate(-8deg) scale(.92)' },
+  { label: 'Underside', stijl: 'transform:rotate(180deg) scale(.94)' },
+  { label: 'Interior', stijl: 'transform:scale(1.35) translateY(6%)' },
   { label: 'Hardware', stijl: 'transform:scale(2.4) translateY(-6%)' },
-  { label: 'Slijtage', stijl: 'transform:scale(2) translate(12%, 12%)' },
-  { label: 'Serienummer', serial: true },
+  { label: 'Wear', stijl: 'transform:scale(2) translate(12%, 12%)' },
+  { label: 'Serial number', serial: true },
 ];
 function naarDetail(idx) {
   kijkItem = ITEMS[idx];
@@ -986,7 +986,7 @@ ITEMS.forEach(it => { it.bodOpen = !(it.zakelijk && it.prijs > 2000); });
 // met een fotocontrole vooraf in plaats van fysieke expertise.
 const ATELIER_DREMPEL = 1000;
 ITEMS.forEach(it => { it.viaAtelier = it.categorie === 'tas' || it.prijs >= ATELIER_DREMPEL; });
-const eraVan = it => `Jaren ’${String(Math.floor(it.jaar / 10) * 10).slice(2)}`;
+const eraVan = it => `${String(Math.floor(it.jaar / 10) * 10)}s`;
 function zetFilter(veld, waarde) { filt[veld] = waarde; render(); }
 function wisFilters() { filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false }; render(); }
 function gefilterd() {
@@ -1002,7 +1002,7 @@ function gefilterd() {
   );
 }
 
-const eur = n => '€ ' + n.toLocaleString('nl-NL', { minimumFractionDigits: n % 1 ? 2 : 0 });
+const eur = n => '€ ' + n.toLocaleString('en-GB', { minimumFractionDigits: n % 1 ? 2 : 0 });
 const art = (naam) => TEKENINGEN[naam];
 
 function toast(html) {
@@ -1035,37 +1035,37 @@ function renderHoofdnav() {
     const telCat = c => ITEMS.filter(i => i.categorie === c).length;
     const actief = k => (scherm === 'browse' && ((k === 'alles' && !filt.categorie && !filt.nieuw) || (k === 'nieuw' && filt.nieuw) || filt.categorie === k)) ? 'actief' : '';
     links = [
-      `<button class="navlink ${actief('alles')}" onclick="navCategorie('')" onmouseenter="sluitMega()">De collectie</button>`,
+      `<button class="navlink ${actief('alles')}" onclick="navCategorie('')" onmouseenter="sluitMega()">The Collection</button>`,
       ...['tas', 'sieraad', 'kleding', 'accessoire'].map(c =>
         `<button class="navlink ${actief(c)}" onclick="navCategorie('${c}')" onmouseenter="openMega('${c}')">${CATEGORIE_LABEL[c]}</button>`),
-      `<button class="navlink ${actief('nieuw')}" onclick="navNieuw()" onmouseenter="sluitMega()">Nieuw binnen</button>`,
-      `<button class="navlink ${scherm === 'archief' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='archief';render()">Archief</button>`,
-      `<button class="navlink ${scherm === 'verkopen' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='verkopen';render()">Verkopen</button>`,
-      `<button class="navlink ${scherm === 'expertise' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='expertise';render()">Onze expertise</button>`,
+      `<button class="navlink ${actief('nieuw')}" onclick="navNieuw()" onmouseenter="sluitMega()">New arrivals</button>`,
+      `<button class="navlink ${scherm === 'archief' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='archief';render()">Archive</button>`,
+      `<button class="navlink ${scherm === 'verkopen' || scherm === 'listform' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='verkopen';render()">Sell</button>`,
+      `<button class="navlink ${scherm === 'expertise' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='expertise';render()">Our Expertise</button>`,
     ];
     if (order) {
-      links.push(`<button class="navlink ${scherm === 'tracking' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='tracking';render()">Mijn bestelling</button>`);
+      links.push(`<button class="navlink ${scherm === 'tracking' ? 'actief' : ''}" onmouseenter="sluitMega()" onclick="scherm='tracking';render()">My order</button>`);
     }
   } else if (huidigeRol === 'atelier') {
     const telFase = k => ANDERE_ORDERS.filter(o => o.fase === k).length + (order && !order.afgekeurd && order.status === k ? 1 : 0);
     const totaal = ATELIER_FASEN.reduce((s, f) => s + telFase(f.key), 0);
     links = ['werkbord', 'papertrail', 'voorraad', 'rapportage'].map(k =>
       `<button class="navlink ${atelierTab === k ? 'actief' : ''}" onclick="atelierTab='${k}';render()">${
-        { werkbord: `Werkbord<span class="telling">${totaal}</span>`, papertrail: 'Papertrail', voorraad: 'Voorraad', rapportage: 'Rapportage' }[k]
+        { werkbord: `Workboard<span class="telling">${totaal}</span>`, papertrail: 'Audit trail', voorraad: 'Inventory', rapportage: 'Reporting' }[k]
       }</button>`);
   } else {
     const ongelezen = GESPREKKEN.filter(g => g.ongelezen).length;
     links = [
-      `<button class="navlink ${accountTab === 'overzicht' && mijnRol === 'koper' ? 'actief' : ''}" onclick="accountTab='overzicht';mijnRol='koper';accountSectie=null;accountDetail=null;render()">Als koper</button>`,
-      `<button class="navlink ${accountTab === 'overzicht' && mijnRol === 'verkoper' ? 'actief' : ''}" onclick="accountTab='overzicht';mijnRol='verkoper';accountSectie=null;verkochtDetail=null;render()">Als verkoper${openBiedingen.length ? `<span class="telling">${openBiedingen.length}</span>` : ''}</button>`,
-      `<button class="navlink ${accountTab === 'berichten' ? 'actief' : ''}" onclick="accountTab='berichten';openGesprek=null;render()">Berichten${ongelezen ? `<span class="telling">${ongelezen}</span>` : ''}</button>`,
+      `<button class="navlink ${accountTab === 'overzicht' && mijnRol === 'koper' ? 'actief' : ''}" onclick="accountTab='overzicht';mijnRol='koper';accountSectie=null;accountDetail=null;render()">As buyer</button>`,
+      `<button class="navlink ${accountTab === 'overzicht' && mijnRol === 'verkoper' ? 'actief' : ''}" onclick="accountTab='overzicht';mijnRol='verkoper';accountSectie=null;verkochtDetail=null;render()">As seller${openBiedingen.length ? `<span class="telling">${openBiedingen.length}</span>` : ''}</button>`,
+      `<button class="navlink ${accountTab === 'berichten' ? 'actief' : ''}" onclick="accountTab='berichten';openGesprek=null;render()">Messages${ongelezen ? `<span class="telling">${ongelezen}</span>` : ''}</button>`,
       `<button class="navlink ${accountTab === 'support' ? 'actief' : ''}" onclick="accountTab='support';render()">Support</button>`,
     ];
   }
   nav.innerHTML = links.join('');
 }
 
-const CATEGORIE_LABEL = { tas: 'Tassen', sieraad: 'Sieraden', kleding: 'Kleding', accessoire: 'Accessoires' };
+const CATEGORIE_LABEL = { tas: 'Bags', sieraad: 'Jewellery', kleding: 'Clothing', accessoire: 'Accessories' };
 
 function navCategorie(cat) {
   filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: cat, nieuw: false };
@@ -1087,7 +1087,7 @@ function sluitMega() { document.getElementById('megamenu').classList.remove('ope
 function openMega(cat) {
   const menu = document.getElementById('megamenu');
   const inCat = ITEMS.filter(i => i.categorie === cat);
-  const uniek = veld => [...new Set(inCat.map(i => veld === 'era' ? eraVan(i) : i[veld]))].filter(v => v && v !== 'n.v.t.').sort();
+  const uniek = veld => [...new Set(inCat.map(i => veld === 'era' ? eraVan(i) : i[veld]))].filter(v => v && v !== 'n/a').sort();
   const tel = (veld, w) => inCat.filter(i => (veld === 'era' ? eraVan(i) : i[veld]) === w).length;
 
   const kolom = (titel, veld, waarden) => `
@@ -1102,19 +1102,19 @@ function openMega(cat) {
 
   menu.innerHTML = `
     <div class="mega-binnen">
-      ${kolom(cat === 'tas' ? 'Modellen' : 'Type', 'model', uniek('model'))}
-      ${kolom('Materiaal', 'materiaal', uniek('materiaal'))}
-      ${kolom('Kleur', 'kleur', uniek('kleur'))}
+      ${kolom(cat === 'tas' ? 'Models' : 'Type', 'model', uniek('model'))}
+      ${kolom('Material', 'materiaal', uniek('materiaal'))}
+      ${kolom('Colour', 'kleur', uniek('kleur'))}
       ${kolom('Era', 'era', uniek('era'))}
       <div class="mega-kolom">
-        <h4>Uitgelicht</h4>
+        <h4>Featured</h4>
         ${ster ? `
           <div class="mega-uitgelicht" onclick="naarDetail(${ITEMS.indexOf(ster)})">
             <div class="mf quilt">${art(ster.art)}</div>
             <div class="mt">${ster.titel}</div>
             <div class="mp">${eur(ster.prijs)}</div>
           </div>` : ''}
-        <button class="mega-link" style="margin-top:10px;color:var(--goud-diep)" onclick="navCategorie('${cat}')">Alle ${CATEGORIE_LABEL[cat].toLowerCase()} bekijken &rarr;</button>
+        <button class="mega-link" style="margin-top:10px;color:var(--goud-diep)" onclick="navCategorie('${cat}')">View all ${CATEGORIE_LABEL[cat].toLowerCase()} &rarr;</button>
       </div>
     </div>`;
   menu.classList.add('open');
@@ -1141,13 +1141,14 @@ function renderKoper() {
   if (scherm === 'archief')              { v.innerHTML = htmlArchief(); return; }
   if (scherm === 'expertise')            { v.innerHTML = htmlExpertise(); return; }
   if (scherm === 'verkopen')             { v.innerHTML = htmlVerkopen(); return; }
+  if (scherm === 'listform')             { v.innerHTML = htmlListForm(); return; }
 
-  const uniek = veld => [...new Set(ITEMS.map(it => veld === 'era' ? eraVan(it) : it[veld]))].filter(v => v && v !== 'n.v.t.').sort();
+  const uniek = veld => [...new Set(ITEMS.map(it => veld === 'era' ? eraVan(it) : it[veld]))].filter(v => v && v !== 'n/a').sort();
   const selectVoor = (veld, label, opties) => `
     <div class="filterveld">
       <span class="fl">${label}</span>
       <select class="fsel" onchange="zetFilter('${veld}', this.value)">
-        <option value="">Alle</option>
+        <option value="">All</option>
         ${opties.map(o => `<option value="${o}" ${filt[veld] === o ? 'selected' : ''}>${o}</option>`).join('')}
       </select>
     </div>`;
@@ -1156,23 +1157,23 @@ function renderKoper() {
 
   v.innerHTML = `
     <div class="centreer intro">
-      <div class="voorregel">${filt.nieuw ? 'Nieuw binnen' : CATEGORIE_LABEL[filt.categorie] || 'De Collectie'}</div>
-      <h2 class="kop">${filt.nieuw ? 'Recente aanwinsten' : 'Vintage Chanel, ge&euml;xpertiseerd'}</h2>
-      <p class="sub">Elk stuk passeert fysiek ons atelier voordat het u bereikt. Filter zoals een kenner zoekt.</p>
+      <div class="voorregel">${filt.nieuw ? 'New arrivals' : CATEGORIE_LABEL[filt.categorie] || 'The Collection'}</div>
+      <h2 class="kop">${filt.nieuw ? 'Recent acquisitions' : 'Vintage Chanel, expertised'}</h2>
+      <p class="sub">Every piece passes physically through our atelier before it reaches you. Filter the way a connoisseur searches.</p>
     </div>
-    ${order ? `<div class="melding">Er loopt een bestelling: <b>Chanel ${order.item.titel} ${order.item.jaar}</b> &mdash; <a href="#" onclick="scherm='tracking';render();return false">volg uw bestelling</a></div>` : ''}
+    ${order ? `<div class="melding">An order is in progress: <b>Chanel ${order.item.titel} ${order.item.jaar}</b> &mdash; <a href="#" onclick="scherm='tracking';render();return false">follow your order</a></div>` : ''}
     <div class="filterbalk">
       ${selectVoor('model', 'Model', uniek('model'))}
-      ${selectVoor('kleur', 'Kleur', uniek('kleur'))}
-      ${selectVoor('materiaal', 'Materiaal', uniek('materiaal'))}
+      ${selectVoor('kleur', 'Colour', uniek('kleur'))}
+      ${selectVoor('materiaal', 'Material', uniek('materiaal'))}
       ${selectVoor('hardware', 'Hardware', uniek('hardware'))}
-      ${selectVoor('conditie', 'Conditie', CONDITIES)}
+      ${selectVoor('conditie', 'Condition', CONDITIES)}
       ${selectVoor('era', 'Era', uniek('era'))}
-      ${actieveFilters ? `<button class="filter-wissen" onclick="wisFilters()">Wissen (${actieveFilters})</button>` : ''}
+      ${actieveFilters ? `<button class="filter-wissen" onclick="wisFilters()">Clear (${actieveFilters})</button>` : ''}
     </div>
     ${!filt.categorie && !filt.nieuw && !Object.values(filt).some(v => v && v !== false) ? htmlStatusbalk() : ''}
-    <p class="telregel">${items.length} ${items.length === 1 ? 'stuk' : 'stuks'}</p>
-    ${items.length === 0 ? `<p class="leeg" style="padding:40px"><span style="font-family:var(--sans);font-size:13px;color:var(--grijs)">Geen stukken met deze combinatie. <a href="#" onclick="wisFilters();return false">Wis de filters</a>.</span></p>` : `
+    <p class="telregel">${items.length} ${items.length === 1 ? 'piece' : 'pieces'}</p>
+    ${items.length === 0 ? `<p class="leeg" style="padding:40px"><span style="font-family:var(--sans);font-size:13px;color:var(--grijs)">No pieces match this combination. <a href="#" onclick="wisFilters();return false">Clear the filters</a>.</span></p>` : `
     <div class="grid">
       ${items.map(it => {
         const verkocht = order && order.item.id === it.id;
@@ -1181,14 +1182,14 @@ function renderKoper() {
           <div class="kaart-foto quilt">${art(it.art)}</div>
           <div class="kaart-info">
             <div class="kaart-titel">Chanel ${it.titel}</div>
-            <div class="kaart-meta">${it.jaar} &middot; ${it.conditie} &middot; ${it.hardware !== 'n.v.t.' ? it.hardware + ' hardware &middot; ' : ''}${it.zakelijk ? 'Zakelijk' : 'Particulier'}</div>
-            <div class="kaart-prijs ${verkocht ? 'verkocht' : ''}">${verkocht ? 'Verkocht' : eur(it.prijs)}</div>
-            ${verkocht ? '' : `<div class="allin">${it.viaAtelier ? 'Via atelier' : 'Rechtstreeks'} &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. bescherming</div>`}
+            <div class="kaart-meta">${it.jaar} &middot; ${it.conditie} &middot; ${it.hardware !== 'n/a' ? it.hardware + ' hardware &middot; ' : ''}${it.zakelijk ? 'Business' : 'Private'}</div>
+            <div class="kaart-prijs ${verkocht ? 'verkocht' : ''}">${verkocht ? 'Sold' : eur(it.prijs)}</div>
+            ${verkocht ? '' : `<div class="allin">${it.viaAtelier ? 'Via the atelier' : 'Direct'} &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. protection</div>`}
           </div>
         </div>`;
       }).join('')}
     </div>`}
-    <p class="voetnoot">Demo &mdash; de echte boutique toont 10.000+ stuks; verkochte stukken blijven zichtbaar als prijsreferentie</p>`;
+    <p class="voetnoot">Demo &mdash; the real boutique shows 10,000+ pieces; sold pieces stay visible as a price reference</p>`;
 }
 
 // Levende cijfers van het platform: bewijs dat er handel is
@@ -1198,11 +1199,11 @@ function htmlStatusbalk() {
   const verkochtDezeWeek = 3;
   return `
     <div class="statusbalk">
-      <div class="stat"><div class="stat-getal">${ITEMS.length}</div><div class="stat-label">Stuks beschikbaar</div></div>
-      <div class="stat"><div class="stat-getal"><span class="plus">+</span>${nieuwDezeWeek}</div><div class="stat-label">Nieuw deze week</div></div>
-      <div class="stat"><div class="stat-getal">${verkochtDezeWeek}</div><div class="stat-label">Verkocht deze week</div></div>
-      <div class="stat"><div class="stat-getal">${eur(totaleWaarde)}</div><div class="stat-label">Waarde collectie</div></div>
-      <div class="stat"><div class="stat-getal">100%</div><div class="stat-label">Geëxpertiseerd</div></div>
+      <div class="stat"><div class="stat-getal">${ITEMS.length}</div><div class="stat-label">Pieces available</div></div>
+      <div class="stat"><div class="stat-getal"><span class="plus">+</span>${nieuwDezeWeek}</div><div class="stat-label">New this week</div></div>
+      <div class="stat"><div class="stat-getal">${verkochtDezeWeek}</div><div class="stat-label">Sold this week</div></div>
+      <div class="stat"><div class="stat-getal">${eur(totaleWaarde)}</div><div class="stat-label">Collection value</div></div>
+      <div class="stat"><div class="stat-getal">100%</div><div class="stat-label">Expertised</div></div>
     </div>`;
 }
 
@@ -1210,9 +1211,9 @@ function htmlStatusbalk() {
 function htmlArchief() {
   return `
     <div class="centreer intro">
-      <div class="voorregel">Het Archief</div>
-      <h2 class="kop">Eerder verkocht</h2>
-      <p class="sub">Elk stuk dat door ons atelier ging blijft hier zichtbaar, met de prijs waarvoor het daadwerkelijk verkocht is. Zo weet u wat een stuk waard is, ook als u nog niet koopt.</p>
+      <div class="voorregel">The Archive</div>
+      <h2 class="kop">Previously sold</h2>
+      <p class="sub">Every piece that passed through our atelier stays visible here, with the price it actually sold for. So you know what a piece is worth, even when you are not buying yet.</p>
     </div>
     <div class="grid">
       ${ARCHIEF.map(a => `
@@ -1222,32 +1223,32 @@ function htmlArchief() {
             <div class="kaart-titel">Chanel ${a.titel}</div>
             <div class="kaart-meta">${a.jaar} &middot; ${a.conditie} &middot; ${a.materiaal}</div>
             <div class="kaart-prijs">${eur(a.prijs)}</div>
-            <div class="allin">verkocht in ${a.datum}</div>
+            <div class="allin">sold in ${a.datum}</div>
           </div>
         </div>`).join('')}
     </div>
-    <p class="voetnoot">Werkelijk gerealiseerde verkoopprijzen, geen vraagprijzen</p>`;
+    <p class="voetnoot">Prices actually realised, not asking prices</p>`;
 }
 
 // ── Onze expertise: de vertrouwenslaag als verhaal ──
 function htmlExpertise() {
   const stappen = [
-    ['Serienummer en hologram', 'Wij controleren het serienummer tegen het productiejaar en beoordelen de hologramsticker op microtekst, lijmlaag en verkleuring.'],
-    ['Stiksels en naadwerk', 'Vintage Chanel telt zeven steken per centimeter, strak en gelijkmatig. Afwijkend stikwerk is het snelst zichtbare signaal.'],
-    ['Hardware en gravures', 'Gewicht, vergulding en de gravures op slot, ketting en ritsen worden vergeleken met referenties uit hetzelfde jaar.'],
-    ['Leer en materiaal', 'Structuur, geur en gedrag van caviar, lamsleer of tweed. Elk materiaal veroudert op zijn eigen manier.'],
-    ['Conditie per zone', 'Buitenkant, hoeken, hardware en interieur worden apart beoordeeld en vastgelegd in het conditierapport bij de listing.'],
-    ['Vergelijking met de listing', 'Klopt alles met wat de verkoper beschreef? Zo niet, dan gaat het stuk retour en wordt de koper volledig terugbetaald.'],
+    ['Serial number and hologram', 'We check the serial number against the year of production and assess the hologram sticker for microtext, adhesive layer and discolouration.'],
+    ['Stitching and seams', 'Vintage Chanel has seven stitches per centimetre, crisp and even. Deviant stitching is the fastest visible signal.'],
+    ['Hardware and engravings', 'Weight, gilding and the engravings on lock, chain and zips are compared with references from the same year.'],
+    ['Leather and material', 'Structure, scent and behaviour of caviar, lambskin or tweed. Every material ages in its own way.'],
+    ['Condition per zone', 'Exterior, corners, hardware and interior are assessed separately and recorded in the condition report on the listing.'],
+    ['Comparison with the listing', 'Does everything match what the seller described? If not, the piece is returned and the buyer is refunded in full.'],
   ];
   return `
     <div class="centreer intro">
-      <div class="voorregel">Onze Expertise</div>
-      <h2 class="kop">Elk stuk gaat door onze handen</h2>
-      <p class="sub">Wij zijn geen doorgeefluik. Elk stuk komt fysiek binnen in ons atelier, wordt door een expert beoordeeld en pas daarna doorgestuurd naar de koper. Dat is het verschil tussen hopen dat iets echt is en het weten.</p>
+      <div class="voorregel">Our Expertise</div>
+      <h2 class="kop">Every piece passes through our hands</h2>
+      <p class="sub">We are not a pass-through. Every piece arrives physically at our atelier, is assessed by an expert and only then forwarded to the buyer. That is the difference between hoping something is genuine and knowing it.</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Het protocol</div>
+      <div class="sectiekop">The protocol</div>
       ${stappen.map(([t, d], i) => `
         <div style="display:flex;gap:18px;padding:14px 0;border-bottom:1px solid var(--lijn)">
           <div class="stip" style="flex-shrink:0">${['I','II','III','IV','V','VI'][i]}</div>
@@ -1256,20 +1257,20 @@ function htmlExpertise() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Onze garantie</div>
-      <div class="melding" style="margin-bottom:14px">Blijkt een stuk ondanks onze expertise toch niet authentiek, dan betalen wij de volledige aankoopsom terug. Levenslang, zonder voorwaarden.</div>
+      <div class="sectiekop">Our guarantee</div>
+      <div class="melding" style="margin-bottom:14px">If a piece turns out not to be authentic despite our expertise, we refund the full purchase price. For life, without conditions.</div>
       <dl class="specs" style="margin:0">
-        <div class="spec"><dt>Doorlooptijd</dt><dd>Expertise binnen 2 werkdagen na binnenkomst</dd></div>
-        <div class="spec"><dt>Bij afkeuring</dt><dd>Koper volledig terugbetaald, stuk retour op kosten van de verkoper</dd></div>
-        <div class="spec"><dt>Verzending</dt><dd>Verzekerd tot de volledige waarde, in beide richtingen</dd></div>
-        <div class="spec"><dt>Vastlegging</dt><dd>Elk rapport en elke stap blijft bewaard in ons dossier</dd></div>
+        <div class="spec"><dt>Turnaround</dt><dd>Expertise within 2 working days of arrival</dd></div>
+        <div class="spec"><dt>If rejected</dt><dd>Buyer refunded in full, piece returned at the seller&rsquo;s expense</dd></div>
+        <div class="spec"><dt>Shipping</dt><dd>Insured to the full value, in both directions</dd></div>
+        <div class="spec"><dt>Record keeping</dt><dd>Every report and every step is kept in our file</dd></div>
       </dl>
     </div>
 
     <div class="paneel centreer">
-      <div class="sectiekop" style="justify-content:center">Het team</div>
+      <div class="sectiekop" style="justify-content:center">The team</div>
       <div style="display:flex;flex-wrap:wrap;gap:30px;justify-content:center">
-        ${[['Lotte', 'Expert vintage tassen', '11 jaar ervaring'], ['Marieke', 'Expert sieraden en couture', '8 jaar ervaring'], ['Youssef', 'Expert leer en restauratie', '14 jaar ervaring']].map(([n, r, j]) => `
+        ${[['Lotte', 'Expert in vintage bags', '11 years of experience'], ['Marieke', 'Expert in jewellery and couture', '8 years of experience'], ['Youssef', 'Expert in leather and restoration', '14 years of experience']].map(([n, r, j]) => `
           <div style="min-width:150px">
             <div style="font-family:var(--serif);font-size:19px">${n}</div>
             <div class="biedregel" style="margin-top:2px">${r}<br>${j}</div>
@@ -1282,18 +1283,18 @@ function htmlExpertise() {
 function htmlVerkopen() {
   return `
     <div class="centreer intro">
-      <div class="voorregel">Verkopen via de maison</div>
-      <h2 class="kop">Uw stuk verdient een kenner</h2>
-      <p class="sub">U plaatst het stuk, wij regelen de rest: verzendlabel, expertise, verzending naar de koper en uitbetaling binnen een werkdag na levering.</p>
+      <div class="voorregel">Selling through the maison</div>
+      <h2 class="kop">Your piece deserves a connoisseur</h2>
+      <p class="sub">You list the piece, we arrange the rest: shipping label, expertise, delivery to the buyer and payout within one working day of delivery.</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Zo werkt het</div>
+      <div class="sectiekop">How it works</div>
       ${[
-        ['Plaats uw stuk', 'Foto&rsquo;s volgens onze richtlijnen, conditie en vraagprijs. Wij denken mee over de prijs op basis van ons archief.'],
-        ['Verkocht? Wij sturen het label', 'Zodra iemand koopt of uw bod accepteert, ontvangt u een verzekerd verzendlabel per e-mail.'],
-        ['Wij keuren en versturen', 'Ons atelier controleert echtheid en conditie en stuurt het stuk door naar de koper.'],
-        ['Uitbetaling', 'Direct na bevestigde levering, via Stripe op uw rekening.'],
+        ['List your piece', 'Photographs to our guidelines, condition and asking price. We advise on the price based on our archive.'],
+        ['Sold? We send the label', 'As soon as someone buys or you accept an offer, you receive an insured shipping label by email.'],
+        ['We authenticate and ship', 'Our atelier verifies authenticity and condition, then forwards the piece to the buyer.'],
+        ['Payout', 'Straight after confirmed delivery, via Stripe into your account.'],
       ].map(([t, d], i) => `
         <div style="display:flex;gap:18px;padding:14px 0;border-bottom:1px solid var(--lijn)">
           <div class="stip" style="flex-shrink:0">${['I','II','III','IV'][i]}</div>
@@ -1302,29 +1303,128 @@ function htmlVerkopen() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Wat het kost</div>
+      <div class="sectiekop">What it costs</div>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Commissie van de maison</span><span>10% van de verkoopprijs</span></div>
-        <div class="bon-rij"><span class="oms">Verzending naar het atelier</span><span>&euro; 9,50</span></div>
-        <div class="bon-rij"><span class="oms">Plaatsen van een listing</span><span>gratis</span></div>
-        <div class="bon-rij totaal"><span class="oms">Voorbeeld bij &euro; 5.800</span><span>u ontvangt ${eur(5800 * 0.9 - 9.5)}</span></div>
+        <div class="bon-rij"><span class="oms">Commission of the maison</span><span>10% of the sale price</span></div>
+        <div class="bon-rij"><span class="oms">Shipping to the atelier</span><span>&euro; 9.50</span></div>
+        <div class="bon-rij"><span class="oms">Creating a listing</span><span>free</span></div>
+        <div class="bon-rij totaal"><span class="oms">Example at &euro; 5,800</span><span>you receive ${eur(5800 * 0.9 - 9.5)}</span></div>
       </div>
-      <button class="knop goud" onclick="toonRol('account');mijnRol='verkoper';accountSectie=null;render()">Naar uw verkopersaccount</button>
-      <p class="biedregel">Particulier of zakelijk: dezelfde flow. Zakelijke verkopers krijgen automatisch de juiste facturen onder de margeregeling.</p>
+      <button class="knop goud" onclick="scherm='listform';render()">List a piece</button>
+      <button class="knop sec" onclick="toonRol('account');mijnRol='verkoper';accountSectie=null;render()">Go to your seller account</button>
+      <p class="biedregel">Private or business: the same flow. Business sellers automatically receive the correct invoices under the margin scheme.</p>
+    </div>`;
+}
+
+// ── Listing form: what a seller fills in and photographs ──
+const FOTO_EISEN = [
+  { label: 'Front', verplicht: true, uitleg: 'Whole piece, straight on, daylight' },
+  { label: 'Back', verplicht: true, uitleg: 'Whole piece, same distance' },
+  { label: 'Side', verplicht: true, uitleg: 'Shows depth and shape' },
+  { label: 'Base', verplicht: true, uitleg: 'Corners and feet, where wear shows first' },
+  { label: 'Interior', verplicht: true, uitleg: 'Lining, pockets and any marks' },
+  { label: 'Hardware', verplicht: true, uitleg: 'Close-up of lock, chain and zips' },
+  { label: 'Wear', verplicht: true, uitleg: 'Honest close-up of every flaw' },
+  { label: 'Serial number', verplicht: true, uitleg: 'Sticker or plaque, sharp and readable' },
+  { label: 'Authenticity card', verplicht: false, uitleg: 'Front and back, if you still have it' },
+  { label: 'Receipt', verplicht: false, uitleg: 'Blur out personal details' },
+];
+
+function htmlListForm() {
+  const veld = (label, inhoud, hint) => `
+    <div class="rapport-veld" style="margin-bottom:16px">
+      <label>${label}</label>
+      ${inhoud}
+      ${hint ? `<span class="biedregel" style="margin-top:4px">${hint}</span>` : ''}
+    </div>`;
+  const sel = (opties) => `<select>${opties.map(o => `<option>${o}</option>`).join('')}</select>`;
+  const inp = (ph, type) => `<input type="${type || 'text'}" placeholder="${ph}">`;
+
+  return `
+    <button class="terug" onclick="scherm='verkopen';render()">&larr; Selling</button>
+    <div class="centreer intro">
+      <div class="voorregel">List a piece</div>
+      <h2 class="kop">Tell us about your piece</h2>
+      <p class="sub">The better your description and photographs, the faster it sells. Our atelier checks everything before the listing goes live.</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">1. The piece</div>
+      <div class="rapport-grid">
+        ${veld('Category', sel(['Bags', 'Jewellery', 'Clothing', 'Accessories']))}
+        ${veld('Model', sel(['Classic Flap', 'Boy', '2.55 Reissue', 'Chanel 19', 'WOC', 'Vanity', 'Deauville', 'Diana', 'Other']), 'Not sure? Choose Other and describe it below.')}
+        ${veld('Year of production', inp('e.g. 1995', 'number'), 'Readable from the serial number.')}
+      </div>
+      <div class="rapport-grid">
+        ${veld('Colour', sel(['Black', 'Beige', 'Brown', 'Navy', 'Red', 'Pink', 'Ivory', 'Grey', 'Gold', 'Other']))}
+        ${veld('Material', sel(['Lambskin', 'Calfskin', 'Caviar', 'Patent', 'Tweed', 'Canvas', 'Silk', 'Other']))}
+        ${veld('Hardware', sel(['Gold', 'Silver', 'Ruthenium', 'Mixed', 'Not applicable']))}
+      </div>
+      ${veld('Dimensions', inp('e.g. 25.5 × 16 × 7.5 cm, strap drop 48 cm'), 'Width × height × depth, plus the strap or chain drop.')}
+      ${veld('Serial number', inp('8 digits, from the sticker or plaque'), 'Only visible to our atelier, never shown publicly.')}
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">2. Condition</div>
+      ${veld('Overall condition', sel(['New', 'Excellent', 'Very good', 'Good', 'Visible wear']), 'Be honest: our atelier verifies this and a mismatch means the piece is returned at your cost.')}
+      <div class="sectiekop" style="margin-top:22px">Per area</div>
+      ${['Exterior', 'Corners and edges', 'Hardware', 'Interior'].map(zone =>
+        veld(zone, inp('Describe what you see, however small'))).join('')}
+      ${veld('Comes with', `<div style="display:flex;flex-wrap:wrap;gap:14px;padding:4px 0">
+        ${['Dust bag', 'Authenticity card', 'Box', 'Receipt', 'Extra chain', 'Care booklet'].map(i =>
+          `<label style="font-family:var(--sans);font-size:13.5px;display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox"> ${i}</label>`).join('')}
+      </div>`)}
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">3. Photographs</div>
+      <div class="veilig-kader">
+        <b>Daylight, neutral background, no filters.</b> Lay the piece flat or stand it upright, fill the frame and keep the camera steady. Photographs that do not meet our guidelines are sent back before the listing goes live.
+      </div>
+      <div class="foto-thumbs" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px">
+        ${FOTO_EISEN.map(f => `
+          <div class="foto-thumb" style="padding:20px 12px 14px;cursor:pointer" onclick="toast('Opens the camera or file picker in the real platform.')">
+            <div style="font-family:var(--serif);font-size:22px;color:${f.verplicht ? 'var(--goud-diep)' : '#9a9a9a'}">+</div>
+            <div class="tl" style="margin-top:8px">${f.label}${f.verplicht ? '' : ' (optional)'}</div>
+            <div class="biedregel" style="margin-top:5px;font-size:11px;line-height:1.45">${f.uitleg}</div>
+          </div>`).join('')}
+      </div>
+      <p class="biedregel">Eight photographs are required, two are optional. Our atelier adds its own detail shots after the expertise.</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">4. Price and terms</div>
+      <div class="rapport-grid">
+        ${veld('Asking price', inp('e.g. 5800', 'number'), 'Comparable pieces in our archive sold for € 5,100 to € 6,400.')}
+        ${veld('Offers', sel(['Allow offers from 70% of the asking price', 'Fixed price, no offers']))}
+      </div>
+      <div class="bon" style="margin:6px 0 18px">
+        <div class="bon-rij"><span class="oms">Asking price</span><span>€ 5,800</span></div>
+        <div class="bon-rij"><span class="oms">Commission of the maison (10%)</span><span>&minus; € 580</span></div>
+        <div class="bon-rij"><span class="oms">Shipping to the atelier</span><span>&minus; € 9.50</span></div>
+        <div class="bon-rij totaal"><span class="oms">You receive after delivery</span><span>${eur(5800 * 0.9 - 9.5)}</span></div>
+      </div>
+      <label style="font-family:var(--sans);font-size:13.5px;display:flex;gap:8px;align-items:flex-start;margin-bottom:14px">
+        <input type="checkbox" style="margin-top:3px">
+        <span>I confirm this piece is authentic, owned by me, and described accurately. Business sellers also confirm it was purchased without deductible VAT (margin scheme).</span>
+      </label>
+      <button class="knop goud" onclick="toast('Submitted for review. Our atelier checks your photographs and description within one working day.')">Submit for review</button>
+      <button class="knop sec" onclick="toast('Saved as a draft in your seller account.')">Save as draft</button>
+      <p class="biedregel">Your listing goes live once our team has approved the photographs and description.</p>
     </div>`;
 }
 
 function htmlDetail(it) {
   return `
-    <button class="terug" onclick="scherm='browse';render()">&larr; De collectie</button>
+    <button class="terug" onclick="scherm='browse';render()">&larr; The Collection</button>
     <div class="paneel detail-flex">
       <div class="detail-kolom">
         <div class="detail-foto quilt foto-hoofd">
           ${FOTO_VIEWS[fotoView].serial
             ? `<div class="serial-kaart">
-                 <div class="sk-label">Authenticiteitskaart</div>
+                 <div class="sk-label">Authenticity card</div>
                  <div class="sk-nr">${it.serie}</div>
-                 <div class="sk-sub">Serienummer gecontroleerd door ons atelier</div>
+                 <div class="sk-sub">Serial number verified by our atelier</div>
                </div>`
             : `<div class="foto-binnen" style="${FOTO_VIEWS[fotoView].stijl || ''}">${art(it.art)}</div>`}
         </div>
@@ -1340,50 +1440,50 @@ function htmlDetail(it) {
         <div class="voorregel">${it.model} &middot; ${it.jaar} &middot; Vintage</div>
         <h2 class="kop">Chanel ${it.titel}</h2>
         <div class="detail-prijs" style="margin-bottom:4px">${eur(it.prijs)}</div>
-        <div class="allin" style="margin-bottom:18px">${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. kopersbescherming, excl. verzending</div>
+        <div class="allin" style="margin-bottom:18px">${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. buyer protection, excl. shipping</div>
         <dl class="specs">
-          <div class="spec"><dt>Conditie</dt><dd>${it.conditie}</dd></div>
-          <div class="spec"><dt>Kleur</dt><dd>${it.kleur}</dd></div>
-          <div class="spec"><dt>Materiaal</dt><dd>${it.materiaal}</dd></div>
-          ${it.hardware !== 'n.v.t.' ? `<div class="spec"><dt>Hardware</dt><dd>${it.hardware}</dd></div>` : ''}
-          <div class="spec"><dt>Afmetingen</dt><dd>${it.afmetingen}</dd></div>
+          <div class="spec"><dt>Condition</dt><dd>${it.conditie}</dd></div>
+          <div class="spec"><dt>Colour</dt><dd>${it.kleur}</dd></div>
+          <div class="spec"><dt>Material</dt><dd>${it.materiaal}</dd></div>
+          ${it.hardware !== 'n/a' ? `<div class="spec"><dt>Hardware</dt><dd>${it.hardware}</dd></div>` : ''}
+          <div class="spec"><dt>Dimensions</dt><dd>${it.afmetingen}</dd></div>
           <div class="spec"><dt>Era</dt><dd>${it.serie}</dd></div>
-          <div class="spec"><dt>Verkoper</dt><dd>${it.verkoper} <span class="goudtekst">&middot; ${it.zakelijk ? 'zakelijk' : 'particulier'}</span></dd></div>
-          <div class="spec"><dt>Expertise</dt><dd>${it.viaAtelier ? 'Fysiek geauthenticeerd in ons atelier' : 'Foto&rsquo;s vooraf gecontroleerd door ons team'}</dd></div>
-          <div class="spec"><dt>Verzending</dt><dd>${it.viaAtelier ? 'Via ons atelier naar u' : 'Rechtstreeks van de verkoper'}</dd></div>
-          ${it.zakelijk ? '<div class="spec"><dt>Bedenktijd</dt><dd>14 dagen herroepingsrecht</dd></div>' : ''}
+          <div class="spec"><dt>Seller</dt><dd>${it.verkoper} <span class="goudtekst">&middot; ${it.zakelijk ? 'business' : 'private'}</span></dd></div>
+          <div class="spec"><dt>Expertise</dt><dd>${it.viaAtelier ? 'Physically authenticated in our atelier' : 'Photographs checked in advance by our team'}</dd></div>
+          <div class="spec"><dt>Shipping</dt><dd>${it.viaAtelier ? 'Via our atelier to you' : 'Directly from the seller'}</dd></div>
+          ${it.zakelijk ? '<div class="spec"><dt>Cooling-off period</dt><dd>14 days right of withdrawal</dd></div>' : ''}
         </dl>
 
         ${it.inclusies.length ? `
         <div style="margin:0 0 22px">
-          <div style="font-family:var(--sans);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--grijs);margin-bottom:9px">Wordt geleverd met</div>
+          <div style="font-family:var(--sans);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--grijs);margin-bottom:9px">Comes with</div>
           ${it.inclusies.map(i => `<span class="incl-chip">${i}</span>`).join('')}
         </div>` : ''}
 
-        <button class="knop goud" onclick="kijkItem=ITEMS[${ITEMS.indexOf(it)}];scherm='checkout';render()">Direct kopen</button>
+        <button class="knop goud" onclick="kijkItem=ITEMS[${ITEMS.indexOf(it)}];scherm='checkout';render()">Buy now</button>
         ${it.bodOpen
-          ? `<button class="knop sec" onclick="biedOpen=!biedOpen;render()">Bod uitbrengen</button>`
-          : `<p class="biedregel" style="margin-top:10px">Vaste prijs &middot; deze verkoper onderhandelt niet over de prijs.</p>`}
+          ? `<button class="knop sec" onclick="biedOpen=!biedOpen;render()">Make an offer</button>`
+          : `<p class="biedregel" style="margin-top:10px">Fixed price &middot; this seller does not negotiate on price.</p>`}
 
         ${biedVerstuurd ? `
-        <div class="melding" style="margin-top:16px">Uw bod van <b>${eur(biedVerstuurd)}</b> is verstuurd. De verkoper heeft 48 uur om te accepteren, af te wijzen of een tegenbod te doen.</div>` : biedOpen ? `
+        <div class="melding" style="margin-top:16px">Your offer of <b>${eur(biedVerstuurd)}</b> has been sent. The seller has 48 hours to accept, decline or make a counter-offer.</div>` : biedOpen ? `
         <div class="biedpaneel">
-          <div style="font-family:var(--sans);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--grijs);margin-bottom:10px">Uw bod</div>
+          <div style="font-family:var(--sans);font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--grijs);margin-bottom:10px">Your offer</div>
           <input type="number" id="biedbedrag" min="${Math.ceil(it.prijs * 0.7)}" max="${it.prijs}" placeholder="${Math.ceil(it.prijs * 0.7)} - ${it.prijs}">
-          <button class="knop klein" style="vertical-align:top;margin-left:8px" onclick="verstuurBod(${it.prijs})">Verstuur</button>
-          <div class="biedregel">Minimaal ${eur(Math.ceil(it.prijs * 0.7))} (70% van de vraagprijs). Uw bod is 48 uur geldig; de verkoper kan accepteren, afwijzen of een tegenbod doen.</div>
+          <button class="knop klein" style="vertical-align:top;margin-left:8px" onclick="verstuurBod(${it.prijs})">Send</button>
+          <div class="biedregel">Minimum ${eur(Math.ceil(it.prijs * 0.7))} (70% of the asking price). Your offer is valid for 48 hours; the seller can accept, decline or make a counter-offer.</div>
         </div>` : ''}
 
         <div style="margin-top:30px">
-          <div class="sectiekop">Conditierapport</div>
+          <div class="sectiekop">Condition report</div>
           <dl>
-            ${Object.entries(it.slijtage).filter(([, w]) => w !== 'n.v.t.').map(([zone, w]) => `
+            ${Object.entries(it.slijtage).filter(([, w]) => w !== 'n/a').map(([zone, w]) => `
             <div class="zone-rij"><dt>${zone}</dt><dd>${w}</dd></div>`).join('')}
           </dl>
-          <p class="biedregel" style="margin-top:10px">Genoteerd door de verkoper; ons atelier controleert en scherpt dit rapport aan tijdens de fysieke expertise.</p>
+          <p class="biedregel" style="margin-top:10px">Noted by the seller; our atelier checks and refines this report during the physical expertise.</p>
         </div>
 
-        ${!it.zakelijk ? '<p class="sub" style="margin-top:18px">U koopt van een particulier; wettelijk herroepingsrecht is niet van toepassing. Elk stuk wordt v&oacute;&oacute;r verzending fysiek ge&euml;xpertiseerd.</p>' : ''}
+        ${!it.zakelijk ? '<p class="sub" style="margin-top:18px">You are buying from a private seller, so the statutory right of withdrawal does not apply. Every piece is physically expertised before dispatch.</p>' : ''}
       </div>
 
     </div>`;
@@ -1394,7 +1494,7 @@ function verstuurBod(vraagprijs) {
   const bedrag = Number(invoer && invoer.value);
   const min = Math.ceil(vraagprijs * 0.7);
   if (!bedrag || bedrag < min || bedrag > vraagprijs) {
-    toast(`Een bod moet tussen <b>${eur(min)}</b> en <b>${eur(vraagprijs)}</b> liggen.`);
+    toast(`An offer must be between <b>${eur(min)}</b> and <b>${eur(vraagprijs)}</b>.`);
     return;
   }
   biedVerstuurd = bedrag;
@@ -1403,13 +1503,13 @@ function verstuurBod(vraagprijs) {
   openBiedingen.unshift({
     id: 'K' + (++bodTeller),
     stuk: `${kijkItem.titel} ${kijkItem.jaar}`,
-    bieder: 'Koos K. (u, als demo-koper)',
+    bieder: 'Koos K. (you, as demo buyer)',
     bedrag,
     vraagprijs,
-    verloopt: 'verloopt over 48 uur',
+    verloopt: 'expires in 48 hours',
   });
   notif('account', true);
-  toast('Bod verstuurd. <b>Bekijk het als verkoper onder Mijn account.</b>');
+  toast('Offer sent. <b>View it as a seller under My account.</b>');
   render();
 }
 
@@ -1417,30 +1517,30 @@ function htmlCheckout(it) {
   const fee = it.prijs * KOPERSFEE;
   const totaal = it.prijs + fee + VERZENDING;
   return `
-    <button class="terug" onclick="scherm='detail';render()">&larr; Terug naar het stuk</button>
+    <button class="terug" onclick="scherm='detail';render()">&larr; Back to the piece</button>
     <div class="paneel" style="max-width:560px;margin:0 auto">
-      <div class="voorregel">Acquisitie</div>
+      <div class="voorregel">Acquisition</div>
       <h2 class="kop" style="font-size:24px">Chanel ${it.titel} ${it.jaar}</h2>
-      <p class="sub" style="margin-bottom:14px">Uw betaling wordt veilig vastgehouden en pas na levering vrijgegeven aan de verkoper.</p>
+      <p class="sub" style="margin-bottom:14px">Your payment is held securely and only released to the seller after delivery.</p>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Het stuk</span><span>${eur(it.prijs)}</span></div>
-        <div class="bon-rij"><span class="oms">Expertise en kopersbescherming (5%)</span><span>${eur(fee)}</span></div>
-        <div class="bon-rij"><span class="oms">Verzekerde verzending</span><span>${eur(VERZENDING)}</span></div>
-        <div class="bon-rij totaal"><span class="oms">Totaal</span><span>${eur(totaal)}</span></div>
+        <div class="bon-rij"><span class="oms">The piece</span><span>${eur(it.prijs)}</span></div>
+        <div class="bon-rij"><span class="oms">Expertise and buyer protection (5%)</span><span>${eur(fee)}</span></div>
+        <div class="bon-rij"><span class="oms">Insured shipping</span><span>${eur(VERZENDING)}</span></div>
+        <div class="bon-rij totaal"><span class="oms">Total</span><span>${eur(totaal)}</span></div>
       </div>
       <div class="betaalopties">
-        ${['iDEAL', 'Kaart', 'Bancontact', 'SEPA'].map(m =>
+        ${['iDEAL', 'Card', 'Bancontact', 'SEPA'].map(m =>
           `<button class="betaaloptie ${betaalmethode === m ? 'gekozen' : ''}" onclick="betaalmethode='${m}';render()">${m}</button>`).join('')}
       </div>
-      <button class="knop goud blok" onclick="betaal()">Betaal ${eur(totaal)} &mdash; ${betaalmethode}</button>
-      <p class="voetnoot">In het echte platform is dit het Stripe-betaalscherm</p>
+      <button class="knop goud blok" onclick="betaal()">Pay ${eur(totaal)} &mdash; ${betaalmethode}</button>
+      <p class="voetnoot">In the real platform this is the Stripe payment screen</p>
     </div>`;
 }
 
 function betaal() {
   order = { item: kijkItem, status: 'PAID', afgekeurd: false };
   scherm = 'tracking';
-  toast('Betaling ontvangen. <b>De verkoper krijgt nu een verzekerd verzendlabel.</b>');
+  toast('Payment received. <b>The seller now receives an insured shipping label.</b>');
   notif('account', true);
   render();
 }
@@ -1450,24 +1550,24 @@ function htmlTracking() {
   const huidig = STAPPEN[idx];
   const volgende = STAPPEN[idx + 1];
   return `
-    <button class="terug" onclick="scherm='browse';render()">&larr; De collectie</button>
+    <button class="terug" onclick="scherm='browse';render()">&larr; The Collection</button>
     <div class="paneel">
       <div class="voorregel">Order N&deg; SI-2026-001</div>
       <h2 class="kop" style="font-size:24px">Chanel ${order.item.titel} ${order.item.jaar}</h2>
       ${order.afgekeurd ? '' : `
       <div class="status-nu">
         <div>
-          <div class="caps-nu" style="font-family:var(--sans);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--goud-diep);margin-bottom:5px">Status nu &middot; stap ${idx + 1} van ${STAPPEN.length}</div>
+          <div class="caps-nu" style="font-family:var(--sans);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--goud-diep);margin-bottom:5px">Status now &middot; step ${idx + 1} of ${STAPPEN.length}</div>
           <div class="groot">${huidig ? huidig.titel : ''}</div>
         </div>
-        <div class="toel">${huidig ? huidig.toel : ''}${volgende ? ` <br><b>Hierna:</b> ${volgende.titel.toLowerCase()}.` : ''}</div>
+        <div class="toel">${huidig ? huidig.toel : ''}${volgende ? ` <br><b>Next:</b> ${volgende.titel.toLowerCase()}.` : ''}</div>
       </div>`}
-      <p class="sub" style="margin-top:0">Wissel van tabblad bovenaan om de volgende stap zelf uit te voeren; deze pagina werkt live bij.</p>
+      <p class="sub" style="margin-top:0">Switch tabs at the top to carry out the next step yourself; this page updates live.</p>
       ${order.afgekeurd ? `
         <div class="melding rood" style="margin-top:24px">
-          <b>Expertise negatief.</b> Het stuk wijkt af van de beschrijving. Uw volledige betaling wordt teruggestort; het stuk gaat retour naar de verkoper op diens kosten. Zo beschermt de maison uw vertrouwen.
+          <b>Expertise negative.</b> The piece differs from the description. Your payment will be refunded in full and the piece goes back to the seller at their expense. That is how the maison protects your trust.
         </div>
-        <button class="knop sec" onclick="resetDemo()">Demo opnieuw beginnen</button>` : `
+        <button class="knop sec" onclick="resetDemo()">Restart the demo</button>` : `
         <ul class="tijdlijn">
           ${STAPPEN.map((s, i) => `
             <li class="${i < idx ? 'klaar' : i === idx ? 'nu' : ''}">
@@ -1475,11 +1575,11 @@ function htmlTracking() {
               <div><div class="stap-titel">${s.titel}</div><div class="stap-toel">${s.toel}</div></div>
             </li>`).join('')}
         </ul>
-        ${order.status === 'SHIPPED_TO_BUYER' ? `<button class="knop" onclick="zetStatus('DELIVERED','Het pakket is bezorgd. Nog &eacute;&eacute;n stap.')">Simuleer de bezorging</button>` : ''}
-        ${order.status === 'DELIVERED' ? `<button class="knop groen" onclick="zetStatus('COMPLETED','Voltooid. <b>De verkoper is direct uitbetaald.</b>', 'account')">Bevestig ontvangst</button>` : ''}
+        ${order.status === 'SHIPPED_TO_BUYER' ? `<button class="knop" onclick="zetStatus('DELIVERED','The parcel has been delivered. One step to go.')">Simulate the delivery</button>` : ''}
+        ${order.status === 'DELIVERED' ? `<button class="knop groen" onclick="zetStatus('COMPLETED','Completed. <b>The seller has been paid out straight away.</b>', 'account')">Confirm receipt</button>` : ''}
         ${order.status === 'COMPLETED' ? `
-          <div class="melding groen"><b>Voltooid.</b> Bekijk de uitbetaling onder Mijn account &rsaquo; Verkoper, of begin de demo opnieuw.</div>
-          <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw beginnen</button>` : ''}
+          <div class="melding groen"><b>Completed.</b> View the payout under My account &rsaquo; Seller, or start the demo again.</div>
+          <button class="knop sec klein" onclick="resetDemo()">Restart the demo</button>` : ''}
       `}
     </div>`;
 }
@@ -1494,9 +1594,9 @@ function renderAtelier() {
   if (atelierTab === 'rapportage') { v.innerHTML = htmlRapportage(); return; }
   const kop = `
     <div class="centreer intro">
-      <div class="voorregel">Het Atelier</div>
-      <h2 class="kop">Expertise en authenticatie</h2>
-      <p class="sub">Elk stuk doorloopt vijf vaste fasen. Bij elke overgang genereren wij het label, volgen wij de zending en krijgt de koper automatisch een update.</p>
+      <div class="voorregel">The Atelier</div>
+      <h2 class="kop">Expertise and authentication</h2>
+      <p class="sub">Every piece moves through five fixed phases. At each transition we generate the label, follow the shipment and the buyer receives an automatic update.</p>
     </div>`;
 
   // De demo-order zit in een van de fasen en krijgt daar een werkkaart met acties
@@ -1523,7 +1623,7 @@ function renderAtelier() {
               ? `<span class="track">${trackCode(o.nr)}</span>`
               : `<span class="status-chip ${o.chipKlasse || ''}">${f.titel}</span>`}
           </div>`).join('')}
-        ${totaal === 0 ? `<div class="fase-leeg">Niets in deze fase</div>` : ''}
+        ${totaal === 0 ? `<div class="fase-leeg">Nothing in this phase</div>` : ''}
         <p class="biedregel" style="margin-top:8px">${f.uitleg}</p>
       </div>`;
   }).join('');
@@ -1531,28 +1631,28 @@ function renderAtelier() {
   // Vooraf: betaald, wachten tot de verkoper het pakket meegeeft
   const wachtBlok = order && order.status === 'PAID' ? `
     <div class="werkkaart" style="margin-bottom:26px">
-      <div class="fase-kop actief" style="margin-bottom:10px"><span class="nr">0</span>Label verstuurd, wachten op de verkoper</div>
+      <div class="fase-kop actief" style="margin-bottom:10px"><span class="nr">0</span>Label sent, waiting for the seller</div>
       <div class="wachtrij-info" style="margin-bottom:10px">
         <div class="wachtrij-titel">Chanel ${order.item.titel} ${order.item.jaar}</div>
-        <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(order.item.prijs)} &middot; verkoper: ${order.item.verkoper}</div>
+        <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(order.item.prijs)} &middot; seller: ${order.item.verkoper}</div>
       </div>
       <div class="label-kaart">
-        <b>Verzendlabel gegenereerd</b> en per e-mail naar de verkoper gestuurd.<br>
-        Trackingcode <span class="track goud">${trackCode('SI-2026-001-A')}</span> &middot; verzekerd tot ${eur(order.item.prijs)}<br>
-        Zodra de verkoper het pakket afgeeft, zien wij en de koper dezelfde scan.
+        <b>Shipping label generated</b> and emailed to the seller.<br>
+        Tracking code <span class="track goud">${trackCode('SI-2026-001-A')}</span> &middot; insured up to ${eur(order.item.prijs)}<br>
+        As soon as the seller hands over the parcel, we and the buyer see the same scan.
       </div>
-      <div class="stap-uitleg" style="margin:0">Ga naar <b>Mijn account &rsaquo; Als verkoper</b> om het pakket af te geven.</div>
+      <div class="stap-uitleg" style="margin:0">Go to <b>My account &rsaquo; As seller</b> to hand over the parcel.</div>
     </div>` : '';
 
   const afgerond = order && (order.afgekeurd || order.status === 'COMPLETED') ? `
     <div class="melding ${order.afgekeurd ? 'rood' : 'groen'}" style="margin-bottom:24px">
       ${order.afgekeurd
-        ? 'Uw demo-order is afgekeurd en retour gezonden naar de verkoper; de koper is volledig terugbetaald.'
-        : 'Uw demo-order is afgerond en uitbetaald. Begin de demo opnieuw via de Boutique voor een nieuwe ronde.'}
+        ? 'Your demo order was rejected and returned to the seller; the buyer has been refunded in full.'
+        : 'Your demo order is complete and paid out. Start the demo again from the Boutique for another round.'}
     </div>` : '';
 
   const geenOrder = !order ? `
-    <div class="stap-uitleg" style="margin-bottom:24px">Verwerf een stuk in de <b>Boutique</b> om zelf een order door deze vijf fasen te loodsen. De overige stukken hieronder laten zien hoe het bord er op een werkdag uitziet.</div>` : '';
+    <div class="stap-uitleg" style="margin-bottom:24px">Acquire a piece in the <b>Boutique</b> to guide an order through these five phases yourself. The other pieces below show what the board looks like on a working day.</div>` : '';
 
   v.innerHTML = kop + geenOrder + afgerond + wachtBlok + bord;
 }
@@ -1560,26 +1660,26 @@ function renderAtelier() {
 // ── Papertrail: elke handeling vastgelegd ──
 function htmlPapertrail() {
   const regels = [
-    ['13:42', 'Order', 'SI-2026-0139', 'Status gewijzigd', 'AWAITING_ITEM → ITEM_RECEIVED', 'Lotte'],
-    ['13:41', 'Verzending', 'SI-2026-0139', 'Ontvangen', 'binnenscan atelier', 'Lotte'],
-    ['12:05', 'Inspectie', 'SI-2026-0138', 'Gekeurd gestart', 'expert toegewezen', 'Lotte'],
-    ['11:02', 'Inspectie', 'SI-2026-0136', 'Gekeurd', 'APPROVED · authentiek bevonden', 'Marieke'],
-    ['10:58', 'Order', 'SI-2026-0136', 'Status gewijzigd', 'IN_INSPECTION → APPROVED', 'Marieke'],
-    ['09:14', 'Verzending', 'SI-2026-0139', 'Bezorgd', 'scan sorteercentrum', 'systeem'],
-    ['08:30', 'Verzending', 'SI-2026-0134', 'Verzonden', 'label gegenereerd, koper ingelicht', 'Youssef'],
-    ['gisteren', 'Order', 'SI-2026-0131', 'Status gewijzigd', 'IN_INSPECTION → REJECTED', 'Youssef'],
-    ['gisteren', 'Uitbetaling', 'SI-2026-0128', 'Uitbetaling klaargezet', '€ 1.322,50 aan Vera V.', 'systeem'],
+    ['13:42', 'Order', 'SI-2026-0139', 'Status changed', 'AWAITING_ITEM → ITEM_RECEIVED', 'Lotte'],
+    ['13:41', 'Shipment', 'SI-2026-0139', 'Received', 'atelier intake scan', 'Lotte'],
+    ['12:05', 'Inspection', 'SI-2026-0138', 'Inspection started', 'expert assigned', 'Lotte'],
+    ['11:02', 'Inspection', 'SI-2026-0136', 'Inspected', 'APPROVED · found authentic', 'Marieke'],
+    ['10:58', 'Order', 'SI-2026-0136', 'Status changed', 'IN_INSPECTION → APPROVED', 'Marieke'],
+    ['09:14', 'Shipment', 'SI-2026-0139', 'Delivered', 'sorting centre scan', 'system'],
+    ['08:30', 'Shipment', 'SI-2026-0134', 'Dispatched', 'label generated, buyer notified', 'Youssef'],
+    ['yesterday', 'Order', 'SI-2026-0131', 'Status changed', 'IN_INSPECTION → REJECTED', 'Youssef'],
+    ['yesterday', 'Payout', 'SI-2026-0128', 'Payout prepared', '€ 1,322.50 to Vera V.', 'system'],
   ];
   return `
     <div class="centreer intro">
-      <div class="voorregel">Papertrail</div>
-      <h2 class="kop">Alles vastgelegd</h2>
-      <p class="sub">Elke statusovergang, keuring, label en uitbetaling wordt onwisbaar bewaard: wie, wat, wanneer. Onmisbaar bij een geschil of een vraag van de Belastingdienst.</p>
+      <div class="voorregel">Audit trail</div>
+      <h2 class="kop">Everything on record</h2>
+      <p class="sub">Every status change, inspection, label and payout is kept indelibly: who, what, when. Essential in a dispute or a question from the tax authorities.</p>
     </div>
     <div class="paneel">
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-        <button class="knop klein sec" onclick="toast('Filter op entiteit, actie, order of medewerker.')">Filteren</button>
-        <button class="knop klein sec" onclick="toast('Export levert een CSV voor uw boekhouder, met dezelfde filters.')">Exporteer CSV</button>
+        <button class="knop klein sec" onclick="toast('Filter by entity, action, order or team member.')">Filter</button>
+        <button class="knop klein sec" onclick="toast('Export delivers a CSV for your accountant, with the same filters.')">Export CSV</button>
       </div>
       <div class="bon">
         ${regels.map(([t, ent, id, actie, det, wie]) => `
@@ -1588,7 +1688,7 @@ function htmlPapertrail() {
             <span style="font-family:var(--sans);font-size:11px;color:#3a3a3a;white-space:nowrap">${wie}</span>
           </div>`).join('')}
       </div>
-      <p class="biedregel">Regels worden nooit gewijzigd of verwijderd; correcties komen er als nieuwe regel bij.</p>
+      <p class="biedregel">Entries are never changed or deleted; corrections are added as a new entry.</p>
     </div>`;
 }
 
@@ -1597,37 +1697,37 @@ function htmlVoorraad() {
   const inHuis = ANDERE_ORDERS.filter(o => ['ITEM_RECEIVED', 'IN_INSPECTION', 'APPROVED'].includes(o.fase));
   const eigen = order && !order.afgekeurd && ['ITEM_RECEIVED', 'IN_INSPECTION', 'APPROVED'].includes(order.status);
   const waarde = inHuis.reduce((s, o) => s + o.prijs, 0) + (eigen ? order.item.prijs : 0);
-  const plek = { ITEM_RECEIVED: 'Intake-rek A', IN_INSPECTION: 'Werkbank 2', APPROVED: 'Kluis' };
+  const plek = { ITEM_RECEIVED: 'Intake rack A', IN_INSPECTION: 'Workbench 2', APPROVED: 'Vault' };
   return `
     <div class="centreer intro">
-      <div class="voorregel">Voorraad</div>
-      <h2 class="kop">Wat er nu in huis ligt</h2>
-      <p class="sub">Alles wat fysiek in het atelier aanwezig is, met locatie en verzekerde waarde. Dit is het overzicht dat u aan uw verzekeraar laat zien.</p>
+      <div class="voorregel">Inventory</div>
+      <h2 class="kop">What is in house right now</h2>
+      <p class="sub">Everything physically present in the atelier, with location and insured value. This is the overview you show your insurer.</p>
     </div>
     <div class="paneel">
       <div class="bon" style="margin-bottom:18px">
-        <div class="bon-rij"><span class="oms">Stuks in huis</span><span>${inHuis.length + (eigen ? 1 : 0)}</span></div>
-        <div class="bon-rij totaal"><span class="oms">Totale verzekerde waarde</span><span>${eur(waarde)}</span></div>
+        <div class="bon-rij"><span class="oms">Pieces in house</span><span>${inHuis.length + (eigen ? 1 : 0)}</span></div>
+        <div class="bon-rij totaal"><span class="oms">Total insured value</span><span>${eur(waarde)}</span></div>
       </div>
       ${eigen ? `
         <div class="wachtrij-item" style="border-color:var(--goud)">
           <div class="mini-foto quilt">${art(order.item.art)}</div>
           <div class="wachtrij-info">
             <div class="wachtrij-titel">Chanel ${order.item.titel} ${order.item.jaar}</div>
-            <div class="wachtrij-meta">SI-2026-001 &middot; ${plek[order.status]} &middot; verzekerd ${eur(order.item.prijs)}</div>
+            <div class="wachtrij-meta">SI-2026-001 &middot; ${plek[order.status]} &middot; insured ${eur(order.item.prijs)}</div>
           </div>
-          <span class="status-chip">uw demo-order</span>
+          <span class="status-chip">your demo order</span>
         </div>` : ''}
       ${inHuis.map(o => `
         <div class="wachtrij-item">
           <div class="mini-foto quilt">${art(o.art)}</div>
           <div class="wachtrij-info">
             <div class="wachtrij-titel">Chanel ${o.titel}</div>
-            <div class="wachtrij-meta">${o.nr} &middot; ${plek[o.fase]} &middot; verzekerd ${eur(o.prijs)}</div>
+            <div class="wachtrij-meta">${o.nr} &middot; ${plek[o.fase]} &middot; insured ${eur(o.prijs)}</div>
           </div>
           <span class="track">${trackCode(o.nr)}</span>
         </div>`).join('')}
-      <p class="biedregel">Stukken onderweg naar het atelier of naar de koper tellen niet mee: die vallen onder de vervoerdersverzekering.</p>
+      <p class="biedregel">Pieces in transit to the atelier or to the buyer are not counted: those fall under the carrier&rsquo;s insurance.</p>
     </div>`;
 }
 
@@ -1648,83 +1748,83 @@ function htmlRapportage() {
 
   return `
     <div class="centreer intro">
-      <div class="voorregel">Rapportage</div>
-      <h2 class="kop">Hoe loopt de marktplaats</h2>
-      <p class="sub">Uw eigen stuurinformatie: aanbod, handel, atelier en geld. Alleen zichtbaar voor uw team.</p>
+      <div class="voorregel">Reporting</div>
+      <h2 class="kop">How the marketplace is doing</h2>
+      <p class="sub">Your own management information: supply, trade, atelier and money. Visible only to your team.</p>
     </div>
 
-    <div class="sectiekop">Afgelopen 7 dagen</div>
+    <div class="sectiekop">Last 7 days</div>
     ${grid(
-      kpi('Nieuwe listings', '18', 'geplaatst door 11 verkopers', '+22%') +
-      kpi('Verkocht', '9', 'waarvan 2 via een geaccepteerd bod', '+12%') +
-      kpi('Omzet in verkopen', eur(31450), 'gemiddeld ' + eur(3494) + ' per stuk', '+8%') +
-      kpi('Uw commissie', eur(3145), '10% verkoperszijde plus 5% koperszijde', '+8%')
+      kpi('New listings', '18', 'placed by 11 sellers', '+22%') +
+      kpi('Sold', '9', 'of which 2 through an accepted offer', '+12%') +
+      kpi('Sales revenue', eur(31450), 'on average ' + eur(3494) + ' per piece', '+8%') +
+      kpi('Your commission', eur(3145), '10% seller side plus 5% buyer side', '+8%')
     )}
 
-    <div class="sectiekop">De collectie nu</div>
+    <div class="sectiekop">The collection now</div>
     ${grid(
-      kpi('Stuks te koop', '412', 'waarvan 47 gereserveerd of in bod') +
-      kpi('Waarde collectie', eur(1284000), 'gemiddelde vraagprijs ' + eur(3117)) +
-      kpi('In het atelier', eur(16600), '4 stuks fysiek in huis') +
-      kpi('Gemiddelde tijd te koop', '23 dagen', 'mediaan 14 dagen')
+      kpi('Pieces for sale', '412', 'of which 47 reserved or under offer') +
+      kpi('Collection value', eur(1284000), 'average asking price ' + eur(3117)) +
+      kpi('In the atelier', eur(16600), '4 pieces physically in house') +
+      kpi('Average time for sale', '23 days', 'median 14 days')
     )}
 
     <div class="paneel">
-      <div class="sectiekop">Aanbod per categorie</div>
-      ${balk('Tassen', 68, '280 stuks · ' + eur(982000))}
-      ${balk('Sieraden', 17, '70 stuks · ' + eur(126000))}
-      ${balk('Kleding', 9, '38 stuks · ' + eur(121000))}
-      ${balk('Accessoires', 6, '24 stuks · ' + eur(55000))}
-      <p class="biedregel">Tassen dragen de omzet; kleding groeit het hardst (+31% ten opzichte van vorige maand).</p>
+      <div class="sectiekop">Supply per category</div>
+      ${balk('Bags', 68, '280 pieces · ' + eur(982000))}
+      ${balk('Jewellery', 17, '70 pieces · ' + eur(126000))}
+      ${balk('Clothing', 9, '38 pieces · ' + eur(121000))}
+      ${balk('Accessories', 6, '24 pieces · ' + eur(55000))}
+      <p class="biedregel">Bags carry the revenue; clothing is growing fastest (+31% compared with last month).</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Handel en conversie</div>
+      <div class="sectiekop">Trade and conversion</div>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Biedingen uitgebracht deze week</span><span>34</span></div>
-        <div class="bon-rij"><span class="oms">Daarvan geaccepteerd</span><span>11 (32%)</span></div>
-        <div class="bon-rij"><span class="oms">Gemiddeld geaccepteerd bod</span><span>86% van de vraagprijs</span></div>
-        <div class="bon-rij"><span class="oms">Verkocht tegen vaste prijs</span><span>7 van de 9</span></div>
-        <div class="bon-rij totaal"><span class="oms">Bezoeker naar koop</span><span>1,8%</span></div>
+        <div class="bon-rij"><span class="oms">Offers made this week</span><span>34</span></div>
+        <div class="bon-rij"><span class="oms">Of which accepted</span><span>11 (32%)</span></div>
+        <div class="bon-rij"><span class="oms">Average accepted offer</span><span>86% of the asking price</span></div>
+        <div class="bon-rij"><span class="oms">Sold at a fixed price</span><span>7 out of 9</span></div>
+        <div class="bon-rij totaal"><span class="oms">Visitor to purchase</span><span>1.8%</span></div>
       </div>
-      <p class="biedregel">Stukken waarop bieden is toegestaan verkopen sneller, maar leveren gemiddeld 14% minder op.</p>
+      <p class="biedregel">Pieces open to offers sell faster, but yield 14% less on average.</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Het atelier</div>
+      <div class="sectiekop">The atelier</div>
       ${grid(
-        kpi('Doorlooptijd', '3,4 dagen', 'binnenkomst tot verzending', '-0,4 dag') +
-        kpi('Afkeurpercentage', '6,2%', '4 van de 64 deze maand') +
-        kpi('Verwerkt', '64', 'stukken deze maand', '+9') +
-        kpi('Capaciteit', '78%', 'van de wekelijkse expertisecapaciteit'), 150
+        kpi('Turnaround', '3.4 days', 'arrival to dispatch', '-0.4 days') +
+        kpi('Rejection rate', '6.2%', '4 out of 64 this month') +
+        kpi('Processed', '64', 'pieces this month', '+9') +
+        kpi('Capacity', '78%', 'of weekly expertise capacity'), 150
       )}
-      <div class="sectiekop" style="margin-top:6px">Gemiddelde tijd per fase</div>
-      ${balk('Onderweg naar het atelier', 62, '1,8 dagen')}
-      ${balk('Te behandelen', 20, '0,6 dagen')}
-      ${balk('In expertise', 14, '0,4 dagen')}
-      ${balk('Klaar voor verzending', 8, '0,2 dagen')}
-      ${balk('Onderweg naar de koper', 48, '1,4 dagen')}
-      <p class="biedregel">De grootste winst zit vooraan: sneller labelgebruik door verkopers verkort de hele keten.</p>
+      <div class="sectiekop" style="margin-top:6px">Average time per phase</div>
+      ${balk('On its way to the atelier', 62, '1.8 days')}
+      ${balk('To be handled', 20, '0.6 days')}
+      ${balk('In expertise', 14, '0.4 days')}
+      ${balk('Ready for dispatch', 8, '0.2 days')}
+      ${balk('On its way to the buyer', 48, '1.4 days')}
+      <p class="biedregel">The biggest gain is at the front: sellers using their label sooner shortens the whole chain.</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Redenen van afkeuring</div>
-      ${balk('Afwijkende stiksels of hardware', 50, '2 stuks', 'var(--bordeaux)')}
-      ${balk('Conditie wijkt af van de listing', 25, '1 stuk', 'var(--bordeaux)')}
-      ${balk('Serienummer klopt niet met het jaar', 25, '1 stuk', 'var(--bordeaux)')}
-      <p class="biedregel">Elke afkeuring kost gemiddeld ${eur(9.5)} retourkosten voor de verkoper en 1,2 dag ateliertijd.</p>
+      <div class="sectiekop">Reasons for rejection</div>
+      ${balk('Deviant stitching or hardware', 50, '2 pieces', 'var(--bordeaux)')}
+      ${balk('Condition differs from the listing', 25, '1 piece', 'var(--bordeaux)')}
+      ${balk('Serial number does not match the year', 25, '1 piece', 'var(--bordeaux)')}
+      <p class="biedregel">Every rejection costs the seller ${eur(9.5)} in return shipping on average, plus 1.2 days of atelier time.</p>
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">Verkopers en kopers</div>
+      <div class="sectiekop">Sellers and buyers</div>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Actieve verkopers</span><span>63 (11 zakelijk)</span></div>
-        <div class="bon-rij"><span class="oms">Nieuwe verkopers deze week</span><span>5</span></div>
-        <div class="bon-rij"><span class="oms">Verkopers boven de DAC7-drempel</span><span>4 &middot; rapportageplicht</span></div>
-        <div class="bon-rij"><span class="oms">Terugkerende kopers</span><span>28%</span></div>
-        <div class="bon-rij totaal"><span class="oms">Openstaand uit te betalen</span><span>${eur(24800)}</span></div>
+        <div class="bon-rij"><span class="oms">Active sellers</span><span>63 (11 business)</span></div>
+        <div class="bon-rij"><span class="oms">New sellers this week</span><span>5</span></div>
+        <div class="bon-rij"><span class="oms">Sellers above the DAC7 threshold</span><span>4 &middot; reporting obligation</span></div>
+        <div class="bon-rij"><span class="oms">Returning buyers</span><span>28%</span></div>
+        <div class="bon-rij totaal"><span class="oms">Outstanding to be paid out</span><span>${eur(24800)}</span></div>
       </div>
-      <button class="knop klein sec" onclick="toast('Export levert alle cijfers als CSV, met dezelfde periode.')">Exporteer rapportage</button>
+      <button class="knop klein sec" onclick="toast('Export delivers all figures as CSV, for the same period.')">Export report</button>
     </div>`;
 }
 
@@ -1738,43 +1838,43 @@ function werkkaart(f) {
   if (f.key === 'AWAITING_ITEM') {
     inhoud = `
       <div class="label-kaart">
-        Onderweg met <span class="track goud">${trackIn}</span> &middot; laatste scan: sorteercentrum, vandaag 07:12<br>
-        De koper ziet dezelfde tracking in zijn bestelling.
+        In transit with <span class="track goud">${trackIn}</span> &middot; last scan: sorting centre, today 07:12<br>
+        The buyer sees the same tracking in their order.
       </div>
-      <button class="knop" onclick="ontvangst()">Scan binnenkomst &mdash; stuk ontvangen</button>`;
+      <button class="knop" onclick="ontvangst()">Scan arrival &mdash; piece received</button>`;
   } else if (f.key === 'ITEM_RECEIVED') {
     inhoud = `
-      <div class="stap-uitleg" style="margin-bottom:12px">Binnengescand om ${order.binnenTijd || 'zojuist'}. Klaargelegd voor de expert.</div>
-      <button class="knop" onclick="zetStatus('IN_INSPECTION','Expertise gestart. De koper ziet: uw stuk wordt beoordeeld.','koper')">Neem in behandeling</button>`;
+      <div class="stap-uitleg" style="margin-bottom:12px">Scanned in at ${order.binnenTijd || 'just now'}. Set aside for the expert.</div>
+      <button class="knop" onclick="zetStatus('IN_INSPECTION','Expertise started. The buyer sees: your piece is being assessed.','koper')">Take into handling</button>`;
   } else if (f.key === 'IN_INSPECTION') {
     inhoud = `
-      <div class="stap-uitleg" style="margin-bottom:14px"><b>Protocol:</b> hologramsticker en serienummer &middot; stiksels (zeven per centimeter) &middot; hardware-gravures &middot; leerstructuur en geur &middot; vergelijking met de listingfoto's.</div>
+      <div class="stap-uitleg" style="margin-bottom:14px"><b>Protocol:</b> hologram sticker and serial number &middot; stitching (seven per centimetre) &middot; hardware engravings &middot; leather structure and scent &middot; comparison with the listing photographs.</div>
       <div class="rapport-grid">
-        <div class="rapport-veld"><label>Serienummer</label><input id="rp-serie" value="${(it.serie || '').replace('Serie ', '')}"></div>
-        <div class="rapport-veld"><label>Conditie na expertise</label>
+        <div class="rapport-veld"><label>Serial number</label><input id="rp-serie" value="${(it.serie || '').replace('Series ', '')}"></div>
+        <div class="rapport-veld"><label>Condition after expertise</label>
           <select id="rp-conditie">${CONDITIES.map(c => `<option ${c === it.conditie ? 'selected' : ''}>${c}</option>`).join('')}</select>
         </div>
         <div class="rapport-veld"><label>Expert</label>
           <select id="rp-expert"><option>Lotte</option><option>Marieke</option><option>Youssef</option></select>
         </div>
       </div>
-      <div class="rapport-veld"><label>Bevindingen</label><input id="rp-notitie" placeholder="Bijv. hologram intact, stiksels conform, conditie komt overeen met de listing"></div>
-      <button class="knop groen" onclick="rondExpertiseAf(true)">Rapport opslaan &mdash; goedkeuren</button>
-      <button class="knop rood" onclick="rondExpertiseAf(false)">Rapport opslaan &mdash; afkeuren</button>`;
+      <div class="rapport-veld"><label>Findings</label><input id="rp-notitie" placeholder="E.g. hologram intact, stitching correct, condition matches the listing"></div>
+      <button class="knop groen" onclick="rondExpertiseAf(true)">Save report &mdash; approve</button>
+      <button class="knop rood" onclick="rondExpertiseAf(false)">Save report &mdash; reject</button>`;
   } else if (f.key === 'APPROVED') {
     inhoud = `
-      <div class="melding groen" style="margin:0 0 12px">Rapport opgeslagen: <b>${order.rapport ? order.rapport.conditie : it.conditie}</b>, authentiek bevonden door ${order.rapport ? order.rapport.expert : 'het atelier'}.${order.rapport && order.rapport.notitie ? ` &bdquo;${order.rapport.notitie}"` : ''}</div>
+      <div class="melding groen" style="margin:0 0 12px">Report saved: <b>${order.rapport ? order.rapport.conditie : it.conditie}</b>, found authentic by ${order.rapport ? order.rapport.expert : 'the atelier'}.${order.rapport && order.rapport.notitie ? ` &bdquo;${order.rapport.notitie}"` : ''}</div>
       <div class="label-kaart">
-        Bij doorzetten genereren wij automatisch het verzendlabel naar de koper:<br>
-        <span class="track goud">${trackUit}</span> &middot; verzekerd tot ${eur(it.prijs)} &middot; handtekening vereist
+        On release we automatically generate the shipping label to the buyer:<br>
+        <span class="track goud">${trackUit}</span> &middot; insured up to ${eur(it.prijs)} &middot; signature required
       </div>
-      <button class="knop" onclick="verzendNaarKoper()">Genereer label en zet door naar verzending</button>`;
+      <button class="knop" onclick="verzendNaarKoper()">Generate label and release for dispatch</button>`;
   } else if (f.key === 'SHIPPED_TO_BUYER') {
     inhoud = `
       <div class="label-kaart">
-        Onderweg met <span class="track goud">${trackUit}</span> &middot; koper is per e-mail ge&iuml;nformeerd met dezelfde code.
+        In transit with <span class="track goud">${trackUit}</span> &middot; the buyer has been emailed the same code.
       </div>
-      <div class="stap-uitleg" style="margin:0">Ga naar de <b>Boutique</b> om de bezorging te simuleren.</div>`;
+      <div class="stap-uitleg" style="margin:0">Go to the <b>Boutique</b> to simulate the delivery.</div>`;
   }
 
   return `
@@ -1783,7 +1883,7 @@ function werkkaart(f) {
         <div class="mini-foto quilt">${art(it.art)}</div>
         <div class="wachtrij-info">
           <div class="wachtrij-titel">Chanel ${it.titel} ${it.jaar}</div>
-          <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(it.prijs)} &middot; verkoper: ${it.verkoper} &middot; uw demo-order</div>
+          <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(it.prijs)} &middot; seller: ${it.verkoper} &middot; your demo order</div>
         </div>
       </div>
       ${inhoud}
@@ -1791,28 +1891,28 @@ function werkkaart(f) {
 }
 
 function ontvangst() {
-  order.binnenTijd = new Intl.DateTimeFormat('nl-NL', { hour: '2-digit', minute: '2-digit' }).format(new Date());
-  zetStatus('ITEM_RECEIVED', `Binnengescand om ${order.binnenTijd}. <b>De koper krijgt bericht: uw stuk is ontvangen.</b>`, 'koper');
+  order.binnenTijd = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit' }).format(new Date());
+  zetStatus('ITEM_RECEIVED', `Scanned in at ${order.binnenTijd}. <b>The buyer is notified: your piece has been received.</b>`, 'koper');
 }
 
 function rondExpertiseAf(goedgekeurd) {
   const veld = id => { const el = document.getElementById(id); return el ? el.value : ''; };
   order.rapport = { serie: veld('rp-serie'), conditie: veld('rp-conditie'), expert: veld('rp-expert'), notitie: veld('rp-notitie') };
   if (goedgekeurd) {
-    zetStatus('APPROVED', 'Rapport opgeslagen en goedgekeurd. <b>De koper ziet: authentiek bevonden.</b>', 'koper');
+    zetStatus('APPROVED', 'Report saved and approved. <b>The buyer sees: found authentic.</b>', 'koper');
   } else {
     keurAf();
   }
 }
 
 function verzendNaarKoper() {
-  zetStatus('SHIPPED_TO_BUYER', 'Label gegenereerd en verzonden. <b>De koper heeft de trackingcode per e-mail ontvangen.</b>', 'koper');
+  zetStatus('SHIPPED_TO_BUYER', 'Label generated and dispatched. <b>The buyer has received the tracking code by email.</b>', 'koper');
 }
 
 function keurAf() {
   order.afgekeurd = true;
   order.status = 'REJECTED';
-  toast('<b>Afgekeurd.</b> De koper wordt volledig terugbetaald; het stuk gaat retour op kosten van de verkoper.');
+  toast('<b>Rejected.</b> The buyer is refunded in full; the piece is returned at the seller&rsquo;s expense.');
   notif('koper', true); notif('account', true);
   render();
 }
@@ -1821,8 +1921,8 @@ function keurAf() {
 // MIJN ACCOUNT — één persoon, twee petten (koper én verkoper)
 // ─────────────────────────────────────────────────────────
 const KOPER_STATUS_CHIP = {
-  COMPLETED: { label: 'Afgerond', klasse: 'groen' },
-  REFUNDED: { label: 'Terugbetaald', klasse: 'rood' },
+  COMPLETED: { label: 'Completed', klasse: 'groen' },
+  REFUNDED: { label: 'Refunded', klasse: 'rood' },
 };
 
 // Zijnavigatie per rol: sectie-sleutel, label en teller
@@ -1830,34 +1930,34 @@ function navSecties() {
   if (mijnRol === 'koper') {
     const lopend = order && !order.afgekeurd && order.status !== 'COMPLETED' ? 1 : 0;
     return [
-      { groep: 'Acties', items: [
-        { key: 'bestellingen', label: 'Lopende bestellingen', telling: lopend, actie: lopend > 0 },
+      { groep: 'Actions', items: [
+        { key: 'bestellingen', label: 'Orders in progress', telling: lopend, actie: lopend > 0 },
       ]},
-      { groep: 'Overzicht', items: [
-        { key: 'historie', label: 'Bestelgeschiedenis', telling: EERDERE_BESTELLINGEN.length },
-        { key: 'favorieten', label: 'Favorieten', telling: 3 },
-        { key: 'mijn-biedingen', label: 'Mijn biedingen', telling: biedVerstuurd ? 1 : 0 },
+      { groep: 'Overview', items: [
+        { key: 'historie', label: 'Order history', telling: EERDERE_BESTELLINGEN.length },
+        { key: 'favorieten', label: 'Favourites', telling: 3 },
+        { key: 'mijn-biedingen', label: 'My offers', telling: biedVerstuurd ? 1 : 0 },
       ]},
-      { groep: 'Administratie', items: [
-        { key: 'aankoopbonnen', label: 'Aankoopbonnen', telling: EERDERE_BESTELLINGEN.length },
-        { key: 'gegevens', label: 'Gegevens en adressen' },
+      { groep: 'Administration', items: [
+        { key: 'aankoopbonnen', label: 'Purchase receipts', telling: EERDERE_BESTELLINGEN.length },
+        { key: 'gegevens', label: 'Details and addresses' },
       ]},
     ];
   }
   return [
-    { groep: 'Acties', items: [
-      { key: 'biedingen', label: 'Openstaande biedingen', telling: openBiedingen.length, actie: openBiedingen.length > 0 },
-      { key: 'verkoop', label: 'Lopende verkoop', telling: order && !order.afgekeurd && order.status !== 'COMPLETED' ? 1 : 0, actie: !!(order && order.status === 'PAID') },
+    { groep: 'Actions', items: [
+      { key: 'biedingen', label: 'Open offers', telling: openBiedingen.length, actie: openBiedingen.length > 0 },
+      { key: 'verkoop', label: 'Sale in progress', telling: order && !order.afgekeurd && order.status !== 'COMPLETED' ? 1 : 0, actie: !!(order && order.status === 'PAID') },
     ]},
-    { groep: 'Voorraad', items: [
-      { key: 'listings', label: 'Uw listings', telling: ITEMS.filter(i => i.verkoper === 'Vera V.').length },
-      { key: 'verkocht', label: 'Verkochte stukken', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
+    { groep: 'Inventory', items: [
+      { key: 'listings', label: 'Your listings', telling: ITEMS.filter(i => i.verkoper === 'Vera V.').length },
+      { key: 'verkocht', label: 'Sold pieces', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
     ]},
-    { groep: 'Administratie', items: [
-      { key: 'biedhistorie', label: 'Biedhistorie', telling: biedHistorie.length },
-      { key: 'facturen', label: 'Facturen', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
-      { key: 'uitbetalingen', label: 'Uitbetalingen' },
-      { key: 'gegevens', label: 'Gegevens en KYC' },
+    { groep: 'Administration', items: [
+      { key: 'biedhistorie', label: 'Offer history', telling: biedHistorie.length },
+      { key: 'facturen', label: 'Invoices', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
+      { key: 'uitbetalingen', label: 'Payouts' },
+      { key: 'gegevens', label: 'Details and KYC' },
     ]},
   ];
 }
@@ -1884,13 +1984,13 @@ function renderAccount() {
 
   const kop = `
     <div class="centreer intro" style="margin-bottom:22px">
-      <div class="voorregel">Mijn Account</div>
+      <div class="voorregel">My Account</div>
       <h2 class="kop">Vera V.</h2>
-      <p class="sub">Particulier account &middot; identiteit geverifieerd via Stripe</p>
+      <p class="sub">Private account &middot; identity verified through Stripe</p>
     </div>
     <div class="wisselaar">
-      <button class="wissel-knop ${mijnRol === 'koper' ? 'actief' : ''}" onclick="mijnRol='koper';accountSectie=null;accountDetail=null;render()">Als koper</button>
-      <button class="wissel-knop ${mijnRol === 'verkoper' ? 'actief' : ''}" onclick="mijnRol='verkoper';accountSectie=null;accountDetail=null;render()">Als verkoper</button>
+      <button class="wissel-knop ${mijnRol === 'koper' ? 'actief' : ''}" onclick="mijnRol='koper';accountSectie=null;accountDetail=null;render()">As buyer</button>
+      <button class="wissel-knop ${mijnRol === 'verkoper' ? 'actief' : ''}" onclick="mijnRol='verkoper';accountSectie=null;accountDetail=null;render()">As seller</button>
     </div>`;
 
   v.innerHTML = kop + `
@@ -1912,14 +2012,14 @@ function htmlAccountKoper() {
     const stap = STAPPEN.find(s => s.key === order.status);
     const idx = statusIndex();
     const chip = order.afgekeurd
-      ? '<span class="status-chip rood">Terugbetaling onderweg</span>'
+      ? '<span class="status-chip rood">Refund on its way</span>'
       : `<span class="status-chip ${order.status === 'COMPLETED' ? 'groen' : ''}">${stap ? stap.titel : ''}</span>`;
     rijen.push(`
       <div class="wachtrij-item" style="cursor:pointer" onclick="scherm='tracking';toonRol('koper')">
         <div class="mini-foto quilt">${art(order.item.art)}</div>
         <div class="wachtrij-info">
           <div class="wachtrij-titel">Chanel ${order.item.titel} ${order.item.jaar}</div>
-          <div class="wachtrij-meta">Order N&deg; SI-2026-001 &middot; ${eur(order.item.prijs)} &middot; ${order.afgekeurd ? 'expertise negatief, u wordt volledig terugbetaald' : `stap ${idx + 1} van ${STAPPEN.length} &middot; klik voor de volledige tracking`}</div>
+          <div class="wachtrij-meta">Order N&deg; SI-2026-001 &middot; ${eur(order.item.prijs)} &middot; ${order.afgekeurd ? 'expertise negative, you will be refunded in full' : `step ${idx + 1} of ${STAPPEN.length} &middot; click for the full tracking`}</div>
         </div>
         ${chip}
       </div>`);
@@ -1941,79 +2041,79 @@ function htmlAccountKoper() {
 
   if (accountSectie === 'historie') {
     return `
-      <div class="sectiekop">Bestelgeschiedenis (${EERDERE_BESTELLINGEN.length})</div>
+      <div class="sectiekop">Order history (${EERDERE_BESTELLINGEN.length})</div>
       ${rijen.slice(lopend).join('')}
-      <p class="biedregel">Klik op een bestelling voor de volledige tijdlijn en de afhandeling.</p>`;
+      <p class="biedregel">Click an order for the full timeline and how it was handled.</p>`;
   }
   if (accountSectie === 'favorieten') {
     const favs = [ITEMS[3], ITEMS[7], ITEMS[9]];
     return `
-      <div class="sectiekop">Favorieten (3)</div>
+      <div class="sectiekop">Favourites (3)</div>
       ${favs.map(f => `
         <div class="wachtrij-item" style="cursor:pointer" onclick="naarDetail(${ITEMS.indexOf(f)})">
           <div class="mini-foto quilt">${art(f.art)}</div>
           <div class="wachtrij-info">
             <div class="wachtrij-titel">Chanel ${f.titel} ${f.jaar}</div>
-            <div class="wachtrij-meta">${eur(f.prijs)} &middot; ${f.conditie} &middot; nog beschikbaar</div>
+            <div class="wachtrij-meta">${eur(f.prijs)} &middot; ${f.conditie} &middot; still available</div>
           </div>
-          <span class="status-chip">Bewaard</span>
+          <span class="status-chip">Saved</span>
         </div>`).join('')}
-      <p class="biedregel">U krijgt bericht als de prijs daalt of het stuk verkocht wordt.</p>`;
+      <p class="biedregel">You are notified when the price drops or the piece is sold.</p>`;
   }
   if (accountSectie === 'mijn-biedingen') {
     return `
-      <div class="sectiekop">Mijn biedingen</div>
+      <div class="sectiekop">My offers</div>
       ${biedVerstuurd
-        ? `<div class="melding">Uw bod van <b>${eur(biedVerstuurd)}</b> op Chanel ${kijkItem ? kijkItem.titel : ''} loopt nog. De verkoper heeft 48 uur om te reageren.</div>`
-        : `<div class="stap-uitleg">U heeft geen lopende biedingen. Breng een bod uit op een stuk in de <b>Boutique</b>.</div>`}
-      <p class="biedregel">Een bod is 48 uur geldig en moet minimaal 70% van de vraagprijs zijn.</p>`;
+        ? `<div class="melding">Your offer of <b>${eur(biedVerstuurd)}</b> on Chanel ${kijkItem ? kijkItem.titel : ''} is still open. The seller has 48 hours to respond.</div>`
+        : `<div class="stap-uitleg">You have no open offers. Make an offer on a piece in the <b>Boutique</b>.</div>`}
+      <p class="biedregel">An offer is valid for 48 hours and must be at least 70% of the asking price.</p>`;
   }
   if (accountSectie === 'aankoopbonnen') {
     return `
-      <div class="sectiekop">Aankoopbonnen</div>
+      <div class="sectiekop">Purchase receipts</div>
       <div class="bon">
         ${EERDERE_BESTELLINGEN.map((b, i) => `
-        <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
+        <div class="bon-rij" style="cursor:pointer" onclick="toast('In the real platform you download the PDF here.')">
           <span class="oms">SI-B-2026-0${88 + i} &middot; ${b.datum} &middot; Chanel ${b.titel}</span>
           <span>${eur(b.prijs)}</span>
         </div>`).join('')}
       </div>
-      <p class="biedregel">Bij een particuliere verkoper ontvangt u een aankoopbon van de maison; bij een zakelijke verkoper een volwaardige factuur.</p>`;
+      <p class="biedregel">With a private seller you receive a purchase receipt from the maison; with a business seller, a full invoice.</p>`;
   }
   if (accountSectie === 'gegevens') {
     return htmlGegevens();
   }
 
   return `
-    <div class="sectiekop">Lopende bestellingen (${lopend})</div>
-    ${order ? rijen.slice(0, lopend).join('') : `<div class="stap-uitleg">Geen lopende bestelling. Verwerf een stuk in de <b>Boutique</b> en volg hier live de status.</div>`}
-    <p class="biedregel" style="margin-top:6px">Elke bestelling doorloopt dezelfde acht stappen; klik erop voor de volledige tracking.</p>`;
+    <div class="sectiekop">Orders in progress (${lopend})</div>
+    ${order ? rijen.slice(0, lopend).join('') : `<div class="stap-uitleg">No order in progress. Acquire a piece in the <b>Boutique</b> and follow the status live here.</div>`}
+    <p class="biedregel" style="margin-top:6px">Every order goes through the same eight steps; click it for the full tracking.</p>`;
 }
 
 // ── Berichten: altijd gekoppeld aan een stuk of order ──
 function htmlBerichten() {
   const kop = `
     <div class="centreer intro" style="margin-bottom:22px">
-      <div class="voorregel">Berichten</div>
-      <h2 class="kop">Uw gesprekken</h2>
-      <p class="sub">Elk gesprek hangt aan een stuk of een order, zodat u nooit hoeft te zoeken waar het over ging. Ons atelier schrijft in dezelfde lijn mee.</p>
+      <div class="voorregel">Messages</div>
+      <h2 class="kop">Your conversations</h2>
+      <p class="sub">Every conversation is attached to a piece or an order, so you never have to search for what it was about. Our atelier writes in the same thread.</p>
     </div>`;
 
   if (openGesprek) {
     const g = GESPREKKEN.find(x => x.id === openGesprek);
     return kop + `
-      <button class="terug" onclick="openGesprek=null;render()">&larr; Alle gesprekken</button>
+      <button class="terug" onclick="openGesprek=null;render()">&larr; All conversations</button>
       <div class="paneel">
         <div class="gesprek-kop" style="border-bottom:1px solid var(--lijn);padding-bottom:12px;margin-bottom:6px">
           <div>
             <div class="gesprek-naam">${g.met}</div>
-            <div class="gesprek-over">${g.rol} &middot; over ${g.over}</div>
+            <div class="gesprek-over">${g.rol} &middot; about ${g.over}</div>
           </div>
-          <button class="knop klein sec" onclick="toast('Opent het stuk of de order waar dit gesprek bij hoort.')">Bekijk stuk</button>
+          <button class="knop klein sec" onclick="toast('Opens the piece or the order this conversation belongs to.')">View piece</button>
         </div>
 
         <div class="veilig-kader">
-          <b>Houd het gesprek op het platform.</b> Betaal nooit buiten Still Iconic om: alleen via ons blijft uw geld beschermd, het stuk geauthenticeerd en het gesprek bewaard als bewijs. Wij vragen nooit om uw bankgegevens.
+          <b>Keep the conversation on the platform.</b> Never pay outside Still Iconic: only through us does your money stay protected, the piece authenticated and the conversation kept as evidence. We never ask for your bank details.
         </div>
 
         <div class="bubbels">
@@ -2023,14 +2123,14 @@ function htmlBerichten() {
         </div>
 
         <div class="snelantwoorden">
-          ${['Dank voor uw bericht.', 'Dat kan ik bevestigen.', 'Het conditierapport staat bij de listing.', 'Ik doe u een tegenbod.'].map(s =>
+          ${['Thank you for your message.', 'I can confirm that.', 'The condition report is on the listing.', 'I will send you a counter-offer.'].map(s =>
             `<button class="snelantwoord" onclick="vulAntwoord('${s}')">${s}</button>`).join('')}
         </div>
         <div class="bericht-balk">
-          <textarea id="antwoordveld" placeholder="Schrijf een bericht..."></textarea>
-          <button class="knop" onclick="verstuurBericht('${g.id}')">Versturen</button>
+          <textarea id="antwoordveld" placeholder="Write a message..."></textarea>
+          <button class="knop" onclick="verstuurBericht('${g.id}')">Send</button>
         </div>
-        <p class="biedregel">Berichten worden bewaard bij de order; ons team kan meelezen bij een geschil.</p>
+        <p class="biedregel">Messages are kept with the order; our team can read along in a dispute.</p>
       </div>`;
   }
 
@@ -2046,13 +2146,13 @@ function htmlBerichten() {
               <span class="gesprek-tijd">${g.tijd}</span>
             </div>
             <div class="gesprek-over">${g.rol} &middot; ${g.over}</div>
-            <div class="gesprek-laatste">${laatste.van === 'ik' ? 'U: ' : ''}${laatste.tekst}</div>
+            <div class="gesprek-laatste">${laatste.van === 'ik' ? 'You: ' : ''}${laatste.tekst}</div>
           </div>
-          ${g.ongelezen ? '<span class="status-chip">Nieuw</span>' : ''}
+          ${g.ongelezen ? '<span class="status-chip">New</span>' : ''}
         </button>`;
       }).join('')}
     </div>
-    <p class="biedregel">Nieuwe gesprekken ontstaan vanzelf: bij een vraag over een stuk, een bod of zodra uw order in het atelier binnenkomt.</p>`;
+    <p class="biedregel">New conversations arise on their own: from a question about a piece, an offer, or as soon as your order arrives at the atelier.</p>`;
 }
 
 function markeerGelezen(id) {
@@ -2067,10 +2167,10 @@ function vulAntwoord(tekst) {
 function verstuurBericht(id) {
   const veld = document.getElementById('antwoordveld');
   const tekst = veld && veld.value.trim();
-  if (!tekst) { toast('Schrijf eerst een bericht.'); return; }
+  if (!tekst) { toast('Write a message first.'); return; }
   const g = GESPREKKEN.find(x => x.id === id);
-  g.berichten.push({ van: 'ik', tekst, tijd: 'zojuist' });
-  toast('Bericht verstuurd en bewaard bij de order.');
+  g.berichten.push({ van: 'ik', tekst, tijd: 'just now' });
+  toast('Message sent and kept with the order.');
   render();
 }
 
@@ -2079,16 +2179,16 @@ function htmlSupport() {
   return `
     <div class="centreer intro" style="margin-bottom:22px">
       <div class="voorregel">Support</div>
-      <h2 class="kop">Waarmee kunnen wij helpen?</h2>
-      <p class="sub">Ons team antwoordt binnen een werkdag, en kent uw orders al: u hoeft niets uit te leggen.</p>
+      <h2 class="kop">How can we help?</h2>
+      <p class="sub">Our team replies within one working day and already knows your orders: you do not have to explain a thing.</p>
     </div>
     <div class="paneel">
-      <div class="sectiekop">Veelgestelde vragen</div>
+      <div class="sectiekop">Frequently asked questions</div>
       ${[
-        ['Waar is mijn bestelling?', 'Volg uw order onder Als koper; bij elke fase ziet u de trackingcode en wat er hierna gebeurt.'],
-        ['Wanneer word ik uitbetaald?', 'Direct na bevestigde levering, via Stripe op uw rekening.'],
-        ['Wat als een stuk wordt afgekeurd?', 'De koper wordt volledig terugbetaald en het stuk gaat retour naar de verkoper, op diens kosten.'],
-        ['Kan ik ruilen of retourneren?', 'Bij een zakelijke verkoper heeft u 14 dagen bedenktijd. Bij een particuliere verkoper geldt dat niet, maar elk stuk is wel vooraf geëxpertiseerd.'],
+        ['Where is my order?', 'Follow your order under As buyer; at every phase you see the tracking code and what happens next.'],
+        ['When am I paid out?', 'Straight after confirmed delivery, via Stripe into your account.'],
+        ['What if a piece is rejected?', 'The buyer is refunded in full and the piece is returned to the seller, at their expense.'],
+        ['Can I exchange or return?', 'With a business seller you have 14 days to change your mind. With a private seller that does not apply, but every piece is expertised beforehand.'],
       ].map(([v, a]) => `
         <div style="padding:13px 0;border-bottom:1px solid var(--lijn)">
           <div style="font-family:var(--serif);font-size:16px">${v}</div>
@@ -2096,32 +2196,32 @@ function htmlSupport() {
         </div>`).join('')}
     </div>
     <div class="paneel">
-      <div class="sectiekop">Stel uw vraag</div>
-      <div class="rapport-veld"><label>Waar gaat het over</label>
-        <select><option>Een bestelling</option><option>Een verkoop</option><option>Mijn account</option><option>Iets anders</option></select>
+      <div class="sectiekop">Ask your question</div>
+      <div class="rapport-veld"><label>What is it about</label>
+        <select><option>An order</option><option>A sale</option><option>My account</option><option>Something else</option></select>
       </div>
       <div class="bericht-balk">
-        <textarea placeholder="Beschrijf uw vraag..."></textarea>
-        <button class="knop" onclick="toast('Verstuurd. Ons team antwoordt binnen een werkdag; u ziet het antwoord bij Berichten.')">Versturen</button>
+        <textarea placeholder="Describe your question..."></textarea>
+        <button class="knop" onclick="toast('Sent. Our team replies within one working day; you will see the answer under Messages.')">Send</button>
       </div>
-      <p class="biedregel">Uw orders en gesprekken zijn automatisch zichtbaar voor ons team, dus u hoeft geen ordernummers op te zoeken.</p>
+      <p class="biedregel">Your orders and conversations are automatically visible to our team, so you never have to look up order numbers.</p>
     </div>`;
 }
 
 // Gedeelde sectie: gegevens, adressen en verificatie
 function htmlGegevens() {
   return `
-    <div class="sectiekop">Gegevens en ${mijnRol === 'verkoper' ? 'KYC' : 'adressen'}</div>
+    <div class="sectiekop">Details and ${mijnRol === 'verkoper' ? 'KYC' : 'addresses'}</div>
     <div class="paneel" style="margin:0">
       <dl class="specs" style="margin:0">
-        <div class="spec"><dt>Naam</dt><dd>Vera V.</dd></div>
-        <div class="spec"><dt>Accounttype</dt><dd>Particulier</dd></div>
-        <div class="spec"><dt>E-mail</dt><dd>vera@voorbeeld.nl</dd></div>
-        <div class="spec"><dt>Bezorgadres</dt><dd>Keizersgracht 1, 1015 CJ Amsterdam</dd></div>
-        <div class="spec"><dt>Identiteit</dt><dd>Geverifieerd via Stripe &middot; 14 juni 2026</dd></div>
-        ${mijnRol === 'verkoper' ? '<div class="spec"><dt>Uitbetaalrekening</dt><dd>NL** INGB **** **89 &middot; geverifieerd</dd></div>' : ''}
+        <div class="spec"><dt>Name</dt><dd>Vera V.</dd></div>
+        <div class="spec"><dt>Account type</dt><dd>Private</dd></div>
+        <div class="spec"><dt>Email</dt><dd>vera@example.com</dd></div>
+        <div class="spec"><dt>Delivery address</dt><dd>Keizersgracht 1, 1015 CJ Amsterdam</dd></div>
+        <div class="spec"><dt>Identity</dt><dd>Verified through Stripe &middot; 14 June 2026</dd></div>
+        ${mijnRol === 'verkoper' ? '<div class="spec"><dt>Payout account</dt><dd>NL** INGB **** **89 &middot; verified</dd></div>' : ''}
       </dl>
-      <p class="biedregel">Zakelijke accounts tonen hier ook bedrijfsnaam, KVK- en BTW-nummer, plus de UBO-verificatie via Stripe.</p>
+      <p class="biedregel">Business accounts also show company name, chamber of commerce and VAT numbers here, plus the UBO verification through Stripe.</p>
     </div>`;
 }
 
@@ -2129,17 +2229,17 @@ function htmlEerdereBestelling(b) {
   const klaar = b.status === 'COMPLETED';
   const stappenTotEnMet = klaar ? STAPPEN.length : 4; // terugbetaald = gestopt bij expertise
   return `
-    <button class="terug" onclick="accountDetail=null;render()">&larr; Uw bestellingen</button>
+    <button class="terug" onclick="accountDetail=null;render()">&larr; Your orders</button>
     <div class="paneel">
       <div class="voorregel">${b.datum}</div>
       <h2 class="kop" style="font-size:24px">Chanel ${b.titel} ${b.jaar}</h2>
       ${klaar
-        ? `<div class="melding groen" style="margin-top:16px"><b>Afgerond.</b> Geleverd en bevestigd op ${b.datum}. De verkoper is direct uitbetaald.</div>`
-        : `<div class="melding rood" style="margin-top:16px"><b>Terugbetaald.</b> Het stuk kwam niet door onze expertise. Uw volledige betaling (${eur(b.prijs)} plus kosten) is op ${b.datum} teruggestort.</div>`}
+        ? `<div class="melding groen" style="margin-top:16px"><b>Completed.</b> Delivered and confirmed on ${b.datum}. The seller was paid out straight away.</div>`
+        : `<div class="melding rood" style="margin-top:16px"><b>Refunded.</b> The piece did not pass our expertise. Your full payment (${eur(b.prijs)} plus costs) was refunded on ${b.datum}.</div>`}
       <ul class="tijdlijn">
         ${STAPPEN.slice(0, stappenTotEnMet).map((s, i) => `
           <li class="klaar"><div class="stip">&#10003;</div><div><div class="stap-titel">${s.titel}</div></div></li>`).join('')}
-        ${klaar ? '' : `<li class="nu"><div class="stip">&#33;</div><div><div class="stap-titel">Expertise negatief &mdash; volledig terugbetaald</div><div class="stap-toel">Het stuk is op kosten van de verkoper retour gezonden.</div></div></li>`}
+        ${klaar ? '' : `<li class="nu"><div class="stip">&#33;</div><div><div class="stap-titel">Expertise negative &mdash; refunded in full</div><div class="stap-toel">The piece was returned at the seller&rsquo;s expense.</div></div></li>`}
       </ul>
     </div>`;
 }
@@ -2148,23 +2248,23 @@ function htmlEerdereBestelling(b) {
 function htmlVerkochtDetail(vk) {
   const fee = vk.prijs - vk.netto - 9.5;
   return `
-    <button class="terug" onclick="verkochtDetail=null;render()">&larr; Uw verkopen</button>
+    <button class="terug" onclick="verkochtDetail=null;render()">&larr; Your sales</button>
     <div class="paneel">
       <div class="detail-flex">
         <div class="detail-foto quilt" style="max-width:220px">${art(vk.art)}</div>
         <div style="flex:1.4;min-width:260px">
-          <div class="voorregel">${vk.datum} &middot; afgerond</div>
+          <div class="voorregel">${vk.datum} &middot; completed</div>
           <h2 class="kop" style="font-size:24px">Chanel ${vk.titel}</h2>
           <div class="bon" style="margin-top:16px">
-            <div class="bon-rij"><span class="oms">Verkoopprijs</span><span>${eur(vk.prijs)}</span></div>
-            <div class="bon-rij"><span class="oms">Commissie van de maison (10%)</span><span>&minus; ${eur(fee)}</span></div>
-            <div class="bon-rij"><span class="oms">Verzending naar het atelier</span><span>&minus; € 9,50</span></div>
-            <div class="bon-rij totaal"><span class="oms">Uitbetaald</span><span>${eur(vk.netto)}</span></div>
+            <div class="bon-rij"><span class="oms">Sale price</span><span>${eur(vk.prijs)}</span></div>
+            <div class="bon-rij"><span class="oms">Commission of the maison (10%)</span><span>&minus; ${eur(fee)}</span></div>
+            <div class="bon-rij"><span class="oms">Shipping to the atelier</span><span>&minus; € 9.50</span></div>
+            <div class="bon-rij totaal"><span class="oms">Paid out</span><span>${eur(vk.netto)}</span></div>
           </div>
-          <div class="melding groen">Expertise goedgekeurd, geleverd en bevestigd. Uitbetaald op ${vk.datum} via Stripe.</div>
+          <div class="melding groen">Expertise approved, delivered and confirmed. Paid out on ${vk.datum} via Stripe.</div>
           <div class="bon">
-            <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
-              <span class="oms">Commissienota ${vk.factuur}</span><span>${eur(fee + 9.5)}</span>
+            <div class="bon-rij" style="cursor:pointer" onclick="toast('In the real platform you download the PDF here.')">
+              <span class="oms">Commission note ${vk.factuur}</span><span>${eur(fee + 9.5)}</span>
             </div>
           </div>
         </div>
@@ -2182,23 +2282,23 @@ function htmlAccountVerkoper() {
   // Hier moet de verkoper handelen; al het andere is administratie.
   const openBlok = `
     <div class="paneel" style="border-color:var(--goud);border-left-width:3px">
-      <div class="sectiekop">Openstaande biedingen (${openBiedingen.length}) &mdash; actie nodig</div>
+      <div class="sectiekop">Open offers (${openBiedingen.length}) &mdash; action required</div>
       ${openBiedingen.length === 0 ? `
-        <p class="sub" style="margin:0 0 14px">Geen openstaande biedingen. Nieuwe biedingen verschijnen hier direct, met een notificatie.</p>
-        <button class="knop klein sec" onclick="simuleerBod()">Simuleer een binnenkomend bod</button>` :
+        <p class="sub" style="margin:0 0 14px">No open offers. New offers appear here immediately, with a notification.</p>
+        <button class="knop klein sec" onclick="simuleerBod()">Simulate an incoming offer</button>` :
       openBiedingen.map(b => `
         <div style="border:1px solid var(--lijn);padding:16px 18px;margin-bottom:12px">
           <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:baseline">
             <div>
               <span style="font-family:var(--serif);font-size:20px">${eur(b.bedrag)}</span>
-              <span class="biedregel" style="margin:0"> van ${b.bieder} op Chanel ${b.stuk}</span>
+              <span class="biedregel" style="margin:0"> from ${b.bieder} on Chanel ${b.stuk}</span>
             </div>
             <span class="status-chip">${b.verloopt}</span>
           </div>
-          <div class="biedregel" style="margin:4px 0 12px">Vraagprijs ${eur(b.vraagprijs)} &middot; dit bod is ${Math.round(b.bedrag / b.vraagprijs * 100)}% van uw vraagprijs</div>
-          <button class="knop groen klein" onclick="bodActie('${b.id}','accepteer')">Accepteren</button>
-          <button class="knop klein" onclick="bodActie('${b.id}','tegenbod')">Tegenbod ${eur(Math.round((b.bedrag + b.vraagprijs) / 2 / 50) * 50)}</button>
-          <button class="knop rood klein" onclick="bodActie('${b.id}','afwijzen')">Afwijzen</button>
+          <div class="biedregel" style="margin:4px 0 12px">Asking price ${eur(b.vraagprijs)} &middot; this offer is ${Math.round(b.bedrag / b.vraagprijs * 100)}% of your asking price</div>
+          <button class="knop groen klein" onclick="bodActie('${b.id}','accepteer')">Accept</button>
+          <button class="knop klein" onclick="bodActie('${b.id}','tegenbod')">Counter-offer ${eur(Math.round((b.bedrag + b.vraagprijs) / 2 / 50) * 50)}</button>
+          <button class="knop rood klein" onclick="bodActie('${b.id}','afwijzen')">Decline</button>
         </div>`).join('')}
     </div>`;
 
@@ -2206,7 +2306,7 @@ function htmlAccountVerkoper() {
   const mijnListings = ITEMS.filter(it => it.verkoper === 'Vera V.');
   const listingsBlok = `
     <div class="paneel">
-      <div class="sectiekop">Uw listings</div>
+      <div class="sectiekop">Your listings</div>
       ${mijnListings.map(it => {
         const verkocht = order && order.item.id === it.id && !order.afgekeurd;
         return `
@@ -2214,12 +2314,12 @@ function htmlAccountVerkoper() {
           <div class="mini-foto quilt" style="width:48px;height:48px">${art(it.art)}</div>
           <div class="wachtrij-info">
             <div style="font-family:var(--serif);font-size:15px">Chanel ${it.titel} ${it.jaar}</div>
-            <div class="wachtrij-meta">${eur(it.prijs)} &middot; ${it.conditie} &middot; bekijk in de boutique</div>
+            <div class="wachtrij-meta">${eur(it.prijs)} &middot; ${it.conditie} &middot; view in the boutique</div>
           </div>
-          <span class="status-chip ${verkocht ? 'groen' : ''}">${verkocht ? 'Verkocht' : 'Te koop'}</span>
+          <span class="status-chip ${verkocht ? 'groen' : ''}">${verkocht ? 'Sold' : 'For sale'}</span>
         </div>`;
       }).join('')}
-      <p class="biedregel" style="margin-top:8px">Klik op een stuk om de listing te bekijken. In het echte platform beheert u hier ook concepten en ingetrokken stukken.</p>
+      <p class="biedregel" style="margin-top:8px">Click a piece to view the listing. In the real platform you also manage drafts and withdrawn pieces here.</p>
     </div>`;
 
   // Verkochte stukken: historie + de lopende verkoop zodra afgerond
@@ -2231,62 +2331,62 @@ function htmlAccountVerkoper() {
         <div class="mini-foto quilt" style="width:48px;height:48px">${art(order.item.art)}</div>
         <div class="wachtrij-info">
           <div style="font-family:var(--serif);font-size:15px">Chanel ${order.item.titel} ${order.item.jaar}</div>
-          <div class="wachtrij-meta">vandaag &middot; verkocht voor ${eur(order.item.prijs)} &middot; netto ${eur(liveNetto)}</div>
+          <div class="wachtrij-meta">today &middot; sold for ${eur(order.item.prijs)} &middot; net ${eur(liveNetto)}</div>
         </div>
-        <span class="status-chip groen">Uitbetaald</span>
+        <span class="status-chip groen">Paid out</span>
       </div>`] : []),
     ...EERDERE_VERKOPEN.map((vk, i) => `
       <div class="wachtrij-item" style="border:none;padding:10px 0;margin:0;cursor:pointer" onclick="verkochtDetail=${i};render()">
         <div class="mini-foto quilt" style="width:48px;height:48px">${art(vk.art)}</div>
         <div class="wachtrij-info">
           <div style="font-family:var(--serif);font-size:15px">Chanel ${vk.titel}</div>
-          <div class="wachtrij-meta">${vk.datum} &middot; verkocht voor ${eur(vk.prijs)} &middot; netto ${eur(vk.netto)}</div>
+          <div class="wachtrij-meta">${vk.datum} &middot; sold for ${eur(vk.prijs)} &middot; net ${eur(vk.netto)}</div>
         </div>
-        <span class="status-chip groen">Uitbetaald</span>
+        <span class="status-chip groen">Paid out</span>
       </div>`),
   ];
   const totaalUitbetaald = EERDERE_VERKOPEN.reduce((s, vk) => s + vk.netto, 0) + (liveAfgerond ? liveNetto : 0);
   const verkochtBlok = `
     <div class="paneel">
-      <div class="sectiekop">Verkochte stukken (${verkochtRijen.length})</div>
+      <div class="sectiekop">Sold pieces (${verkochtRijen.length})</div>
       ${verkochtRijen.join('')}
-      <div class="bon" style="margin:8px 0 0"><div class="bon-rij totaal" style="padding-top:10px"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div></div>
-      <p class="biedregel">Uitbetaling direct via Stripe zodra de koper de ontvangst bevestigt. Geen batches, geen wachttijden.</p>
+      <div class="bon" style="margin:8px 0 0"><div class="bon-rij totaal" style="padding-top:10px"><span class="oms">Total paid out</span><span>${eur(totaalUitbetaald)}</span></div></div>
+      <p class="biedregel">Payout straight through Stripe as soon as the buyer confirms receipt. No batches, no waiting times.</p>
     </div>`;
 
   // Biedhistorie: eerdere biedingen + de lopende bied-simulatie
   const biedRijen = biedHistorie;
   const biedBlok = `
     <div class="paneel">
-      <div class="sectiekop">Biedhistorie (${biedRijen.length})</div>
+      <div class="sectiekop">Offer history (${biedRijen.length})</div>
       <div class="bon">
         ${biedRijen.map(b => `
         <div class="bon-rij">
-          <span class="oms">${b.datum} &middot; <b>${eur(b.bedrag)}</b> van ${b.bieder} op ${b.stuk}</span>
-          <span style="font-family:var(--sans);font-size:11px;color:${b.status.includes('eaccepteerd') ? 'var(--groen)' : b.status === 'Afgewezen' ? 'var(--bordeaux)' : 'var(--grijs)'}">${b.status}</span>
+          <span class="oms">${b.datum} &middot; <b>${eur(b.bedrag)}</b> from ${b.bieder} on ${b.stuk}</span>
+          <span style="font-family:var(--sans);font-size:11px;color:${b.status.includes('ccepted') ? 'var(--groen)' : b.status === 'Declined' ? 'var(--bordeaux)' : 'var(--grijs)'}">${b.status}</span>
         </div>`).join('')}
       </div>
-      <p class="biedregel">Elk bod is 48 uur geldig en wordt vastgelegd in het papertrail: bedrag, bieder, uitkomst en tijdstip.</p>
+      <p class="biedregel">Every offer is valid for 48 hours and is recorded in the audit trail: amount, bidder, outcome and time.</p>
     </div>`;
 
   // Facturen: commissienota's per verkoop (particuliere verkoper: alleen fee-facturen)
   const factuurRijen = [
     ...(liveAfgerond ? [`
-      <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
-        <span class="oms">TM-F-2026-0198 &middot; vandaag &middot; commissienota Chanel ${order.item.titel}</span>
+      <div class="bon-rij" style="cursor:pointer" onclick="toast('In the real platform you download the PDF here.')">
+        <span class="oms">TM-F-2026-0198 &middot; today &middot; commission note Chanel ${order.item.titel}</span>
         <span>${eur(order.item.prijs * VERKOPERSFEE + 9.5)}</span>
       </div>`] : []),
     ...EERDERE_VERKOPEN.map(vk => `
-      <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
-        <span class="oms">${vk.factuur} &middot; ${vk.datum} &middot; commissienota Chanel ${vk.titel}</span>
+      <div class="bon-rij" style="cursor:pointer" onclick="toast('In the real platform you download the PDF here.')">
+        <span class="oms">${vk.factuur} &middot; ${vk.datum} &middot; commission note Chanel ${vk.titel}</span>
         <span>${eur(vk.prijs - vk.netto)}</span>
       </div>`),
   ];
   const facturenBlok = `
     <div class="paneel">
-      <div class="sectiekop">Facturen</div>
+      <div class="sectiekop">Invoices</div>
       <div class="bon">${factuurRijen.join('')}</div>
-      <p class="biedregel">Als particuliere verkoper ontvangt u alleen commissienota's van de maison (incl. 21% BTW over de fee). Zakelijke verkopers zien hier ook de verkoopfacturen die het platform namens hen uitreikt onder de margeregeling.</p>
+      <p class="biedregel">As a private seller you only receive commission notes from the maison (incl. 21% VAT on the fee). Business sellers also see the sales invoices the platform issues on their behalf under the margin scheme.</p>
     </div>`;
 
   // Sectiekeuze uit de zijnavigatie
@@ -2297,27 +2397,27 @@ function htmlAccountVerkoper() {
   if (accountSectie === 'facturen') return facturenBlok;
   if (accountSectie === 'gegevens') return htmlGegevens();
   if (accountSectie === 'uitbetalingen') return `
-    <div class="sectiekop">Uitbetalingen</div>
+    <div class="sectiekop">Payouts</div>
     <div class="paneel" style="margin:0">
       <div class="bon">
-        ${(liveAfgerond ? [`<div class="bon-rij"><span class="oms">vandaag &middot; Chanel ${order.item.titel}</span><span style="color:var(--groen)"><b>${eur(liveNetto)}</b></span></div>`] : []).join('')}
+        ${(liveAfgerond ? [`<div class="bon-rij"><span class="oms">today &middot; Chanel ${order.item.titel}</span><span style="color:var(--groen)"><b>${eur(liveNetto)}</b></span></div>`] : []).join('')}
         ${EERDERE_VERKOPEN.map(vk => `<div class="bon-rij"><span class="oms">${vk.datum} &middot; Chanel ${vk.titel}</span><span>${eur(vk.netto)}</span></div>`).join('')}
-        <div class="bon-rij totaal"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div>
+        <div class="bon-rij totaal"><span class="oms">Total paid out</span><span>${eur(totaalUitbetaald)}</span></div>
       </div>
       <dl class="specs" style="margin:14px 0 0">
-        <div class="spec"><dt>Rekening</dt><dd>NL** INGB **** **89 &middot; geverifieerd</dd></div>
-        <div class="spec"><dt>Termijn</dt><dd>Direct na bevestigde levering</dd></div>
+        <div class="spec"><dt>Account</dt><dd>NL** INGB **** **89 &middot; verified</dd></div>
+        <div class="spec"><dt>Timing</dt><dd>Straight after confirmed delivery</dd></div>
       </dl>
-      <p class="biedregel">Uitbetaling direct via Stripe, zonder batches of wachttijden.</p>
+      <p class="biedregel">Payout straight through Stripe, without batches or waiting times.</p>
     </div>`;
 
   // Standaard: lopende verkoop
   if (!order) {
     return `
-      <div class="sectiekop">Lopende verkoop</div>
+      <div class="sectiekop">Sale in progress</div>
       <div class="paneel leeg" style="padding:30px;margin:0">
         <div class="orn">&#9670;&#9670;&#9670;</div>
-        <p>Geen lopende verkoop.<br>Verwerf als <b>koper</b> een stuk in de Boutique om de verkoopflow te ervaren.</p>
+        <p>No sale in progress.<br>Acquire a piece as a <b>buyer</b> in the Boutique to experience the selling flow.</p>
       </div>`;
   }
 
@@ -2327,22 +2427,22 @@ function htmlAccountVerkoper() {
 
   if (order.afgekeurd) {
     inhoud = `
-      <div class="melding rood"><b>Expertise negatief.</b> Het stuk komt retour; de retourkosten (${eur(RETOURKOSTEN)}) zijn voor uw rekening. De verkoop gaat niet door.</div>
-      <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw beginnen</button>`;
+      <div class="melding rood"><b>Expertise negative.</b> The piece is being returned; the return costs (${eur(RETOURKOSTEN)}) are at your expense. The sale does not go ahead.</div>
+      <button class="knop sec klein" onclick="resetDemo()">Restart the demo</button>`;
   } else if (order.status === 'PAID') {
     inhoud = `
-      <div class="melding"><b>Verkocht.</b> Chanel ${it.titel} ${it.jaar} voor ${eur(it.prijs)}. Uw verzekerde verzendlabel staat gereed.</div>
+      <div class="melding"><b>Sold.</b> Chanel ${it.titel} ${it.jaar} for ${eur(it.prijs)}. Your insured shipping label is ready.</div>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Verkoopprijs</span><span>${eur(it.prijs)}</span></div>
-        <div class="bon-rij"><span class="oms">Commissie van de maison (10%)</span><span>&minus; ${eur(it.prijs * VERKOPERSFEE)}</span></div>
-        <div class="bon-rij"><span class="oms">Verzending naar het atelier</span><span>&minus; € 9,50</span></div>
-        <div class="bon-rij totaal"><span class="oms">Uw uitbetaling na levering</span><span>${eur(netto)}</span></div>
+        <div class="bon-rij"><span class="oms">Sale price</span><span>${eur(it.prijs)}</span></div>
+        <div class="bon-rij"><span class="oms">Commission of the maison (10%)</span><span>&minus; ${eur(it.prijs * VERKOPERSFEE)}</span></div>
+        <div class="bon-rij"><span class="oms">Shipping to the atelier</span><span>&minus; € 9.50</span></div>
+        <div class="bon-rij totaal"><span class="oms">Your payout after delivery</span><span>${eur(netto)}</span></div>
       </div>
-      <button class="knop goud" onclick="zetStatus('AWAITING_ITEM','Het pakket is onderweg naar het atelier.','atelier')">Label geprint &mdash; pakket meegegeven</button>`;
+      <button class="knop goud" onclick="zetStatus('AWAITING_ITEM','The parcel is on its way to the atelier.','atelier')">Label printed &mdash; parcel handed over</button>`;
   } else if (order.status === 'COMPLETED') {
     inhoud = `
-      <div class="melding groen"><b>Uitbetaald: ${eur(netto)}</b> &mdash; direct overgemaakt via Stripe zodra de koper de ontvangst bevestigde. Geen wachttijden, geen batches.</div>
-      <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw beginnen</button>`;
+      <div class="melding groen"><b>Paid out: ${eur(netto)}</b> &mdash; transferred straight through Stripe as soon as the buyer confirmed receipt. No waiting times, no batches.</div>
+      <button class="knop sec klein" onclick="resetDemo()">Restart the demo</button>`;
   } else {
     const stap = STAPPEN.find(s => s.key === order.status);
     const groenChip = ['APPROVED', 'SHIPPED_TO_BUYER', 'DELIVERED'].includes(order.status);
@@ -2351,25 +2451,25 @@ function htmlAccountVerkoper() {
         <div class="mini-foto quilt">${art(it.art)}</div>
         <div class="wachtrij-info">
           <div class="wachtrij-titel">Chanel ${it.titel} ${it.jaar}</div>
-          <div class="wachtrij-meta">Verwachte uitbetaling: ${eur(netto)}</div>
+          <div class="wachtrij-meta">Expected payout: ${eur(netto)}</div>
         </div>
         <span class="status-chip ${groenChip ? 'groen' : ''}">${stap ? stap.titel : ''}</span>
       </div>
-      <div class="stap-uitleg" style="margin:0">U hoeft niets te doen. Het atelier en de koper zetten de volgende stappen; wissel van rol om ze uit te voeren.</div>`;
+      <div class="stap-uitleg" style="margin:0">Nothing is needed from you. The atelier and the buyer take the next steps; switch roles to carry them out.</div>`;
   }
 
-  return `<div class="sectiekop">Lopende verkoop</div><div class="paneel" style="margin:0">${inhoud}</div>`;
+  return `<div class="sectiekop">Sale in progress</div><div class="paneel" style="margin:0">${inhoud}</div>`;
 }
 
 function resetDemo() {
   order = null; kijkItem = null; scherm = 'browse'; accountDetail = null;
   biedOpen = false; biedVerstuurd = null; fotoView = 0;
   openBiedingen = [
-    { id: 'B1', stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1550, vraagprijs: 1750, verloopt: 'verloopt over 11 uur' },
+    { id: 'B1', stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1550, vraagprijs: 1750, verloopt: 'expires in 11 hours' },
   ];
   biedHistorie = [...EERDERE_BIEDINGEN];
   ['koper', 'atelier', 'account'].forEach(r => notif(r, false));
-  toast('De demo is hersteld. Verwerf opnieuw een stuk om de flow te beginnen.');
+  toast('The demo has been reset. Acquire a piece again to start the flow.');
   render();
 }
 
