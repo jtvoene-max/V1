@@ -16,7 +16,7 @@
     --goud: #a8894f;
     --goud-diep: #8a6f3c;
     --inkt: #1a1a1a;
-    --grijs: #767676;
+    --grijs: #565656;
     --lijn: rgba(10, 10, 10, .14);
     --lijn-goud: rgba(168, 137, 79, .35);
     --groen: #3e5c46;
@@ -89,6 +89,13 @@
     border: 1px solid rgba(255,255,255,.25);
     padding: 6px 12px;
   }
+  .wie-ziet-wat {
+    font-family: var(--sans); font-size: 11px; line-height: 1.7; color: #4a4a4a;
+    background: var(--wit); border-bottom: 1px solid var(--lijn);
+    padding: 10px 20px; text-align: center;
+  }
+  .wie-ziet-wat b { color: var(--inkt); }
+  .wie-ziet-wat .scheiding { color: var(--goud); margin: 0 8px; }
 
   /* ─── Rol-navigatie ─── */
   .roltabs {
@@ -137,7 +144,7 @@
     font-size: 10px; letter-spacing: .34em; text-transform: uppercase;
     color: var(--grijs); margin-bottom: 10px;
   }
-  .sub { font-family: var(--sans); font-size: 13px; color: var(--grijs); margin-top: 10px; line-height: 1.7; }
+  .sub { font-family: var(--sans); font-size: 13.5px; color: #4a4a4a; margin-top: 10px; line-height: 1.7; }
   .centreer { text-align: center; }
   .intro { max-width: 520px; margin: 0 auto 44px; }
 
@@ -187,7 +194,7 @@
   /* ─── Conditierapport / bieden ─── */
   .zone-rij { display: flex; justify-content: space-between; gap: 18px; padding: 9px 0; border-bottom: 1px solid var(--lijn); font-size: 13px; }
   .zone-rij dt { font-family: var(--sans); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--grijs); white-space: nowrap; padding-top: 3px; }
-  .zone-rij dd { text-align: right; font-family: var(--sans); font-size: 12px; color: var(--inkt); }
+  .zone-rij dd { text-align: right; font-family: var(--sans); font-size: 12.5px; color: var(--inkt); }
   .incl-chip {
     display: inline-block; font-family: var(--sans); font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
     border: 1px solid var(--lijn-goud); color: var(--goud-diep); padding: 5px 10px; margin: 0 6px 6px 0;
@@ -197,7 +204,68 @@
     font-family: var(--sans); font-size: 14px; border: 1px solid var(--lijn); padding: 10px 12px; width: 140px;
   }
   .biedpaneel input:focus { outline: none; border-color: var(--noir); }
-  .biedregel { font-family: var(--sans); font-size: 11px; color: var(--grijs); margin-top: 8px; line-height: 1.6; }
+  .biedregel { font-family: var(--sans); font-size: 11.5px; color: #4a4a4a; margin-top: 8px; line-height: 1.65; }
+
+  /* ─── Account: zijnavigatie ─── */
+  .account-layout { display: flex; gap: 34px; align-items: flex-start; }
+  .account-nav { width: 210px; flex-shrink: 0; position: sticky; top: 74px; }
+  .nav-groep { margin-bottom: 22px; }
+  .nav-groep-kop {
+    font-family: var(--sans); font-size: 8.5px; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--grijs); padding: 0 0 8px; border-bottom: 1px solid var(--lijn); margin-bottom: 6px;
+  }
+  .nav-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;
+    font-family: var(--sans); font-size: 12.5px; text-align: left;
+    background: none; border: none; border-left: 2px solid transparent;
+    padding: 9px 12px; cursor: pointer; color: #4a4a4a; transition: all .15s;
+  }
+  .nav-item:hover { color: var(--inkt); background: rgba(10,10,10,.03); }
+  .nav-item.actief { color: var(--inkt); border-left-color: var(--goud); background: rgba(216,196,154,.10); font-weight: 500; }
+  .nav-badge {
+    font-family: var(--sans); font-size: 10px; min-width: 19px; text-align: center;
+    background: var(--noir); color: var(--champagne); padding: 2px 6px; border-radius: 10px;
+  }
+  .nav-badge.stil { background: none; color: var(--grijs); }
+  .account-inhoud { flex: 1; min-width: 0; }
+  @media (max-width: 720px) {
+    .account-layout { flex-direction: column; }
+    .account-nav { width: 100%; position: static; }
+    .nav-groep { margin-bottom: 14px; }
+  }
+
+  /* ─── Atelier: fasenbord ─── */
+  .fase-blok { margin-bottom: 26px; }
+  .fase-kop {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--inkt);
+  }
+  .fase-kop .nr {
+    width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+    border: 1px solid var(--noir); display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-size: 12px; letter-spacing: 0;
+  }
+  .fase-kop.actief .nr { background: var(--noir); color: var(--champagne); }
+  .fase-kop .telling { font-family: var(--serif); font-size: 13px; letter-spacing: 0; color: var(--grijs); }
+  .fase-kop::after { content: ''; flex: 1; height: 1px; background: var(--lijn); }
+  .fase-leeg { font-family: var(--sans); font-size: 11.5px; color: var(--grijs); border: 1px dashed var(--lijn); padding: 12px 16px; }
+  .track {
+    font-family: "Courier New", monospace; font-size: 11px; letter-spacing: .06em;
+    border: 1px solid var(--lijn); padding: 3px 8px; background: var(--wit); white-space: nowrap;
+  }
+  .track.goud { border-color: var(--lijn-goud); color: var(--goud-diep); }
+  .werkkaart { border: 1px solid var(--goud); border-left-width: 3px; background: var(--wit); padding: 20px 22px; margin-bottom: 14px; }
+  .rapport-veld { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+  .rapport-veld label { font-family: var(--sans); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--grijs); }
+  .rapport-veld input, .rapport-veld select {
+    font-family: var(--sans); font-size: 12px; border: 1px solid var(--lijn); padding: 8px 10px; background: var(--wit); color: var(--inkt);
+  }
+  .rapport-veld input:focus, .rapport-veld select:focus { outline: none; border-color: var(--noir); }
+  .rapport-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 16px; }
+  .label-kaart {
+    border: 1px dashed var(--goud); background: rgba(216,196,154,.07); padding: 14px 18px; margin: 12px 0;
+    font-family: var(--sans); font-size: 11.5px; color: var(--inkt); line-height: 1.7;
+  }
 
   /* ─── Fotonavigatie ─── */
   .foto-hoofd { overflow: hidden; }
@@ -238,7 +306,7 @@
   .kaart-titel { font-size: 16px; letter-spacing: .02em; }
   .kaart-meta {
     font-family: var(--sans); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--grijs); margin: 8px 0 10px;
+    color: #4a4a4a; margin: 8px 0 10px;
   }
   .kaart-prijs { font-size: 17px; color: var(--inkt); }
   .kaart-prijs.verkocht { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--grijs); }
@@ -273,7 +341,7 @@
   .spec:first-child { border-top: 1px solid var(--lijn); }
   .spec dt {
     font-family: var(--sans); font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--grijs); padding-top: 4px; white-space: nowrap;
+    color: #4a4a4a; padding-top: 4px; white-space: nowrap;
   }
   .spec dd { text-align: right; }
   .goudtekst { color: var(--grijs); }
@@ -304,7 +372,7 @@
   /* ─── Checkout ─── */
   .bon { font-size: 15px; margin: 8px 0 26px; }
   .bon-rij { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--lijn); }
-  .bon-rij .oms { font-family: var(--sans); font-size: 12px; color: var(--grijs); letter-spacing: .04em; }
+  .bon-rij .oms { font-family: var(--sans); font-size: 12.5px; color: #3d3d3d; letter-spacing: .04em; }
   .bon-rij.totaal { border-bottom: none; padding-top: 18px; font-size: 19px; }
   .bon-rij.totaal .oms { font-family: var(--sans); font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--inkt); padding-top: 6px; }
   .betaalopties { display: flex; gap: 10px; margin: 22px 0 26px; flex-wrap: wrap; }
@@ -341,7 +409,7 @@
   li:not(.klaar):not(.nu) { opacity: .38; }
   .stap-titel { font-size: 17px; padding-top: 5px; }
   li.nu .stap-titel { color: var(--goud-diep); }
-  .stap-toel { font-family: var(--sans); font-size: 12px; color: var(--grijs); margin-top: 5px; line-height: 1.65; max-width: 460px; }
+  .stap-toel { font-family: var(--sans); font-size: 12.5px; color: #4a4a4a; margin-top: 5px; line-height: 1.65; max-width: 460px; }
 
   /* ─── Atelier / meldingen ─── */
   .wachtrij-item {
@@ -357,7 +425,7 @@
   .mini-foto svg { width: 62%; height: 62%; }
   .wachtrij-info { flex: 1; }
   .wachtrij-titel { font-size: 17px; }
-  .wachtrij-meta { font-family: var(--sans); font-size: 11px; color: var(--grijs); margin-top: 4px; letter-spacing: .04em; }
+  .wachtrij-meta { font-family: var(--sans); font-size: 11.5px; color: #4a4a4a; margin-top: 4px; letter-spacing: .04em; }
   .status-chip {
     font-family: var(--sans); font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
     color: var(--inkt); border: 1px solid var(--lijn);
@@ -367,7 +435,7 @@
   .status-chip.rood { color: var(--bordeaux); border-color: rgba(122,59,59,.4); }
 
   .melding {
-    font-family: var(--sans); font-size: 12.5px; line-height: 1.7;
+    font-family: var(--sans); font-size: 13px; line-height: 1.7; color: var(--inkt);
     border: 1px solid var(--lijn);
     border-left: 3px solid var(--goud);
     background: #f7f7f6;
@@ -378,7 +446,7 @@
   .melding.groen { border-color: rgba(74,107,82,.35); border-left-color: var(--groen); background: rgba(74,107,82,.07); }
   .melding a { color: var(--inkt); }
   .stap-uitleg {
-    font-family: var(--sans); font-size: 12px; color: var(--grijs); line-height: 1.7;
+    font-family: var(--sans); font-size: 12.5px; color: #3d3d3d; line-height: 1.7;
     border: 1px dashed var(--lijn);
     padding: 14px 18px; margin-bottom: 22px;
   }
@@ -435,6 +503,8 @@
   <button class="roltab" data-rol="atelier" onclick="toonRol('atelier')">Atelier<span class="notif" id="notif-atelier"></span></button>
   <button class="roltab" data-rol="account" onclick="toonRol('account')">Mijn account<span class="notif" id="notif-account"></span></button>
 </nav>
+
+<div class="wie-ziet-wat" id="wie-ziet-wat"></div>
 
 <div class="view actief" id="view-koper"></div>
 <div class="view" id="view-atelier"></div>
@@ -580,6 +650,7 @@ let betaalmethode = 'iDEAL';
 // Mijn account: wisselen tussen koper- en verkoperweergave
 let mijnRol = 'koper';
 let accountDetail = null; // geopende voorbeeld-bestelling
+let accountSectie = null; // gekozen item uit de zijnavigatie
 
 // Historische voorbeeld-bestellingen (koperzijde), zodat de lijst realistisch voelt
 const EERDERE_BESTELLINGEN = [
@@ -598,14 +669,31 @@ const EERDERE_BIEDINGEN = [
 ];
 
 // Andere orders in het atelier, zodat het dashboard gevuld aanvoelt
+// De vijf werkfasen van het atelier. Elke order zit in precies een fase.
+const ATELIER_FASEN = [
+  { key: 'AWAITING_ITEM',    nr: 'I',   titel: 'Onderweg naar het atelier', uitleg: 'Label door ons gegenereerd; wij volgen de zending live en de koper ziet dezelfde tracking.' },
+  { key: 'ITEM_RECEIVED',    nr: 'II',  titel: 'Te behandelen',             uitleg: 'Binnengescand en klaargelegd. Oudste binnenkomst bovenaan.' },
+  { key: 'IN_INSPECTION',    nr: 'III', titel: 'In expertise',              uitleg: 'Expert vult het rapport in: echtheid, conditie per zone en vergelijking met de listing.' },
+  { key: 'APPROVED',         nr: 'IV',  titel: 'Klaar voor verzending',     uitleg: 'Goedgekeurd. Bij doorzetten genereren wij automatisch het label naar de koper.' },
+  { key: 'SHIPPED_TO_BUYER', nr: 'V',   titel: 'Onderweg naar de koper',    uitleg: 'Verzekerd verzonden; de koper volgt de zending met dezelfde code.' },
+];
+
+// Trackingcodes: PostNL-formaat, deterministisch opgebouwd zodat ze stabiel blijven
+function trackCode(zaad) {
+  let h = 0;
+  for (const teken of String(zaad)) h = (h * 31 + teken.charCodeAt(0)) % 10000000000000;
+  return '3SSI' + String(h).padStart(13, '0').slice(-13);
+}
+
+// Andere orders in het atelier, per fase, zodat het bord gevuld aanvoelt
 const ANDERE_ORDERS = [
-  { nr: 'SI-2026-0142', art: 'reissue', titel: '2.55 Reissue 227 2009', prijs: 6400, verkoper: 'Maison Réédition', fase: 'Wacht op label', wacht: 'wacht 2 uur' },
-  { nr: 'SI-2026-0141', art: 'flap', titel: 'Classic Flap Jumbo 2004', prijs: 8900, verkoper: 'Isabelle K.', fase: 'Onderweg naar atelier', wacht: 'verzonden gisteren' },
-  { nr: 'SI-2026-0139', art: 'boy', titel: 'Boy Bag New Medium 2016', prijs: 3950, verkoper: 'Vintage Boetiek B.V.', fase: 'Klaar voor expertise', wacht: 'binnen sinds 09:14' },
-  { nr: 'SI-2026-0138', art: 'ketting', titel: 'Gripoix Collier 1991', prijs: 2250, verkoper: 'Nadia R.', fase: 'In expertise', wacht: 'expert: Lotte', chipKlasse: '' },
-  { nr: 'SI-2026-0136', art: 'sjaal', titel: 'Zijden Sjaal Camélia 1998', prijs: 280, verkoper: 'Sophie L.', fase: 'Klaar voor verzending', wacht: 'goedgekeurd 11:02', chipKlasse: 'groen' },
-  { nr: 'SI-2026-0134', art: 'zonnebril', titel: 'Zonnebril Vintage 1994', prijs: 390, verkoper: 'Harold B.', fase: 'Onderweg naar koper', wacht: 'track 3SABC1234567', chipKlasse: 'groen' },
-  { nr: 'SI-2026-0131', art: 'flap', titel: 'Diana Flap Vintage 1988', prijs: 5100, verkoper: 'Vera V.', fase: 'Afgekeurd, retour', wacht: 'stiksels wijken af', chipKlasse: 'rood' },
+  { nr: 'SI-2026-0142', art: 'reissue',   titel: '2.55 Reissue 227 2009',      prijs: 6400, verkoper: 'Maison Réédition',     fase: 'AWAITING_ITEM',    wacht: 'verzonden gisteren 16:40' },
+  { nr: 'SI-2026-0141', art: 'flap',      titel: 'Classic Flap Jumbo 2004',    prijs: 8900, verkoper: 'Isabelle K.',          fase: 'AWAITING_ITEM',    wacht: 'label gegenereerd, nog niet gescand' },
+  { nr: 'SI-2026-0139', art: 'boy',       titel: 'Boy Bag New Medium 2016',    prijs: 3950, verkoper: 'Vintage Boetiek B.V.', fase: 'ITEM_RECEIVED',    wacht: 'binnen sinds 09:14' },
+  { nr: 'SI-2026-0140', art: 'flap',      titel: 'Wallet on Chain 2013',       prijs: 2100, verkoper: 'Nadia R.',             fase: 'ITEM_RECEIVED',    wacht: 'binnen sinds 11:35' },
+  { nr: 'SI-2026-0138', art: 'ketting',   titel: 'Gripoix Collier 1991',       prijs: 2250, verkoper: 'Nadia R.',             fase: 'IN_INSPECTION',    wacht: 'expert: Lotte, sinds 12:05' },
+  { nr: 'SI-2026-0136', art: 'sjaal',     titel: 'Zijden Sjaal Camélia 1998',  prijs: 280,  verkoper: 'Sophie L.',            fase: 'APPROVED',         wacht: 'goedgekeurd 11:02', chipKlasse: 'groen' },
+  { nr: 'SI-2026-0134', art: 'zonnebril', titel: 'Zonnebril Vintage 1994',     prijs: 390,  verkoper: 'Harold B.',            fase: 'SHIPPED_TO_BUYER', wacht: 'bezorging verwacht morgen', chipKlasse: 'groen' },
 ];
 
 // Openstaande biedingen: de actie-inbox van de verkoper.
@@ -690,10 +778,19 @@ function toast(html) {
 function notif(rol, aan) {
   document.getElementById('notif-' + rol).style.display = aan ? 'block' : 'none';
 }
+// Wie ziet welk deel van het platform: in het echte product zijn dit
+// gescheiden omgevingen; in deze demo wisselt u ertussen om alles te zien.
+const WIE_ZIET_WAT = {
+  koper: 'U kijkt nu als <b>bezoeker en koper</b> <span class="scheiding">&#9670;</span> publieke website, zichtbaar voor iedereen',
+  atelier: 'U kijkt nu als <b>uw eigen team</b> <span class="scheiding">&#9670;</span> interne omgeving, alleen voor medewerkers met inlog',
+  account: 'U kijkt nu als <b>een gebruiker in zijn account</b> <span class="scheiding">&#9670;</span> afgeschermd, alleen eigen gegevens zichtbaar',
+};
+
 function toonRol(rol) {
   document.querySelectorAll('.roltab').forEach(b => b.classList.toggle('actief', b.dataset.rol === rol));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('actief'));
   document.getElementById('view-' + rol).classList.add('actief');
+  document.getElementById('wie-ziet-wat').innerHTML = WIE_ZIET_WAT[rol];
   notif(rol, false);
   render();
 }
@@ -933,70 +1030,150 @@ function htmlTracking() {
 // ─────────────────────────────────────────────────────────
 function renderAtelier() {
   const v = document.getElementById('view-atelier');
-  const wachtrij = ANDERE_ORDERS.map(o => `
-    <div class="wachtrij-item">
-      <div class="mini-foto quilt">${art(o.art)}</div>
-      <div class="wachtrij-info">
-        <div class="wachtrij-titel">Chanel ${o.titel}</div>
-        <div class="wachtrij-meta">Order N&deg; ${o.nr} &middot; ${eur(o.prijs)} &middot; verkoper: ${o.verkoper} &middot; ${o.wacht}</div>
-      </div>
-      <span class="status-chip ${o.chipKlasse || ''}">${o.fase}</span>
-    </div>`).join('');
-
   const kop = `
     <div class="centreer intro">
       <div class="voorregel">Het Atelier</div>
       <h2 class="kop">Expertise en authenticatie</h2>
-      <p class="sub">Hier werkt uw team. Dit is de vertrouwenslaag die geen concurrent kan kopi&euml;ren met software alleen.</p>
+      <p class="sub">Elk stuk doorloopt vijf vaste fasen. Bij elke overgang genereren wij het label, volgen wij de zending en krijgt de koper automatisch een update.</p>
     </div>`;
 
-  const rest = `
-    <div class="sectiekop" style="margin-top:30px">Overige stukken in behandeling (${ANDERE_ORDERS.length})</div>
-    ${wachtrij}
-    <p class="biedregel">In het echte atelier-dashboard staan deze gegroepeerd per fase, met de langst wachtende bovenaan.</p>`;
+  // De demo-order zit in een van de fasen en krijgt daar een werkkaart met acties
+  const demoFase = order && !order.afgekeurd ? order.status : null;
 
-  if (!order || order.afgekeurd || order.status === 'COMPLETED') {
-    v.innerHTML = kop + `
-      <div class="paneel leeg" style="padding:32px">
-        <div class="orn">&#9670;&#9670;&#9670;</div>
-        <p>${order && order.afgekeurd ? 'Het stuk is retour gezonden naar de verkoper.<br><br>' : ''}
-        Geen stuk uit uw demo-bestelling in de wachtrij.<br>
-        ${!order ? 'Verwerf een stuk in de <b>Boutique</b> om zelf een order door het atelier te loodsen.' : 'Begin de demo opnieuw via de Boutique.'}</p>
-      </div>` + rest;
-    return;
-  }
+  const bord = ATELIER_FASEN.map(f => {
+    const anderen = ANDERE_ORDERS.filter(o => o.fase === f.key);
+    const heeftDemo = demoFase === f.key;
+    const totaal = anderen.length + (heeftDemo ? 1 : 0);
+    return `
+      <div class="fase-blok">
+        <div class="fase-kop ${heeftDemo ? 'actief' : ''}">
+          <span class="nr">${f.nr}</span>${f.titel}<span class="telling">${totaal}</span>
+        </div>
+        ${heeftDemo ? werkkaart(f) : ''}
+        ${anderen.map(o => `
+          <div class="wachtrij-item">
+            <div class="mini-foto quilt">${art(o.art)}</div>
+            <div class="wachtrij-info">
+              <div class="wachtrij-titel">Chanel ${o.titel}</div>
+              <div class="wachtrij-meta">${o.nr} &middot; ${eur(o.prijs)} &middot; ${o.verkoper} &middot; ${o.wacht}</div>
+            </div>
+            ${['AWAITING_ITEM', 'SHIPPED_TO_BUYER'].includes(o.fase)
+              ? `<span class="track">${trackCode(o.nr)}</span>`
+              : `<span class="status-chip ${o.chipKlasse || ''}">${f.titel}</span>`}
+          </div>`).join('')}
+        ${totaal === 0 ? `<div class="fase-leeg">Niets in deze fase</div>` : ''}
+        <p class="biedregel" style="margin-top:8px">${f.uitleg}</p>
+      </div>`;
+  }).join('');
 
-  const it = order.item;
-  let actie = '';
-  if (order.status === 'PAID') {
-    actie = `<div class="stap-uitleg">In afwachting van de verkoper. Ga naar <b>Mijn account &rsaquo; Als verkoper</b> om het pakket te verzenden.</div>`;
-  } else if (order.status === 'AWAITING_ITEM') {
-    actie = `<button class="knop" onclick="zetStatus('ITEM_RECEIVED','Het stuk is binnengeboekt in het atelier.','koper')">Stuk binnenboeken</button>`;
-  } else if (order.status === 'ITEM_RECEIVED') {
-    actie = `<button class="knop" onclick="zetStatus('IN_INSPECTION','De expertise is begonnen.','koper')">Begin de expertise</button>`;
-  } else if (order.status === 'IN_INSPECTION') {
-    actie = `
-      <div class="stap-uitleg"><b>Expertiseprotocol:</b> hologramsticker en serienummer &middot; stiksels (zeven per centimeter) &middot; hardware-gravures &middot; leerstructuur en geur &middot; vergelijking met de listingfoto's.</div>
-      <button class="knop groen" onclick="zetStatus('APPROVED','Authentiek bevonden en goedgekeurd.','koper')">Goedkeuren</button>
-      <button class="knop rood" onclick="keurAf()">Afkeuren</button>`;
-  } else if (order.status === 'APPROVED') {
-    actie = `<button class="knop" onclick="zetStatus('SHIPPED_TO_BUYER','Verzekerd verzonden naar de koper.','koper')">Verzend naar de koper</button>`;
-  } else {
-    actie = `<div class="stap-uitleg">Onderweg naar de koper. Ga naar de <b>Boutique</b> om de levering te simuleren.</div>`;
-  }
-
-  const stap = STAPPEN.find(s => s.key === order.status);
-  v.innerHTML = kop + `
-    <div class="sectiekop">Uw demo-order</div>
-    <div class="wachtrij-item" style="border-color:var(--goud)">
-      <div class="mini-foto quilt">${art(it.art)}</div>
-      <div class="wachtrij-info">
-        <div class="wachtrij-titel">Chanel ${it.titel} ${it.jaar}</div>
-        <div class="wachtrij-meta">Order N&deg; SI-2026-001 &middot; ${eur(it.prijs)} &middot; verkoper: ${it.verkoper}</div>
+  // Vooraf: betaald, wachten tot de verkoper het pakket meegeeft
+  const wachtBlok = order && order.status === 'PAID' ? `
+    <div class="werkkaart" style="margin-bottom:26px">
+      <div class="fase-kop actief" style="margin-bottom:10px"><span class="nr">0</span>Label verstuurd, wachten op de verkoper</div>
+      <div class="wachtrij-info" style="margin-bottom:10px">
+        <div class="wachtrij-titel">Chanel ${order.item.titel} ${order.item.jaar}</div>
+        <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(order.item.prijs)} &middot; verkoper: ${order.item.verkoper}</div>
       </div>
-      <span class="status-chip">${stap ? stap.titel : order.status}</span>
-    </div>
-    <div class="paneel">${actie}</div>` + rest;
+      <div class="label-kaart">
+        <b>Verzendlabel gegenereerd</b> en per e-mail naar de verkoper gestuurd.<br>
+        Trackingcode <span class="track goud">${trackCode('SI-2026-001-A')}</span> &middot; verzekerd tot ${eur(order.item.prijs)}<br>
+        Zodra de verkoper het pakket afgeeft, zien wij en de koper dezelfde scan.
+      </div>
+      <div class="stap-uitleg" style="margin:0">Ga naar <b>Mijn account &rsaquo; Als verkoper</b> om het pakket af te geven.</div>
+    </div>` : '';
+
+  const afgerond = order && (order.afgekeurd || order.status === 'COMPLETED') ? `
+    <div class="melding ${order.afgekeurd ? 'rood' : 'groen'}" style="margin-bottom:24px">
+      ${order.afgekeurd
+        ? 'Uw demo-order is afgekeurd en retour gezonden naar de verkoper; de koper is volledig terugbetaald.'
+        : 'Uw demo-order is afgerond en uitbetaald. Begin de demo opnieuw via de Boutique voor een nieuwe ronde.'}
+    </div>` : '';
+
+  const geenOrder = !order ? `
+    <div class="stap-uitleg" style="margin-bottom:24px">Verwerf een stuk in de <b>Boutique</b> om zelf een order door deze vijf fasen te loodsen. De overige stukken hieronder laten zien hoe het bord er op een werkdag uitziet.</div>` : '';
+
+  v.innerHTML = kop + geenOrder + afgerond + wachtBlok + bord;
+}
+
+// De werkkaart van de demo-order: per fase de juiste actie, met tracking en rapport
+function werkkaart(f) {
+  const it = order.item;
+  const trackIn = trackCode('SI-2026-001-A');
+  const trackUit = trackCode('SI-2026-001-B');
+  let inhoud = '';
+
+  if (f.key === 'AWAITING_ITEM') {
+    inhoud = `
+      <div class="label-kaart">
+        Onderweg met <span class="track goud">${trackIn}</span> &middot; laatste scan: sorteercentrum, vandaag 07:12<br>
+        De koper ziet dezelfde tracking in zijn bestelling.
+      </div>
+      <button class="knop" onclick="ontvangst()">Scan binnenkomst &mdash; stuk ontvangen</button>`;
+  } else if (f.key === 'ITEM_RECEIVED') {
+    inhoud = `
+      <div class="stap-uitleg" style="margin-bottom:12px">Binnengescand om ${order.binnenTijd || 'zojuist'}. Klaargelegd voor de expert.</div>
+      <button class="knop" onclick="zetStatus('IN_INSPECTION','Expertise gestart. De koper ziet: uw stuk wordt beoordeeld.','koper')">Neem in behandeling</button>`;
+  } else if (f.key === 'IN_INSPECTION') {
+    inhoud = `
+      <div class="stap-uitleg" style="margin-bottom:14px"><b>Protocol:</b> hologramsticker en serienummer &middot; stiksels (zeven per centimeter) &middot; hardware-gravures &middot; leerstructuur en geur &middot; vergelijking met de listingfoto's.</div>
+      <div class="rapport-grid">
+        <div class="rapport-veld"><label>Serienummer</label><input id="rp-serie" value="${(it.serie || '').replace('Serie ', '')}"></div>
+        <div class="rapport-veld"><label>Conditie na expertise</label>
+          <select id="rp-conditie">${CONDITIES.map(c => `<option ${c === it.conditie ? 'selected' : ''}>${c}</option>`).join('')}</select>
+        </div>
+        <div class="rapport-veld"><label>Expert</label>
+          <select id="rp-expert"><option>Lotte</option><option>Marieke</option><option>Youssef</option></select>
+        </div>
+      </div>
+      <div class="rapport-veld"><label>Bevindingen</label><input id="rp-notitie" placeholder="Bijv. hologram intact, stiksels conform, conditie komt overeen met de listing"></div>
+      <button class="knop groen" onclick="rondExpertiseAf(true)">Rapport opslaan &mdash; goedkeuren</button>
+      <button class="knop rood" onclick="rondExpertiseAf(false)">Rapport opslaan &mdash; afkeuren</button>`;
+  } else if (f.key === 'APPROVED') {
+    inhoud = `
+      <div class="melding groen" style="margin:0 0 12px">Rapport opgeslagen: <b>${order.rapport ? order.rapport.conditie : it.conditie}</b>, authentiek bevonden door ${order.rapport ? order.rapport.expert : 'het atelier'}.${order.rapport && order.rapport.notitie ? ` &bdquo;${order.rapport.notitie}"` : ''}</div>
+      <div class="label-kaart">
+        Bij doorzetten genereren wij automatisch het verzendlabel naar de koper:<br>
+        <span class="track goud">${trackUit}</span> &middot; verzekerd tot ${eur(it.prijs)} &middot; handtekening vereist
+      </div>
+      <button class="knop" onclick="verzendNaarKoper()">Genereer label en zet door naar verzending</button>`;
+  } else if (f.key === 'SHIPPED_TO_BUYER') {
+    inhoud = `
+      <div class="label-kaart">
+        Onderweg met <span class="track goud">${trackUit}</span> &middot; koper is per e-mail ge&iuml;nformeerd met dezelfde code.
+      </div>
+      <div class="stap-uitleg" style="margin:0">Ga naar de <b>Boutique</b> om de bezorging te simuleren.</div>`;
+  }
+
+  return `
+    <div class="werkkaart">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:12px">
+        <div class="mini-foto quilt">${art(it.art)}</div>
+        <div class="wachtrij-info">
+          <div class="wachtrij-titel">Chanel ${it.titel} ${it.jaar}</div>
+          <div class="wachtrij-meta">SI-2026-001 &middot; ${eur(it.prijs)} &middot; verkoper: ${it.verkoper} &middot; uw demo-order</div>
+        </div>
+      </div>
+      ${inhoud}
+    </div>`;
+}
+
+function ontvangst() {
+  order.binnenTijd = new Intl.DateTimeFormat('nl-NL', { hour: '2-digit', minute: '2-digit' }).format(new Date());
+  zetStatus('ITEM_RECEIVED', `Binnengescand om ${order.binnenTijd}. <b>De koper krijgt bericht: uw stuk is ontvangen.</b>`, 'koper');
+}
+
+function rondExpertiseAf(goedgekeurd) {
+  const veld = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  order.rapport = { serie: veld('rp-serie'), conditie: veld('rp-conditie'), expert: veld('rp-expert'), notitie: veld('rp-notitie') };
+  if (goedgekeurd) {
+    zetStatus('APPROVED', 'Rapport opgeslagen en goedgekeurd. <b>De koper ziet: authentiek bevonden.</b>', 'koper');
+  } else {
+    keurAf();
+  }
+}
+
+function verzendNaarKoper() {
+  zetStatus('SHIPPED_TO_BUYER', 'Label gegenereerd en verzonden. <b>De koper heeft de trackingcode per e-mail ontvangen.</b>', 'koper');
 }
 
 function keurAf() {
@@ -1015,20 +1192,77 @@ const KOPER_STATUS_CHIP = {
   REFUNDED: { label: 'Terugbetaald', klasse: 'rood' },
 };
 
+// Zijnavigatie per rol: sectie-sleutel, label en teller
+function navSecties() {
+  if (mijnRol === 'koper') {
+    const lopend = order && !order.afgekeurd && order.status !== 'COMPLETED' ? 1 : 0;
+    return [
+      { groep: 'Acties', items: [
+        { key: 'bestellingen', label: 'Lopende bestellingen', telling: lopend, actie: lopend > 0 },
+      ]},
+      { groep: 'Overzicht', items: [
+        { key: 'historie', label: 'Bestelgeschiedenis', telling: EERDERE_BESTELLINGEN.length },
+        { key: 'favorieten', label: 'Favorieten', telling: 3 },
+        { key: 'mijn-biedingen', label: 'Mijn biedingen', telling: biedVerstuurd ? 1 : 0 },
+      ]},
+      { groep: 'Administratie', items: [
+        { key: 'aankoopbonnen', label: 'Aankoopbonnen', telling: EERDERE_BESTELLINGEN.length },
+        { key: 'gegevens', label: 'Gegevens en adressen' },
+      ]},
+    ];
+  }
+  return [
+    { groep: 'Acties', items: [
+      { key: 'biedingen', label: 'Openstaande biedingen', telling: openBiedingen.length, actie: openBiedingen.length > 0 },
+      { key: 'verkoop', label: 'Lopende verkoop', telling: order && !order.afgekeurd && order.status !== 'COMPLETED' ? 1 : 0, actie: !!(order && order.status === 'PAID') },
+    ]},
+    { groep: 'Voorraad', items: [
+      { key: 'listings', label: 'Uw listings', telling: ITEMS.filter(i => i.verkoper === 'Vera V.').length },
+      { key: 'verkocht', label: 'Verkochte stukken', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
+    ]},
+    { groep: 'Administratie', items: [
+      { key: 'biedhistorie', label: 'Biedhistorie', telling: biedHistorie.length },
+      { key: 'facturen', label: 'Facturen', telling: EERDERE_VERKOPEN.length + (order && order.status === 'COMPLETED' && !order.afgekeurd ? 1 : 0) },
+      { key: 'uitbetalingen', label: 'Uitbetalingen' },
+      { key: 'gegevens', label: 'Gegevens en KYC' },
+    ]},
+  ];
+}
+
+function kiesSectie(key) { accountSectie = key; accountDetail = null; verkochtDetail = null; render(); }
+
 function renderAccount() {
   const v = document.getElementById('view-account');
+  const secties = navSecties();
+  const alleKeys = secties.flatMap(g => g.items.map(i => i.key));
+  if (!alleKeys.includes(accountSectie)) accountSectie = alleKeys[0];
+
+  const nav = secties.map(g => `
+    <div class="nav-groep">
+      <div class="nav-groep-kop">${g.groep}</div>
+      ${g.items.map(i => `
+        <button class="nav-item ${accountSectie === i.key ? 'actief' : ''}" onclick="kiesSectie('${i.key}')">
+          <span>${i.label}</span>
+          ${i.telling !== undefined ? `<span class="nav-badge ${i.actie ? '' : 'stil'}">${i.telling}</span>` : ''}
+        </button>`).join('')}
+    </div>`).join('');
+
   const kop = `
-    <div class="centreer intro" style="margin-bottom:26px">
+    <div class="centreer intro" style="margin-bottom:22px">
       <div class="voorregel">Mijn Account</div>
       <h2 class="kop">Vera V.</h2>
       <p class="sub">Particulier account &middot; identiteit geverifieerd via Stripe</p>
     </div>
     <div class="wisselaar">
-      <button class="wissel-knop ${mijnRol === 'koper' ? 'actief' : ''}" onclick="mijnRol='koper';accountDetail=null;render()">Als koper</button>
-      <button class="wissel-knop ${mijnRol === 'verkoper' ? 'actief' : ''}" onclick="mijnRol='verkoper';accountDetail=null;render()">Als verkoper</button>
+      <button class="wissel-knop ${mijnRol === 'koper' ? 'actief' : ''}" onclick="mijnRol='koper';accountSectie=null;accountDetail=null;render()">Als koper</button>
+      <button class="wissel-knop ${mijnRol === 'verkoper' ? 'actief' : ''}" onclick="mijnRol='verkoper';accountSectie=null;accountDetail=null;render()">Als verkoper</button>
     </div>`;
 
-  v.innerHTML = kop + (mijnRol === 'koper' ? htmlAccountKoper() : htmlAccountVerkoper());
+  v.innerHTML = kop + `
+    <div class="account-layout">
+      <nav class="account-nav">${nav}</nav>
+      <div class="account-inhoud">${mijnRol === 'koper' ? htmlAccountKoper() : htmlAccountVerkoper()}</div>
+    </div>`;
 }
 
 // ── Koperzijde: bestellingenlijst met duidelijke status ──
@@ -1068,11 +1302,74 @@ function htmlAccountKoper() {
       </div>`);
   }
 
+  const lopend = rijen.length - EERDERE_BESTELLINGEN.length;
+
+  if (accountSectie === 'historie') {
+    return `
+      <div class="sectiekop">Bestelgeschiedenis (${EERDERE_BESTELLINGEN.length})</div>
+      ${rijen.slice(lopend).join('')}
+      <p class="biedregel">Klik op een bestelling voor de volledige tijdlijn en de afhandeling.</p>`;
+  }
+  if (accountSectie === 'favorieten') {
+    const favs = [ITEMS[3], ITEMS[7], ITEMS[9]];
+    return `
+      <div class="sectiekop">Favorieten (3)</div>
+      ${favs.map(f => `
+        <div class="wachtrij-item" style="cursor:pointer" onclick="naarDetail(${ITEMS.indexOf(f)})">
+          <div class="mini-foto quilt">${art(f.art)}</div>
+          <div class="wachtrij-info">
+            <div class="wachtrij-titel">Chanel ${f.titel} ${f.jaar}</div>
+            <div class="wachtrij-meta">${eur(f.prijs)} &middot; ${f.conditie} &middot; nog beschikbaar</div>
+          </div>
+          <span class="status-chip">Bewaard</span>
+        </div>`).join('')}
+      <p class="biedregel">U krijgt bericht als de prijs daalt of het stuk verkocht wordt.</p>`;
+  }
+  if (accountSectie === 'mijn-biedingen') {
+    return `
+      <div class="sectiekop">Mijn biedingen</div>
+      ${biedVerstuurd
+        ? `<div class="melding">Uw bod van <b>${eur(biedVerstuurd)}</b> op Chanel ${kijkItem ? kijkItem.titel : ''} loopt nog. De verkoper heeft 48 uur om te reageren.</div>`
+        : `<div class="stap-uitleg">U heeft geen lopende biedingen. Breng een bod uit op een stuk in de <b>Boutique</b>.</div>`}
+      <p class="biedregel">Een bod is 48 uur geldig en moet minimaal 70% van de vraagprijs zijn.</p>`;
+  }
+  if (accountSectie === 'aankoopbonnen') {
+    return `
+      <div class="sectiekop">Aankoopbonnen</div>
+      <div class="bon">
+        ${EERDERE_BESTELLINGEN.map((b, i) => `
+        <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
+          <span class="oms">SI-B-2026-0${88 + i} &middot; ${b.datum} &middot; Chanel ${b.titel}</span>
+          <span>${eur(b.prijs)}</span>
+        </div>`).join('')}
+      </div>
+      <p class="biedregel">Bij een particuliere verkoper ontvangt u een aankoopbon van de maison; bij een zakelijke verkoper een volwaardige factuur.</p>`;
+  }
+  if (accountSectie === 'gegevens') {
+    return htmlGegevens();
+  }
+
   return `
-    <div class="sectiekop">Uw bestellingen (${rijen.length})</div>
-    ${order ? '' : `<div class="stap-uitleg">Geen lopende bestelling. Verwerf een stuk in de <b>Boutique</b> en volg hier live de status.</div>`}
-    ${rijen.join('')}
-    <p class="biedregel" style="margin-top:6px">Elke bestelling doorloopt dezelfde acht stappen; klik op een bestelling voor de volledige tijdlijn.</p>`;
+    <div class="sectiekop">Lopende bestellingen (${lopend})</div>
+    ${order ? rijen.slice(0, lopend).join('') : `<div class="stap-uitleg">Geen lopende bestelling. Verwerf een stuk in de <b>Boutique</b> en volg hier live de status.</div>`}
+    <p class="biedregel" style="margin-top:6px">Elke bestelling doorloopt dezelfde acht stappen; klik erop voor de volledige tracking.</p>`;
+}
+
+// Gedeelde sectie: gegevens, adressen en verificatie
+function htmlGegevens() {
+  return `
+    <div class="sectiekop">Gegevens en ${mijnRol === 'verkoper' ? 'KYC' : 'adressen'}</div>
+    <div class="paneel" style="margin:0">
+      <dl class="specs" style="margin:0">
+        <div class="spec"><dt>Naam</dt><dd>Vera V.</dd></div>
+        <div class="spec"><dt>Accounttype</dt><dd>Particulier</dd></div>
+        <div class="spec"><dt>E-mail</dt><dd>vera@voorbeeld.nl</dd></div>
+        <div class="spec"><dt>Bezorgadres</dt><dd>Keizersgracht 1, 1015 CJ Amsterdam</dd></div>
+        <div class="spec"><dt>Identiteit</dt><dd>Geverifieerd via Stripe &middot; 14 juni 2026</dd></div>
+        ${mijnRol === 'verkoper' ? '<div class="spec"><dt>Uitbetaalrekening</dt><dd>NL** INGB **** **89 &middot; geverifieerd</dd></div>' : ''}
+      </dl>
+      <p class="biedregel">Zakelijke accounts tonen hier ook bedrijfsnaam, KVK- en BTW-nummer, plus de UBO-verificatie via Stripe.</p>
+    </div>`;
 }
 
 function htmlEerdereBestelling(b) {
@@ -1127,8 +1424,6 @@ function htmlAccountVerkoper() {
   if (verkochtDetail !== null && EERDERE_VERKOPEN[verkochtDetail]) {
     return htmlVerkochtDetail(EERDERE_VERKOPEN[verkochtDetail]);
   }
-  const kop = `
-    <p class="sub centreer" style="margin:-10px 0 24px">Verkopen als particulier &middot; KYC afgerond &middot; uitbetaling binnen 1 werkdag na levering</p>`;
 
   // ACTIE-INBOX: openstaande biedingen, prominent bovenaan.
   // Hier moet de verkoper handelen; al het andere is administratie.
@@ -1241,12 +1536,36 @@ function htmlAccountVerkoper() {
       <p class="biedregel">Als particuliere verkoper ontvangt u alleen commissienota's van de maison (incl. 21% BTW over de fee). Zakelijke verkopers zien hier ook de verkoopfacturen die het platform namens hen uitreikt onder de margeregeling.</p>
     </div>`;
 
+  // Sectiekeuze uit de zijnavigatie
+  if (accountSectie === 'biedingen') return openBlok;
+  if (accountSectie === 'listings') return listingsBlok;
+  if (accountSectie === 'verkocht') return verkochtBlok;
+  if (accountSectie === 'biedhistorie') return biedBlok;
+  if (accountSectie === 'facturen') return facturenBlok;
+  if (accountSectie === 'gegevens') return htmlGegevens();
+  if (accountSectie === 'uitbetalingen') return `
+    <div class="sectiekop">Uitbetalingen</div>
+    <div class="paneel" style="margin:0">
+      <div class="bon">
+        ${(liveAfgerond ? [`<div class="bon-rij"><span class="oms">vandaag &middot; Chanel ${order.item.titel}</span><span style="color:var(--groen)"><b>${eur(liveNetto)}</b></span></div>`] : []).join('')}
+        ${EERDERE_VERKOPEN.map(vk => `<div class="bon-rij"><span class="oms">${vk.datum} &middot; Chanel ${vk.titel}</span><span>${eur(vk.netto)}</span></div>`).join('')}
+        <div class="bon-rij totaal"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div>
+      </div>
+      <dl class="specs" style="margin:14px 0 0">
+        <div class="spec"><dt>Rekening</dt><dd>NL** INGB **** **89 &middot; geverifieerd</dd></div>
+        <div class="spec"><dt>Termijn</dt><dd>Direct na bevestigde levering</dd></div>
+      </dl>
+      <p class="biedregel">Uitbetaling direct via Stripe, zonder batches of wachttijden.</p>
+    </div>`;
+
+  // Standaard: lopende verkoop
   if (!order) {
-    return kop + openBlok + `
-      <div class="paneel leeg" style="padding:30px">
+    return `
+      <div class="sectiekop">Lopende verkoop</div>
+      <div class="paneel leeg" style="padding:30px;margin:0">
         <div class="orn">&#9670;&#9670;&#9670;</div>
         <p>Geen lopende verkoop.<br>Verwerf als <b>koper</b> een stuk in de Boutique om de verkoopflow te ervaren.</p>
-      </div>` + listingsBlok + verkochtBlok + biedBlok + facturenBlok;
+      </div>`;
   }
 
   const it = order.item;
@@ -1286,7 +1605,7 @@ function htmlAccountVerkoper() {
       <div class="stap-uitleg" style="margin:0">U hoeft niets te doen. Het atelier en de koper zetten de volgende stappen; wissel van rol om ze uit te voeren.</div>`;
   }
 
-  return kop + openBlok + `<div class="paneel"><div class="sectiekop">Uw verkoop</div>${inhoud}</div>` + listingsBlok + verkochtBlok + biedBlok + facturenBlok;
+  return `<div class="sectiekop">Lopende verkoop</div><div class="paneel" style="margin:0">${inhoud}</div>`;
 }
 
 function resetDemo() {
@@ -1302,6 +1621,7 @@ function resetDemo() {
 }
 
 function render() { renderKoper(); renderAtelier(); renderAccount(); }
+document.getElementById('wie-ziet-wat').innerHTML = WIE_ZIET_WAT.koper;
 render();
 </script>
 </body>
