@@ -261,6 +261,21 @@
   .allin { font-family: var(--sans); font-size: 11px; color: #4a4a4a; margin-top: 4px; }
   .verif-goud { color: var(--goud-diep); font-weight: 500; }
 
+  /* ─── Beschrijving en verkopersnotitie ─── */
+  .ai-beschrijving {
+    font-family: var(--sans); font-size: 14.5px; line-height: 1.7; color: #2e2e2e;
+    margin: 14px 0 20px; max-width: 46ch;
+  }
+  .verkoper-notitie {
+    border-left: 2px solid var(--goud); padding: 2px 0 2px 16px; margin-top: 24px;
+  }
+  .verkoper-notitie .vn-kop {
+    font-family: var(--sans); font-size: 10px; font-weight: 500; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--goud-diep); margin-bottom: 6px;
+  }
+  .verkoper-notitie p { font-family: var(--serif); font-size: 16px; line-height: 1.6; color: var(--inkt); }
+  .verkoper-notitie .vn-naam { font-family: var(--sans); font-size: 12px; color: #4a4a4a; margin-top: 6px; }
+
   /* ─── Koper/verkoper-wisselaar ─── */
   .wisselaar {
     display: flex; justify-content: center; gap: 0; margin: 0 auto 30px; max-width: 340px;
@@ -1002,6 +1017,45 @@ ITEMS.forEach((it, i) => {
   it.viaAtelier = it.verificatie !== 'PHOTO';
 });
 const eraVan = it => `${String(Math.floor(it.jaar / 10) * 10)}s`;
+
+// Korte beschrijving, in het echte platform door AI gegenereerd uit de
+// ingevulde specificaties en het conditierapport. De verkoper mag hem
+// aanpassen, maar hoeft niets te schrijven; dat verlaagt de drempel om te listen.
+const SFEER = {
+  tas: ['carries beautifully', 'sits close to the body', 'holds its shape'],
+  sieraad: ['catches the light', 'wears effortlessly', 'layers well'],
+  kleding: ['falls softly', 'tailors close', 'wears season after season'],
+  accessoire: ['finishes an outfit', 'travels well', 'wears every day'],
+};
+function aiBeschrijving(it) {
+  const staat = {
+    'New': 'Unworn and as it left the boutique',
+    'Excellent': 'Barely worn and beautifully kept',
+    'Very good': 'Lightly worn, with the patina you expect of the era',
+    'Good': 'Worn and loved, with honest signs of use',
+    'Visible wear': 'Well worn, with marks that are priced in',
+  }[it.conditie] || 'Kept in good order';
+  const sfeer = SFEER[it.categorie][it.id % 3];
+  const hw = it.hardware && it.hardware !== 'n/a'
+    ? ` with ${it.hardware.toLowerCase()} ${it.categorie === 'kleding' ? 'buttons' : 'hardware'}`
+    : '';
+  const kleur = it.kleur.toLowerCase();
+  const model = it.model.toLowerCase();
+  const materiaal = it.materiaal.toLowerCase();
+  // Voorkom herhaling als het materiaal al in de modelnaam zit ("tweed tweed jacket")
+  const stof = model.includes(materiaal) ? '' : `${materiaal} `;
+  const lidwoord = /^[aeiou]/.test(kleur) ? 'An' : 'A';
+  return `${staat}. ${lidwoord} ${kleur} ${stof}${model} from ${it.jaar}${hw}, a piece that ${sfeer}.`;
+}
+
+// Korte opmerking van de verkoper: optioneel, maximaal 140 tekens
+const VERKOPER_NOTITIE = {
+  1: 'Bought in Paris in 1996, worn to two weddings and then kept in its dust bag.',
+  4: 'My mother’s. Time to let someone else enjoy it.',
+  8: 'Only carried a handful of evenings.',
+  10: 'Inherited, never used. The navy is deeper in daylight than in photographs.',
+  13: 'Fits like a 38; I usually wear a 40.',
+};
 function zetFilter(veld, waarde) { filt[veld] = waarde; render(); }
 function wisFilters() { filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false, verificatie: '' }; render(); }
 function gefilterd() {
@@ -1393,6 +1447,8 @@ function htmlListForm() {
       <div class="sectiekop" style="margin-top:22px">Per area</div>
       ${['Exterior', 'Corners and edges', 'Hardware', 'Interior'].map(zone =>
         veld(zone, inp('Describe what you see, however small'))).join('')}
+      ${veld('Your own note (optional)', `<input type="text" maxlength="140" placeholder="e.g. Bought in Paris, worn twice">`,
+        'One short line, shown on the listing under your name. Maximum 140 characters. Leave it empty if you prefer.')}
       ${veld('Comes with', `<div style="display:flex;flex-wrap:wrap;gap:14px;padding:4px 0">
         ${['Dust bag', 'Authenticity card', 'Box', 'Receipt', 'Extra chain', 'Care booklet'].map(i =>
           `<label style="font-family:var(--sans);font-size:13.5px;display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox"> ${i}</label>`).join('')}
@@ -1416,7 +1472,20 @@ function htmlListForm() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">4. Verification</div>
+      <div class="sectiekop">4. Description</div>
+      <div class="veilig-kader" style="border-color:var(--lijn-goud)">
+        <b>We write this for you.</b> Based on what you filled in above, we draft a short description. Read it, adjust anything that is not right, and you are done. No blank page to stare at.
+      </div>
+      <div class="rapport-veld">
+        <label>Suggested description</label>
+        <textarea rows="3" style="font-family:var(--sans);font-size:14px;border:1px solid var(--lijn);padding:11px 13px;color:var(--inkt);line-height:1.6">Barely worn and beautifully kept. A black lambskin classic flap from 1995 with gold hardware, a piece that carries beautifully.</textarea>
+        <span class="biedregel">Generated from your answers. Edit freely, or press regenerate for another version.</span>
+      </div>
+      <button class="knop klein sec" onclick="toast('A new description is written from your specifications.')">Regenerate</button>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">5. Verification</div>
       <p class="sub" style="margin:0 0 16px">Choose how your piece is verified. Verified pieces sell faster and command higher prices, because buyers know exactly what they are getting.</p>
       ${[
         ['PHOTO', 'Photo check', 'Free · ships directly to the buyer',
@@ -1438,7 +1507,7 @@ function htmlListForm() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">5. Price and terms</div>
+      <div class="sectiekop">6. Price and terms</div>
       <div class="rapport-grid">
         ${veld('Asking price', inp('e.g. 5800', 'number'), 'Comparable pieces in our archive sold for € 5,100 to € 6,400.')}
         ${veld('Offers', sel(['Allow offers from 70% of the asking price', 'Fixed price, no offers']))}
@@ -1484,6 +1553,7 @@ function htmlDetail(it) {
       <div class="detail-info">
         <div class="voorregel">${it.model} &middot; ${it.jaar} &middot; Vintage</div>
         <h2 class="kop">Chanel ${it.titel}</h2>
+        <p class="ai-beschrijving">${aiBeschrijving(it)}</p>
         <div class="detail-prijs" style="margin-bottom:4px">${eur(it.prijs)}</div>
         <div class="allin" style="margin-bottom:18px">${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. buyer protection, excl. shipping</div>
         <dl class="specs">
@@ -1528,6 +1598,13 @@ function htmlDetail(it) {
           <p class="biedregel" style="margin-top:10px">Noted by the seller; our atelier checks and refines this report during the physical expertise.</p>
         </div>
 
+        ${VERKOPER_NOTITIE[it.id] ? `
+        <div class="verkoper-notitie">
+          <div class="vn-kop">From the seller</div>
+          <p>&ldquo;${VERKOPER_NOTITIE[it.id]}&rdquo;</p>
+          <div class="vn-naam">${it.verkoper}</div>
+        </div>` : ''}
+
         ${!it.zakelijk ? '<p class="sub" style="margin-top:18px">You are buying from a private seller, so the statutory right of withdrawal does not apply. Every piece is physically expertised before dispatch.</p>' : ''}
       </div>
 
@@ -1558,18 +1635,55 @@ function verstuurBod(vraagprijs) {
   render();
 }
 
+// Koper kan de verificatie ophogen bij het afrekenen (Vestiaire-model:
+// authenticatie als keuze in de checkout). Kan alleen omhoog, nooit omlaag.
+const UPGRADE_PRIJS = { ATELIER: 39, ENTRUPY: 89 };
+let checkoutUpgrade = null;
+
+function beschikbareUpgrades(it) {
+  const opties = [];
+  if (it.verificatie === 'PHOTO') opties.push('ATELIER');
+  if (it.categorie === 'tas' && it.verificatie !== 'ENTRUPY') opties.push('ENTRUPY');
+  return opties;
+}
+
 function htmlCheckout(it) {
   const fee = it.prijs * KOPERSFEE;
-  const totaal = it.prijs + fee + VERZENDING;
+  const upgradePrijs = checkoutUpgrade ? UPGRADE_PRIJS[checkoutUpgrade] : 0;
+  const totaal = it.prijs + fee + VERZENDING + upgradePrijs;
+  const upgrades = beschikbareUpgrades(it);
+  const huidig = VERIFICATIE[it.verificatie];
+
   return `
     <button class="terug" onclick="scherm='detail';render()">&larr; Back to the piece</button>
     <div class="paneel" style="max-width:560px;margin:0 auto">
       <div class="voorregel">Acquisition</div>
       <h2 class="kop" style="font-size:24px">Chanel ${it.titel} ${it.jaar}</h2>
       <p class="sub" style="margin-bottom:14px">Your payment is held securely and only released to the seller after delivery.</p>
-      <div class="bon">
+
+      <div class="sectiekop" style="margin-top:22px">Verification</div>
+      <label style="display:flex;gap:12px;border:1px solid ${checkoutUpgrade ? 'var(--lijn)' : 'var(--goud)'};padding:14px 16px;margin-bottom:10px;cursor:pointer">
+        <input type="radio" name="upgrade" ${checkoutUpgrade ? '' : 'checked'} onchange="checkoutUpgrade=null;render()" style="margin-top:3px">
+        <span>
+          <span style="font-family:var(--serif);font-size:16px">${huidig.kort}</span>
+          <span class="stap-toel" style="max-width:none;display:block;margin:2px 0 0">${huidig.lang}. Included.</span>
+        </span>
+      </label>
+      ${upgrades.map(u => `
+        <label style="display:flex;gap:12px;border:1px solid ${checkoutUpgrade === u ? 'var(--goud)' : 'var(--lijn)'};padding:14px 16px;margin-bottom:10px;cursor:pointer">
+          <input type="radio" name="upgrade" ${checkoutUpgrade === u ? 'checked' : ''} onchange="checkoutUpgrade='${u}';render()" style="margin-top:3px">
+          <span>
+            <span style="font-family:var(--serif);font-size:16px">${VERIFICATIE[u].kort}</span>
+            <span style="font-family:var(--sans);font-size:12px;color:var(--goud-diep);margin-left:8px">+ ${eur(UPGRADE_PRIJS[u])}</span>
+            <span class="stap-toel" style="max-width:none;display:block;margin:2px 0 0">${VERIFICATIE[u].lang}. The piece travels via our atelier, which adds two to three days.</span>
+          </span>
+        </label>`).join('')}
+      ${upgrades.length === 0 ? '<p class="biedregel" style="margin-top:-4px">This piece already carries our highest level of verification.</p>' : ''}
+
+      <div class="bon" style="margin-top:20px">
         <div class="bon-rij"><span class="oms">The piece</span><span>${eur(it.prijs)}</span></div>
         <div class="bon-rij"><span class="oms">Expertise and buyer protection (5%)</span><span>${eur(fee)}</span></div>
+        ${checkoutUpgrade ? `<div class="bon-rij"><span class="oms">${VERIFICATIE[checkoutUpgrade].kort}</span><span>${eur(upgradePrijs)}</span></div>` : ''}
         <div class="bon-rij"><span class="oms">Insured shipping</span><span>${eur(VERZENDING)}</span></div>
         <div class="bon-rij totaal"><span class="oms">Total</span><span>${eur(totaal)}</span></div>
       </div>
@@ -1583,7 +1697,13 @@ function htmlCheckout(it) {
 }
 
 function betaal() {
-  order = { item: kijkItem, status: 'PAID', afgekeurd: false };
+  order = { item: kijkItem, status: 'PAID', afgekeurd: false, upgrade: checkoutUpgrade };
+  // Door de koper betaalde upgrade stuurt het stuk alsnog langs het atelier
+  if (checkoutUpgrade) {
+    kijkItem.verificatie = checkoutUpgrade;
+    kijkItem.viaAtelier = true;
+  }
+  checkoutUpgrade = null;
   scherm = 'tracking';
   toast('Payment received. <b>The seller now receives an insured shipping label.</b>');
   notif('account', true);
@@ -2508,7 +2628,7 @@ function htmlAccountVerkoper() {
 
 function resetDemo() {
   order = null; kijkItem = null; scherm = 'browse'; accountDetail = null;
-  biedOpen = false; biedVerstuurd = null; fotoView = 0;
+  biedOpen = false; biedVerstuurd = null; fotoView = 0; checkoutUpgrade = null;
   openBiedingen = [
     { id: 'B1', stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1550, vraagprijs: 1750, verloopt: 'expires in 11 hours' },
   ];
