@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@/lib/auth";
-import { logoutAction } from "@/lib/actions/auth-actions";
+import { SiteHeader } from "@/components/site-header";
 import {
   buildOrderBy,
   buildWhere,
@@ -21,7 +20,6 @@ export default async function Home({
 }: {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-  const session = await auth();
   const filters = parseFilters(await searchParams);
   const where = buildWhere(filters);
   const page = pageNumber(filters);
@@ -43,43 +41,7 @@ export default async function Home({
 
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
-      <header className="mb-8 flex items-center justify-between">
-        <div>
-          <Link href="/" className="text-xl font-semibold tracking-tight">
-            Timeless Marketplace
-          </Link>
-          <p className="text-sm text-neutral-500">Vintage Chanel, geauthenticeerd door ons atelier</p>
-        </div>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/sell" className="rounded border border-black px-3 py-1.5 font-medium">
-            Verkopen
-          </Link>
-          {session?.user ? (
-            <>
-              <span className="text-neutral-600">
-                {session.user.name}
-                <span className="ml-1 rounded bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-500">
-                  {session.user.accountType === "BUSINESS" ? "Zakelijk" : "Particulier"}
-                </span>
-              </span>
-              <form action={logoutAction}>
-                <button type="submit" className="underline">
-                  Uitloggen
-                </button>
-              </form>
-            </>
-          ) : (
-            <>
-              <Link href="/login" className="underline">
-                Inloggen
-              </Link>
-              <Link href="/register" className="rounded bg-black px-3 py-1.5 text-white">
-                Registreren
-              </Link>
-            </>
-          )}
-        </nav>
-      </header>
+      <SiteHeader />
 
       {/* Zoeken en filters (GET-formulier: deelbare URL's, geen client-state nodig) */}
       <form method="GET" className="mb-8 flex flex-wrap items-end gap-3 rounded-lg border border-neutral-200 p-4">
