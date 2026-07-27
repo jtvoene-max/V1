@@ -981,6 +981,11 @@ ITEMS.forEach(it => { it.categorie = CATEGORIE_VAN[it.art]; });
 // Verkoper kiest per listing: onderhandelbaar of vaste prijs.
 // Zakelijke verkopers hanteren vaker een vaste prijs (winkelmodel).
 ITEMS.forEach(it => { it.bodOpen = !(it.zakelijk && it.prijs > 2000); });
+// Routing: tassen gaan altijd langs het atelier (daar zit onze expertise),
+// overige categorieen alleen boven 1.000 euro. Rest gaat rechtstreeks,
+// met een fotocontrole vooraf in plaats van fysieke expertise.
+const ATELIER_DREMPEL = 1000;
+ITEMS.forEach(it => { it.viaAtelier = it.categorie === 'tas' || it.prijs >= ATELIER_DREMPEL; });
 const eraVan = it => `Jaren ’${String(Math.floor(it.jaar / 10) * 10).slice(2)}`;
 function zetFilter(veld, waarde) { filt[veld] = waarde; render(); }
 function wisFilters() { filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false }; render(); }
@@ -1178,7 +1183,7 @@ function renderKoper() {
             <div class="kaart-titel">Chanel ${it.titel}</div>
             <div class="kaart-meta">${it.jaar} &middot; ${it.conditie} &middot; ${it.hardware !== 'n.v.t.' ? it.hardware + ' hardware &middot; ' : ''}${it.zakelijk ? 'Zakelijk' : 'Particulier'}</div>
             <div class="kaart-prijs ${verkocht ? 'verkocht' : ''}">${verkocht ? 'Verkocht' : eur(it.prijs)}</div>
-            ${verkocht ? '' : `<div class="allin">${it.bodOpen ? 'Bod mogelijk &middot; ' : 'Vaste prijs &middot; '}${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. bescherming</div>`}
+            ${verkocht ? '' : `<div class="allin">${it.viaAtelier ? 'Via atelier' : 'Rechtstreeks'} &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. bescherming</div>`}
           </div>
         </div>`;
       }).join('')}
@@ -1344,7 +1349,8 @@ function htmlDetail(it) {
           <div class="spec"><dt>Afmetingen</dt><dd>${it.afmetingen}</dd></div>
           <div class="spec"><dt>Era</dt><dd>${it.serie}</dd></div>
           <div class="spec"><dt>Verkoper</dt><dd>${it.verkoper} <span class="goudtekst">&middot; ${it.zakelijk ? 'zakelijk' : 'particulier'}</span></dd></div>
-          <div class="spec"><dt>Expertise</dt><dd>Fysiek geauthenticeerd in ons atelier</dd></div>
+          <div class="spec"><dt>Expertise</dt><dd>${it.viaAtelier ? 'Fysiek geauthenticeerd in ons atelier' : 'Foto&rsquo;s vooraf gecontroleerd door ons team'}</dd></div>
+          <div class="spec"><dt>Verzending</dt><dd>${it.viaAtelier ? 'Via ons atelier naar u' : 'Rechtstreeks van de verkoper'}</dd></div>
           ${it.zakelijk ? '<div class="spec"><dt>Bedenktijd</dt><dd>14 dagen herroepingsrecht</dd></div>' : ''}
         </dl>
 

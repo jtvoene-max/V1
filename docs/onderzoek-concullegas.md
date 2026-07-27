@@ -96,6 +96,34 @@ De huidige 3 niveaus (Uitstekend/Goed/Gebruikssporen) zijn te grof vergeleken me
 4. **Retour:** 14 dagen bij zakelijke verkopers (wettelijk), bij particuliere verkopers geen herroepingsrecht maar wél de inspectie-zekerheid; precies zoals nu gecommuniceerd
 5. **Verkocht blijft zichtbaar** (met "Verkocht"-label) in plaats van verdwijnen: prijsreferentie en SEO
 
-### 5e. Impact op het datamodel
+### 5e. Routing: wat gaat wel en niet langs het atelier
+
+De duurste operationele keuze. Vestiaire bewijst dat een drempel werkt: boven €1.000 verplicht via de hub, eronder mag rechtstreeks ("Direct Shipping"). Alles langs het atelier sturen is puur verlies op een sjaal van €200: de authenticatie kost meer tijd dan de marge oplevert, en de koper wacht onnodig lang.
+
+**Advies: routeer op categorie én waarde.**
+
+| Route | Wanneer | Waarom |
+|---|---|---|
+| **Via het atelier** (drie verzendbenen) | alle tassen, ongeacht prijs, plus elk ander stuk boven €1.000 | Tassen zijn het hart van de collectie, dragen de omzet en zijn het vaakst vervalst; daar is fysieke expertise het verschil. Dure kleding en sieraden verdienen dezelfde behandeling. |
+| **Rechtstreeks** (verkoper naar koper) | sjaals, zonnebrillen, kleine sieraden en overige stukken onder €1.000 | Sneller en goedkoper voor beide partijen; het platform houdt het geld nog steeds vast tot levering, dus de kopersbescherming blijft. |
+
+Bij de rechtstreekse route vervangen wij de fysieke check door een **fotocontrole vooraf**: de verkoper levert de acht standaardbeelden, ons team beoordeelt die vóór de listing live gaat. Minder zeker dan fysiek, maar aantoonbaar beter dan wat Vinted of Marktplaats doet, en het verschil is transparant zichtbaar op de listing.
+
+Twee dingen om vast te leggen:
+- Toon de route op de listing ("Gaat via ons atelier" of "Rechtstreeks verzonden, foto's gecontroleerd"), zodat de koper weet wat hij koopt. Vestiaire doet dit ook.
+- Ondergrens bewaken: als tassen onder de €300 in de collectie komen, opnieuw wegen of die de ateliertijd waard zijn.
+
+### 5f. Nog te overwegen (later, uit het onderzoek)
+
+Vier ideeën van concullega's die nu niet passen, maar wel waarde hebben zodra het platform loopt:
+
+1. **Terugkoopgarantie (Rebag Infinity).** Rebag koopt binnen een jaar terug voor 70-80% van de aankoopprijs, met 20% extra als je het in tegoed neemt. Dit maakt een aankoop van €6.000 minder definitief en voedt tegelijk je eigen inkoop. Voor de C2B-kant het interessantste model dat we zijn tegengekomen. Wel: vereist werkkapitaal en een prijsmodel dat je pas kunt maken met genoeg eigen verkoopdata. Fase: na het eerste jaar.
+2. **Directe waardebepaling (Rebag Clair).** "Wat is mijn tas waard?" als los instrument op de site, ook voor wie nog niet wil verkopen. Sterke leadmagneet en de directe voedingsbodem voor aanbod. Jouw archief met gerealiseerde prijzen is precies de data die je ervoor nodig hebt. Fase: zodra het archief een paar honderd verkopen telt.
+3. **Gespreid betalen zonder BNPL-partij (Fashionphile Reserve).** 10% niet-restitueerbare aanbetaling, daarna vrij afbetalen binnen 60 dagen, rentevrij, verzending na de laatste betaling. Bij stukken van duizenden euro's verlaagt dit de drempel fors zonder dat je marge weglekt naar Klarna. Wel: het stuk staat 60 dagen vast en het geld ook. Fase: als je merkt dat dure stukken blijven liggen.
+4. **Openbaar verkocht-archief (Fashionphile).** Al gebouwd in de demo; hier vooral als herinnering dat dit ook een SEO-motor is: elke verkochte tas blijft een vindbare pagina met een gerealiseerde prijs.
+
+### 5g. Impact op het datamodel
 
 Nieuwe velden op Listing: `model` bestaat al; toevoegen: `color`, `material`, `hardwareColor`, `dimensions` (b/h/d/drop), `inclusions` (array), conditie-enum uitbreiden naar 5, en `wearNotes` per zone (JSON of aparte velden). Alles filterbaar met de bestaande indexstrategie.
+
+Voor de routing (5e): `Order.fulfilmentRoute` (VIA_ATELIER | DIRECT), bepaald op koopmoment uit categorie en prijs en daarna vastgelegd. Bij DIRECT bestaat er maar één Shipment (verkoper naar koper) in plaats van drie, en slaat de orderflow de inspectiefasen over. De statusflow blijft dezelfde enum, zodat er geen tweede model ontstaat.
