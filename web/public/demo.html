@@ -6,17 +6,17 @@
 <title>Timeless — La Maison de la Revente</title>
 <style>
   :root {
-    --noir: #0c0b09;
-    --ivoor: #f7f4ec;
-    --wit: #fffdf8;
+    --noir: #0a0a0a;
+    --ivoor: #fafafa;
+    --wit: #ffffff;
     --champagne: #d8c49a;
     --goud: #a8894f;
     --goud-diep: #8a6f3c;
-    --inkt: #2a2722;
-    --grijs: #8a8378;
-    --lijn: rgba(12, 11, 9, .14);
+    --inkt: #1a1a1a;
+    --grijs: #767676;
+    --lijn: rgba(10, 10, 10, .14);
     --lijn-goud: rgba(168, 137, 79, .35);
-    --groen: #4a6b52;
+    --groen: #3e5c46;
     --bordeaux: #7a3b3b;
     --serif: "Didot", "Bodoni MT", "Playfair Display", "Cormorant Garamond", Georgia, serif;
     --sans: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
@@ -33,17 +33,17 @@
 
   /* ─── Matelassé-ruitpatroon ─── */
   .quilt {
-    background-color: var(--ivoor);
+    background-color: #f6f6f5;
     background-image:
-      linear-gradient(45deg,  transparent 48.5%, rgba(168,137,79,.13) 48.5%, rgba(168,137,79,.13) 51.5%, transparent 51.5%),
-      linear-gradient(-45deg, transparent 48.5%, rgba(168,137,79,.13) 48.5%, rgba(168,137,79,.13) 51.5%, transparent 51.5%);
+      linear-gradient(45deg,  transparent 48.5%, rgba(10,10,10,.07) 48.5%, rgba(10,10,10,.07) 51.5%, transparent 51.5%),
+      linear-gradient(-45deg, transparent 48.5%, rgba(10,10,10,.07) 48.5%, rgba(10,10,10,.07) 51.5%, transparent 51.5%);
     background-size: 46px 46px;
   }
   .quilt-donker {
     background-color: var(--noir);
     background-image:
-      linear-gradient(45deg,  transparent 48%, rgba(216,196,154,.14) 48%, rgba(216,196,154,.14) 52%, transparent 52%),
-      linear-gradient(-45deg, transparent 48%, rgba(216,196,154,.14) 48%, rgba(216,196,154,.14) 52%, transparent 52%);
+      linear-gradient(45deg,  transparent 48%, rgba(255,255,255,.07) 48%, rgba(255,255,255,.07) 52%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(255,255,255,.07) 48%, rgba(255,255,255,.07) 52%, transparent 52%);
     background-size: 54px 54px;
   }
 
@@ -67,7 +67,7 @@
     font-size: 10px;
     letter-spacing: .38em;
     text-transform: uppercase;
-    color: var(--champagne);
+    color: rgba(255,255,255,.55);
     margin-top: 12px;
     text-indent: .38em;
   }
@@ -80,8 +80,8 @@
     position: absolute; top: 14px; right: 16px;
     font-family: var(--sans);
     font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--champagne);
-    border: 1px solid var(--lijn-goud);
+    color: rgba(255,255,255,.6);
+    border: 1px solid rgba(255,255,255,.25);
     padding: 6px 12px;
   }
 
@@ -130,7 +130,7 @@
   .voorregel {
     font-family: var(--sans);
     font-size: 10px; letter-spacing: .34em; text-transform: uppercase;
-    color: var(--goud); margin-bottom: 10px;
+    color: var(--grijs); margin-bottom: 10px;
   }
   .sub { font-family: var(--sans); font-size: 13px; color: var(--grijs); margin-top: 10px; line-height: 1.7; }
   .centreer { text-align: center; }
@@ -159,7 +159,7 @@
     color: var(--grijs); margin: 8px 0 10px;
   }
   .kaart-prijs { font-size: 17px; color: var(--inkt); }
-  .kaart-prijs.verkocht { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--goud); }
+  .kaart-prijs.verkocht { font-family: var(--sans); font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--grijs); }
   .verkocht-overlay { opacity: .5; pointer-events: none; }
 
   /* ─── Panelen ─── */
@@ -169,7 +169,7 @@
     color: var(--grijs); background: none; border: none; cursor: pointer;
     margin-bottom: 22px; padding: 0;
   }
-  .terug:hover { color: var(--goud-diep); }
+  .terug:hover { color: var(--inkt); }
 
   .detail-flex { display: flex; gap: 44px; flex-wrap: wrap; }
   .detail-foto {
@@ -194,7 +194,7 @@
     color: var(--grijs); padding-top: 4px; white-space: nowrap;
   }
   .spec dd { text-align: right; }
-  .goudtekst { color: var(--goud-diep); }
+  .goudtekst { color: var(--grijs); }
 
   /* ─── Knoppen ─── */
   .knop {
@@ -207,11 +207,11 @@
     transition: background .2s, color .2s, border-color .2s;
     margin: 4px 8px 4px 0;
   }
-  .knop:hover { background: var(--goud-diep); border-color: var(--goud-diep); }
-  .knop.goud { background: var(--goud-diep); border-color: var(--goud-diep); }
-  .knop.goud:hover { background: var(--noir); border-color: var(--noir); }
+  .knop:hover { background: var(--wit); color: var(--noir); }
+  .knop.goud { background: var(--noir); border-color: var(--noir); color: var(--champagne); }
+  .knop.goud:hover { background: var(--wit); }
   .knop.sec { background: transparent; color: var(--inkt); border-color: var(--inkt); }
-  .knop.sec:hover { background: var(--noir); color: var(--ivoor); }
+  .knop.sec:hover { background: var(--noir); color: var(--wit); }
   .knop.groen { background: var(--groen); border-color: var(--groen); }
   .knop.groen:hover { background: var(--noir); border-color: var(--noir); }
   .knop.rood { background: transparent; color: var(--bordeaux); border-color: var(--bordeaux); }
@@ -232,7 +232,7 @@
     padding: 13px 20px; cursor: pointer; color: var(--grijs);
     transition: all .15s;
   }
-  .betaaloptie:hover { border-color: var(--goud); color: var(--inkt); }
+  .betaaloptie:hover { border-color: var(--noir); color: var(--inkt); }
   .betaaloptie.gekozen { border-color: var(--noir); color: var(--inkt); background: var(--ivoor); }
 
   /* ─── Tijdlijn ─── */
@@ -242,7 +242,7 @@
     content: ''; position: absolute; left: 17px; top: 38px; bottom: 2px;
     width: 1px; background: var(--lijn);
   }
-  .tijdlijn li.klaar::before { background: var(--goud); }
+  .tijdlijn li.klaar::before { background: var(--noir); }
   .tijdlijn li:last-child::before { display: none; }
   .stip {
     width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0;
@@ -278,7 +278,7 @@
   .wachtrij-meta { font-family: var(--sans); font-size: 11px; color: var(--grijs); margin-top: 4px; letter-spacing: .04em; }
   .status-chip {
     font-family: var(--sans); font-size: 9px; letter-spacing: .24em; text-transform: uppercase;
-    color: var(--goud-diep); border: 1px solid var(--lijn-goud);
+    color: var(--inkt); border: 1px solid var(--lijn);
     padding: 7px 14px; white-space: nowrap;
   }
   .status-chip.groen { color: var(--groen); border-color: rgba(74,107,82,.4); }
@@ -286,18 +286,18 @@
 
   .melding {
     font-family: var(--sans); font-size: 12.5px; line-height: 1.7;
-    border: 1px solid var(--lijn-goud);
+    border: 1px solid var(--lijn);
     border-left: 3px solid var(--goud);
-    background: rgba(216,196,154,.10);
+    background: #f7f7f6;
     padding: 16px 20px; margin-bottom: 22px;
   }
   .melding b { letter-spacing: .02em; }
   .melding.rood { border-color: rgba(122,59,59,.35); border-left-color: var(--bordeaux); background: rgba(122,59,59,.06); }
   .melding.groen { border-color: rgba(74,107,82,.35); border-left-color: var(--groen); background: rgba(74,107,82,.07); }
-  .melding a { color: var(--goud-diep); }
+  .melding a { color: var(--inkt); }
   .stap-uitleg {
     font-family: var(--sans); font-size: 12px; color: var(--grijs); line-height: 1.7;
-    border: 1px dashed var(--lijn-goud);
+    border: 1px dashed var(--lijn);
     padding: 14px 18px; margin-bottom: 22px;
   }
   .stap-uitleg b { color: var(--inkt); }
@@ -308,7 +308,7 @@
 
   .sectiekop {
     font-family: var(--sans); font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
-    color: var(--goud-diep); margin-bottom: 18px;
+    color: var(--grijs); margin-bottom: 18px;
     display: flex; align-items: center; gap: 14px;
   }
   .sectiekop::after { content: ''; flex: 1; height: 1px; background: var(--lijn); }
@@ -320,7 +320,7 @@
     background: var(--noir); color: var(--ivoor);
     font-family: var(--sans); font-size: 12px; letter-spacing: .04em; line-height: 1.6;
     padding: 15px 28px;
-    border: 1px solid var(--lijn-goud);
+    border: 1px solid rgba(255,255,255,.18);
     transition: transform .35s cubic-bezier(.2,.8,.2,1);
     z-index: 100; max-width: min(88vw, 480px); text-align: center;
     box-shadow: 0 14px 40px rgba(12,11,9,.35);
@@ -365,47 +365,47 @@
 // Gouden lijntekeningen (in plaats van productfoto's)
 // ─────────────────────────────────────────────────────────
 const TEKENINGEN = {
-  flap: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.6">
+  flap: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.6">
     <path d="M25 55 h70 a4 4 0 0 1 4 4 v32 a4 4 0 0 1 -4 4 h-70 a4 4 0 0 1 -4 -4 v-32 a4 4 0 0 1 4 -4 z"/>
     <path d="M21 62 h78" stroke-width="1"/>
-    <path d="M25 55 h70 a4 4 0 0 1 4 4 v10 h-33 a6 6 0 0 0 -12 0 h-33 v-10 a4 4 0 0 1 4 -4 z" fill="rgba(216,196,154,.18)"/>
-    <circle cx="60" cy="71" r="5.5"/>
-    <path d="M56 71 h8 M60 67 v8" stroke-width="1"/>
+    <path d="M25 55 h70 a4 4 0 0 1 4 4 v10 h-33 a6 6 0 0 0 -12 0 h-33 v-10 a4 4 0 0 1 4 -4 z" fill="rgba(10,10,10,.05)"/>
+    <circle cx="60" cy="71" r="5.5" stroke="#a8894f"/>
+    <path d="M56 71 h8 M60 67 v8" stroke-width="1" stroke="#a8894f"/>
     <path d="M32 55 C 32 26, 44 20, 60 20 C 76 20, 88 26, 88 55" stroke-dasharray="0.5 6" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M30 82 l60 -18 M30 90 l60 -18" stroke-width=".6" opacity=".6"/>
+    <path d="M30 82 l60 -18 M30 90 l60 -18" stroke-width=".6" opacity=".5"/>
   </svg>`,
-  boy: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.6">
+  boy: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.6">
     <rect x="24" y="52" width="72" height="42" rx="3"/>
     <rect x="31" y="59" width="58" height="28" rx="2" stroke-width="1"/>
-    <rect x="52" y="72" width="16" height="9" rx="1" fill="rgba(216,196,154,.18)"/>
+    <rect x="52" y="72" width="16" height="9" rx="1" fill="rgba(216,196,154,.25)" stroke="#a8894f"/>
     <path d="M34 52 C 34 30, 46 24, 60 24 C 74 24, 86 30, 86 52" stroke-dasharray="4 4.5" stroke-width="2.2"/>
-    <path d="M38 66 l44 16 M38 80 l44 -16" stroke-width=".6" opacity=".55"/>
+    <path d="M38 66 l44 16 M38 80 l44 -16" stroke-width=".6" opacity=".5"/>
   </svg>`,
-  ketting: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.6">
+  ketting: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.6">
     <path d="M30 26 C 30 62, 44 74, 60 74 C 76 74, 90 62, 90 26" stroke-dasharray="1 6.5" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="60" cy="84" r="9"/>
-    <circle cx="60" cy="84" r="3.5" fill="rgba(216,196,154,.3)"/>
+    <circle cx="60" cy="84" r="9" stroke="#a8894f"/>
+    <circle cx="60" cy="84" r="3.5" fill="rgba(216,196,154,.35)" stroke="#a8894f"/>
     <path d="M60 74 v1.5" stroke-width="1.2"/>
   </svg>`,
-  reissue: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.6">
+  reissue: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.6">
     <path d="M23 58 h74 a3 3 0 0 1 3 3 v30 a3 3 0 0 1 -3 3 h-74 a3 3 0 0 1 -3 -3 v-30 a3 3 0 0 1 3 -3 z"/>
-    <path d="M23 58 h74 a3 3 0 0 1 3 3 v8 h-36 v4 h-8 v-4 h-36 v-8 a3 3 0 0 1 3 -3 z" fill="rgba(216,196,154,.18)"/>
-    <rect x="54" y="66" width="12" height="7" rx="1"/>
+    <path d="M23 58 h74 a3 3 0 0 1 3 3 v8 h-36 v4 h-8 v-4 h-36 v-8 a3 3 0 0 1 3 -3 z" fill="rgba(10,10,10,.05)"/>
+    <rect x="54" y="66" width="12" height="7" rx="1" stroke="#a8894f"/>
     <path d="M30 58 C 30 32, 42 26, 60 26 C 78 26, 90 32, 90 58" stroke-dasharray="3.5 4" stroke-width="2"/>
-    <path d="M28 78 l64 -12 M28 88 l64 -12" stroke-width=".6" opacity=".55"/>
+    <path d="M28 78 l64 -12 M28 88 l64 -12" stroke-width=".6" opacity=".5"/>
   </svg>`,
-  zonnebril: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.6">
+  zonnebril: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.6">
     <circle cx="40" cy="64" r="16"/>
     <circle cx="80" cy="64" r="16"/>
     <path d="M56 64 C 58 58, 62 58, 64 64"/>
-    <path d="M24 62 l-8 -6 M96 62 l8 -6" stroke-width="1.2"/>
-    <path d="M33 58 a9 9 0 0 1 7 -3" stroke-width=".8" opacity=".7"/>
+    <path d="M24 62 l-8 -6 M96 62 l8 -6" stroke-width="1.2" stroke="#a8894f"/>
+    <path d="M33 58 a9 9 0 0 1 7 -3" stroke-width=".8" opacity=".6"/>
   </svg>`,
-  sjaal: `<svg viewBox="0 0 120 120" fill="none" stroke="#a8894f" stroke-width="1.4">
+  sjaal: `<svg viewBox="0 0 120 120" fill="none" stroke="#1a1a1a" stroke-width="1.4">
     <path d="M30 30 h60 v60 h-60 z" transform="rotate(8 60 60)"/>
-    <path d="M38 38 h44 v44 h-44 z" transform="rotate(8 60 60)" stroke-width=".8" opacity=".7"/>
-    <circle cx="60" cy="60" r="10" opacity=".9"/>
-    <path d="M60 50 C 64 54, 64 58, 60 60 C 56 58, 56 54, 60 50 M70 60 C 66 64, 62 64, 60 60 M60 60 C 64 66, 60 70, 60 70 C 60 70, 56 66, 60 60 M50 60 C 54 56, 58 56, 60 60" stroke-width=".9"/>
+    <path d="M38 38 h44 v44 h-44 z" transform="rotate(8 60 60)" stroke-width=".8" opacity=".6"/>
+    <circle cx="60" cy="60" r="10" opacity=".9" stroke="#a8894f"/>
+    <path d="M60 50 C 64 54, 64 58, 60 60 C 56 58, 56 54, 60 50 M70 60 C 66 64, 62 64, 60 60 M60 60 C 64 66, 60 70, 60 70 C 60 70, 56 66, 60 60 M50 60 C 54 56, 58 56, 60 60" stroke-width=".9" stroke="#a8894f"/>
   </svg>`,
 };
 
