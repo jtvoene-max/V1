@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeless Marketplace — interactieve demo</title>
+<style>
+  :root {
+    --zwart: #111111;
+    --wit: #ffffff;
+    --creme: #f7f4ef;
+    --goud: #b49a5e;
+    --goud-licht: #e8dfc9;
+    --grijs: #6b6b6b;
+    --lijn: #e5e0d8;
+    --groen: #2e7d4f;
+    --rood: #b03030;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--creme);
+    color: var(--zwart);
+    min-height: 100vh;
+  }
+  .sans { font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; }
+
+  /* ── Kop ── */
+  .topbar {
+    background: var(--zwart);
+    color: var(--wit);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .logo { font-size: 20px; letter-spacing: 3px; text-transform: uppercase; }
+  .logo span { color: var(--goud); }
+  .demo-badge {
+    font-family: sans-serif;
+    font-size: 11px;
+    background: var(--goud);
+    color: var(--zwart);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  /* ── Rol-tabs ── */
+  .roltabs {
+    display: flex;
+    background: var(--wit);
+    border-bottom: 1px solid var(--lijn);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .roltab {
+    flex: 1;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: sans-serif;
+    font-size: 13px;
+    color: var(--grijs);
+    border-bottom: 3px solid transparent;
+    transition: all .15s;
+  }
+  .roltab .rol-icoon { display: block; font-size: 20px; margin-bottom: 3px; }
+  .roltab.actief { color: var(--zwart); border-bottom-color: var(--goud); font-weight: 700; }
+  .roltab .notif {
+    display: inline-block;
+    background: var(--rood);
+    color: #fff;
+    font-size: 10px;
+    border-radius: 10px;
+    padding: 1px 6px;
+    margin-left: 4px;
+    vertical-align: top;
+  }
+
+  .view { display: none; max-width: 960px; margin: 0 auto; padding: 28px 20px 60px; }
+  .view.actief { display: block; }
+
+  h2 { font-size: 22px; margin-bottom: 4px; font-weight: 400; }
+  .sub { font-family: sans-serif; font-size: 13px; color: var(--grijs); margin-bottom: 24px; }
+
+  /* ── Productgrid ── */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+  .kaart {
+    background: var(--wit);
+    border: 1px solid var(--lijn);
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s;
+  }
+  .kaart:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+  .kaart-foto {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+  }
+  .kaart-info { padding: 12px 14px 16px; }
+  .kaart-titel { font-size: 14px; margin-bottom: 4px; }
+  .kaart-meta { font-family: sans-serif; font-size: 11px; color: var(--grijs); margin-bottom: 6px; }
+  .kaart-prijs { font-family: sans-serif; font-weight: 700; font-size: 15px; }
+  .badge {
+    font-family: sans-serif;
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: var(--goud-licht);
+    color: #7a6837;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .verkocht-overlay { opacity: .45; pointer-events: none; }
+
+  /* ── Detail / panelen ── */
+  .paneel {
+    background: var(--wit);
+    border: 1px solid var(--lijn);
+    border-radius: 12px;
+    padding: 26px;
+    margin-bottom: 20px;
+  }
+  .terug {
+    font-family: sans-serif;
+    font-size: 13px;
+    color: var(--grijs);
+    background: none; border: none; cursor: pointer;
+    margin-bottom: 16px;
+    text-decoration: underline;
+  }
+  .detail-flex { display: flex; gap: 28px; flex-wrap: wrap; }
+  .detail-foto {
+    flex: 1; min-width: 240px;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 110px;
+  }
+  .detail-info { flex: 1.2; min-width: 260px; }
+  .detail-prijs { font-family: sans-serif; font-size: 28px; font-weight: 700; margin: 10px 0 16px; }
+  dl.specs {
+    font-family: sans-serif; font-size: 13px;
+    display: grid; grid-template-columns: 130px 1fr; gap: 6px 12px;
+    background: var(--creme);
+    border-radius: 8px; padding: 14px 16px; margin: 16px 0;
+  }
+  dl.specs dt { color: var(--grijs); }
+
+  .knop {
+    font-family: sans-serif;
+    background: var(--zwart);
+    color: var(--wit);
+    border: none;
+    padding: 13px 28px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .knop:hover { opacity: .85; }
+  .knop.sec { background: var(--wit); color: var(--zwart); border: 1px solid var(--zwart); }
+  .knop.goud { background: var(--goud); color: var(--zwart); font-weight: 700; }
+  .knop.groen { background: var(--groen); }
+  .knop.rood { background: var(--rood); }
+  .knop.klein { padding: 8px 16px; font-size: 12px; }
+  .knop:disabled { opacity: .35; cursor: default; }
+
+  /* ── Checkout ── */
+  .bon { font-family: sans-serif; font-size: 14px; }
+  .bon-rij { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--lijn); }
+  .bon-rij.totaal { font-weight: 700; font-size: 16px; border-bottom: none; padding-top: 12px; }
+  .betaalopties { display: flex; gap: 10px; margin: 18px 0; flex-wrap: wrap; }
+  .betaaloptie {
+    font-family: sans-serif; font-size: 13px;
+    border: 2px solid var(--lijn); border-radius: 8px;
+    padding: 12px 18px; cursor: pointer; background: var(--wit);
+  }
+  .betaaloptie.gekozen { border-color: var(--zwart); font-weight: 700; }
+
+  /* ── Tijdlijn ── */
+  .tijdlijn { list-style: none; margin: 20px 0; }
+  .tijdlijn li {
+    font-family: sans-serif; font-size: 13px;
+    display: flex; gap: 14px; align-items: flex-start;
+    padding-bottom: 22px; position: relative;
+  }
+  .tijdlijn li::before {
+    content: ''; position: absolute; left: 13px; top: 28px; bottom: 0;
+    width: 2px; background: var(--lijn);
+  }
+  .tijdlijn li:last-child::before { display: none; }
+  .stip {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; background: var(--lijn); color: var(--grijs);
+    border: 2px solid var(--lijn);
+  }
+  li.klaar .stip { background: var(--zwart); border-color: var(--zwart); color: var(--goud); }
+  li.nu .stip { background: var(--wit); border-color: var(--goud); color: var(--zwart); animation: pols 1.5s infinite; }
+  @keyframes pols { 0%,100% { box-shadow: 0 0 0 0 rgba(180,154,94,.5);} 50% { box-shadow: 0 0 0 7px rgba(180,154,94,0);} }
+  .stap-titel { font-weight: 700; }
+  li:not(.klaar):not(.nu) { opacity: .45; }
+  .stap-toel { color: var(--grijs); margin-top: 2px; }
+
+  /* ── Atelier ── */
+  .wachtrij-item {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--wit); border: 1px solid var(--lijn);
+    border-radius: 10px; padding: 16px 20px; margin-bottom: 12px;
+    font-family: sans-serif; font-size: 14px;
+  }
+  .wachtrij-item .mini { font-size: 30px; }
+  .status-chip {
+    font-family: sans-serif; font-size: 11px; padding: 3px 10px;
+    border-radius: 12px; background: var(--goud-licht); color: #7a6837;
+    white-space: nowrap;
+  }
+  .status-chip.groen { background: #dcefe3; color: var(--groen); }
+  .status-chip.rood { background: #f5dcdc; color: var(--rood); }
+  .leeg { font-family: sans-serif; color: var(--grijs); font-size: 14px; padding: 30px; text-align: center; }
+
+  .melding {
+    font-family: sans-serif; font-size: 13px;
+    background: var(--goud-licht); border-left: 4px solid var(--goud);
+    padding: 12px 16px; border-radius: 0 8px 8px 0; margin-bottom: 18px;
+  }
+  .stap-uitleg {
+    font-family: sans-serif; font-size: 12px; color: var(--grijs);
+    background: var(--wit); border: 1px dashed var(--goud);
+    border-radius: 8px; padding: 10px 14px; margin-bottom: 18px;
+  }
+  .stap-uitleg b { color: var(--zwart); }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--zwart); color: var(--wit);
+    font-family: sans-serif; font-size: 13px;
+    padding: 12px 22px; border-radius: 30px;
+    transition: transform .3s; z-index: 100;
+    box-shadow: 0 6px 20px rgba(0,0,0,.25);
+  }
+  #toast.zichtbaar { transform: translateX(-50%) translateY(0); }
+  #toast .g { color: var(--goud); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">Timeless <span>Marketplace</span></div>
+  <div class="demo-badge sans">DEMO — zo gaat het platform werken</div>
+</div>
+
+<div class="roltabs">
+  <button class="roltab actief" data-rol="koper" onclick="toonRol('koper')"><span class="rol-icoon">🛍️</span>Koper<span class="notif" id="notif-koper" style="display:none"></span></button>
+  <button class="roltab" data-rol="atelier" onclick="toonRol('atelier')"><span class="rol-icoon">🔍</span>Atelier (team)<span class="notif" id="notif-atelier" style="display:none"></span></button>
+  <button class="roltab" data-rol="verkoper" onclick="toonRol('verkoper')"><span class="rol-icoon">💼</span>Verkoper<span class="notif" id="notif-verkoper" style="display:none"></span></button>
+</div>
+
+<!-- ═══════════ KOPER ═══════════ -->
+<div class="view actief" id="view-koper"></div>
+
+<!-- ═══════════ ATELIER ═══════════ -->
+<div class="view" id="view-atelier"></div>
+
+<!-- ═══════════ VERKOPER ═══════════ -->
+<div class="view" id="view-verkoper"></div>
+
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// Demodata en gedeelde orderstatus.
+// Eén order stroomt door alle drie de rollen heen.
+// ─────────────────────────────────────────────
+const ITEMS = [
+  { id: 1, icoon: '👜', kleur: '#e8ddca', titel: 'Classic Flap Medium 1995', conditie: 'Uitstekend', verkoper: 'Vera (particulier)', zakelijk: false, prijs: 5800, jaar: 1995 },
+  { id: 2, icoon: '🖤', kleur: '#dcd5e4', titel: 'Boy Bag Old Medium 2012', conditie: 'Goed', verkoper: 'Vintage Boetiek B.V.', zakelijk: true, prijs: 3400, jaar: 2012 },
+  { id: 3, icoon: '💎', kleur: '#e4dcd2', titel: 'Gripoix Ketting 1989', conditie: 'Goed', verkoper: 'Maison Réédition', zakelijk: true, prijs: 1650, jaar: 1989 },
+  { id: 4, icoon: '👝', kleur: '#d8e2da', titel: '2.55 Reissue 226 2006', conditie: 'Uitstekend', verkoper: 'Harold (particulier)', zakelijk: false, prijs: 7200, jaar: 2006 },
+  { id: 5, icoon: '🕶️', kleur: '#e6e0d0', titel: 'Zonnebril Vintage 1992', conditie: 'Gebruikssporen', verkoper: 'Sophie (particulier)', zakelijk: false, prijs: 420, jaar: 1992 },
+  { id: 6, icoon: '🧣', kleur: '#e2d8dc', titel: 'Zijden Sjaal Camellia 2001', conditie: 'Uitstekend', verkoper: 'Vintage Boetiek B.V.', zakelijk: true, prijs: 310, jaar: 2001 },
+];
+
+// Volledige orderflow: precies de statusflow uit het echte datamodel.
+const STAPPEN = [
+  { key: 'PAID',              titel: 'Betaald',                     toel: 'Je geld staat veilig vast bij het platform (Stripe). De verkoper is op de hoogte.' },
+  { key: 'AWAITING_ITEM',     titel: 'Verkoper verstuurt naar atelier', toel: 'De verkoper heeft een verzekerd verzendlabel ontvangen.' },
+  { key: 'ITEM_RECEIVED',     titel: 'Ontvangen in ons atelier',    toel: 'Het item is fysiek binnen en klaar voor inspectie.' },
+  { key: 'IN_INSPECTION',     titel: 'Authenticatie en inspectie',  toel: 'Ons team controleert echtheid, conditie en of alles klopt met de beschrijving.' },
+  { key: 'APPROVED',          titel: 'Goedgekeurd',                 toel: 'Authentiek bevonden. Wordt klaargemaakt voor verzekerde verzending naar jou.' },
+  { key: 'SHIPPED_TO_BUYER',  titel: 'Onderweg naar jou',           toel: 'Verzekerd verzonden met track & trace.' },
+  { key: 'DELIVERED',         titel: 'Geleverd',                    toel: 'Het pakket is bij je bezorgd.' },
+  { key: 'COMPLETED',         titel: 'Afgerond — verkoper uitbetaald', toel: 'De verkoper ontvangt direct de uitbetaling. Veel plezier met je aanwinst!' },
+];
+
+const KOPERSFEE = 0.05, VERKOPERSFEE = 0.10, VERZENDING = 12.50;
+
+let order = null;        // { item, status, afgekeurd }
+let kijkItem = null;     // detailweergave
+let scherm = 'browse';   // browse | detail | checkout | tracking
+let betaalmethode = 'iDEAL';
+let bod = { status: 'geen' }; // demo-bod voor verkopersweergave
+
+const eur = n => '€ ' + n.toLocaleString('nl-NL', { minimumFractionDigits: n % 1 ? 2 : 0 });
+
+function toast(html) {
+  const t = document.getElementById('toast');
+  t.innerHTML = html;
+  t.classList.add('zichtbaar');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('zichtbaar'), 3400);
+}
+
+function notif(rol, aan) {
+  const el = document.getElementById('notif-' + rol);
+  el.style.display = aan ? 'inline-block' : 'none';
+  el.textContent = '1';
+}
+
+function toonRol(rol) {
+  document.querySelectorAll('.roltab').forEach(b => b.classList.toggle('actief', b.dataset.rol === rol));
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('actief'));
+  document.getElementById('view-' + rol).classList.add('actief');
+  notif(rol, false);
+  render();
+}
+
+function statusIndex() { return order ? STAPPEN.findIndex(s => s.key === order.status) : -1; }
+
+function zetStatus(key, meldingHtml, notifRol) {
+  order.status = key;
+  if (meldingHtml) toast(meldingHtml);
+  if (notifRol) notif(notifRol, true);
+  render();
+}
+
+// ─────────────────────────────────────────────
+// KOPER
+// ─────────────────────────────────────────────
+function renderKoper() {
+  const v = document.getElementById('view-koper');
+
+  if (scherm === 'detail' && kijkItem) { v.innerHTML = htmlDetail(kijkItem); return; }
+  if (scherm === 'checkout' && kijkItem) { v.innerHTML = htmlCheckout(kijkItem); return; }
+  if (scherm === 'tracking' && order) { v.innerHTML = htmlTracking(); return; }
+
+  v.innerHTML = `
+    <h2>Vintage Chanel, geauthenticeerd</h2>
+    <p class="sub">Elk item gaat fysiek langs ons atelier voordat het naar jou komt. Klik op een item om de flow te ervaren.</p>
+    ${order ? `<div class="melding">📦 Je hebt een lopende bestelling: <b>${order.item.titel}</b> — <a href="#" onclick="scherm='tracking';render();return false">volg je bestelling</a></div>` : ''}
+    <div class="grid">
+      ${ITEMS.map(it => {
+        const verkocht = order && order.item.id === it.id;
+        return `
+        <div class="kaart ${verkocht ? 'verkocht-overlay' : ''}" onclick="kijkItem=ITEMS[${ITEMS.indexOf(it)}];scherm='detail';render()">
+          <div class="kaart-foto" style="background:${it.kleur}">${it.icoon}</div>
+          <div class="kaart-info">
+            <div class="kaart-titel">Chanel ${it.titel}</div>
+            <div class="kaart-meta">${it.conditie} · ${it.zakelijk ? 'Zakelijke verkoper' : 'Particuliere verkoper'}</div>
+            <div class="kaart-prijs">${verkocht ? 'Verkocht' : eur(it.prijs)}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+function htmlDetail(it) {
+  return `
+    <button class="terug" onclick="scherm='browse';render()">← Alle items</button>
+    <div class="paneel detail-flex">
+      <div class="detail-foto" style="background:${it.kleur}">${it.icoon}</div>
+      <div class="detail-info">
+        <h2>Chanel ${it.titel}</h2>
+        <p class="sub" style="margin-bottom:0">Tassen · ${it.jaar}</p>
+        <div class="detail-prijs">${eur(it.prijs)}</div>
+        <dl class="specs">
+          <dt>Conditie</dt><dd>${it.conditie}</dd>
+          <dt>Verkoper</dt><dd>${it.verkoper}<span class="badge">${it.zakelijk ? 'Zakelijk' : 'Particulier'}</span></dd>
+          <dt>Authenticatie</dt><dd>Fysiek gecontroleerd door ons atelier vóór verzending</dd>
+          ${it.zakelijk ? '<dt>Herroepingsrecht</dt><dd>14 dagen bedenktijd</dd>' : ''}
+        </dl>
+        <button class="knop goud" onclick="kijkItem=ITEMS[${ITEMS.indexOf(it)}];scherm='checkout';render()">Kopen</button>
+        <button class="knop sec" onclick="toast('Bieden zit in de demo bij de rol <b class=g>Verkoper</b> 👉')">Bod uitbrengen</button>
+        ${!it.zakelijk ? '<p class="sub" style="margin-top:14px">Je koopt van een particulier; herroepingsrecht is niet van toepassing. Elk item wordt vóór verzending fysiek geïnspecteerd.</p>' : ''}
+      </div>
+    </div>`;
+}
+
+function htmlCheckout(it) {
+  const fee = it.prijs * KOPERSFEE;
+  const totaal = it.prijs + fee + VERZENDING;
+  return `
+    <button class="terug" onclick="scherm='detail';render()">← Terug naar item</button>
+    <div class="paneel" style="max-width:520px">
+      <h2>Afrekenen</h2>
+      <p class="sub">Je geld wordt veilig vastgehouden en pas vrijgegeven aan de verkoper na levering.</p>
+      <div class="bon">
+        <div class="bon-rij"><span>Chanel ${it.titel}</span><span>${eur(it.prijs)}</span></div>
+        <div class="bon-rij"><span>Kopersbescherming en authenticatie (5%)</span><span>${eur(fee)}</span></div>
+        <div class="bon-rij"><span>Verzekerde verzending</span><span>${eur(VERZENDING)}</span></div>
+        <div class="bon-rij totaal"><span>Totaal</span><span>${eur(totaal)}</span></div>
+      </div>
+      <div class="betaalopties">
+        ${['iDEAL', 'Kaart', 'Bancontact', 'SEPA'].map(m =>
+          `<button class="betaaloptie ${betaalmethode === m ? 'gekozen' : ''}" onclick="betaalmethode='${m}';render()">${m}</button>`).join('')}
+      </div>
+      <button class="knop goud" style="width:100%" onclick="betaal()">Betaal ${eur(totaal)} met ${betaalmethode}</button>
+      <p class="sub" style="margin-top:12px;text-align:center">In het echte platform is dit een Stripe-betaalscherm</p>
+    </div>`;
+}
+
+function betaal() {
+  order = { item: kijkItem, status: 'PAID', afgekeurd: false };
+  scherm = 'tracking';
+  toast('✅ Betaling gelukt. De verkoper krijgt nu een verzendlabel.');
+  notif('verkoper', true);
+  render();
+}
+
+function htmlTracking() {
+  const idx = statusIndex();
+  const afgekeurd = order.afgekeurd;
+  return `
+    <button class="terug" onclick="scherm='browse';render()">← Alle items</button>
+    <div class="paneel">
+      <h2>Je bestelling: Chanel ${order.item.titel}</h2>
+      <p class="sub">Orderstatus, live bijgewerkt. Wissel van rol (tabbladen boven) om de volgende stap uit te voeren.</p>
+      ${afgekeurd ? `
+        <div class="melding" style="border-color:var(--rood);background:#f5dcdc">
+          ❌ <b>Inspectie afgekeurd.</b> Het item wijkt af van de beschrijving. Je betaling wordt volledig teruggestort en het item gaat retour naar de verkoper (kosten verkoper). Zo bescherm je als platform het vertrouwen van kopers.
+        </div>
+        <button class="knop" onclick="resetDemo()">Demo opnieuw starten</button>` : `
+        <ul class="tijdlijn">
+          ${STAPPEN.map((s, i) => `
+            <li class="${i < idx ? 'klaar' : i === idx ? 'nu' : ''}">
+              <div class="stip">${i < idx ? '✓' : i + 1}</div>
+              <div><div class="stap-titel">${s.titel}</div><div class="stap-toel">${s.toel}</div></div>
+            </li>`).join('')}
+        </ul>
+        ${order.status === 'SHIPPED_TO_BUYER' ? `<button class="knop goud" onclick="zetStatus('DELIVERED','📬 Pakket geleverd! Nog één stap...');">📬 Simuleer: pakket wordt bezorgd</button>` : ''}
+        ${order.status === 'DELIVERED' ? `<button class="knop groen" onclick="zetStatus('COMPLETED','🎉 Order afgerond. De verkoper is direct uitbetaald.', 'verkoper')">✔ Bevestig ontvangst</button>` : ''}
+        ${order.status === 'COMPLETED' ? `<div class="melding">🎉 <b>Afgerond!</b> Kijk bij de rol <b>Verkoper</b> voor de uitbetaling, of start de demo opnieuw.</div><button class="knop sec klein" onclick="resetDemo()">Demo opnieuw starten</button>` : ''}
+      `}
+    </div>`;
+}
+
+// ─────────────────────────────────────────────
+// ATELIER (team)
+// ─────────────────────────────────────────────
+function renderAtelier() {
+  const v = document.getElementById('view-atelier');
+  const kop = `
+    <h2>Atelier-dashboard</h2>
+    <p class="sub">Hier werkt jouw team: intake, authenticatie en doorsturen. Dit is de trust-laag die niemand kan kopiëren.</p>`;
+
+  if (!order || order.afgekeurd || order.status === 'COMPLETED') {
+    v.innerHTML = kop + `<div class="paneel leeg">${order && order.afgekeurd ? 'Het item is retour gestuurd naar de verkoper. ' : ''}Geen items in de wachtrij.<br><br>${!order ? 'Koop eerst een item via de rol <b>Koper</b> om de flow te starten.' : 'Start de demo opnieuw via de rol Koper of Verkoper.'}</div>`;
+    return;
+  }
+
+  const it = order.item;
+  let actie = '';
+  if (order.status === 'PAID') {
+    actie = `<div class="stap-uitleg">Wachten op de verkoper. Ga naar de rol <b>Verkoper</b> om het pakket te versturen.</div>`;
+  } else if (order.status === 'AWAITING_ITEM') {
+    actie = `<button class="knop" onclick="zetStatus('ITEM_RECEIVED','📥 Item binnengeboekt in het atelier.','koper')">📥 Item binnenboeken</button>`;
+  } else if (order.status === 'ITEM_RECEIVED') {
+    actie = `<button class="knop" onclick="zetStatus('IN_INSPECTION','🔍 Inspectie gestart.','koper')">🔍 Start inspectie</button>`;
+  } else if (order.status === 'IN_INSPECTION') {
+    actie = `
+      <div class="stap-uitleg"><b>Inspectiechecklist:</b> hologramsticker en serienummer, stiksels (7 per cm bij vintage), hardware-gravures, leerstructuur, geur, vergelijking met de listingfoto's.</div>
+      <button class="knop groen" onclick="zetStatus('APPROVED','✅ Authentiek bevonden en goedgekeurd.','koper')">✅ Goedkeuren</button>
+      <button class="knop rood" onclick="keurAf()">❌ Afkeuren</button>`;
+  } else if (order.status === 'APPROVED') {
+    actie = `<button class="knop" onclick="zetStatus('SHIPPED_TO_BUYER','📦 Verzekerd verzonden naar de koper.','koper')">📦 Verstuur naar koper (verzekerd)</button>`;
+  } else {
+    actie = `<div class="stap-uitleg">Onderweg naar de koper. Ga naar de rol <b>Koper</b> om de levering te simuleren.</div>`;
+  }
+
+  const stap = STAPPEN.find(s => s.key === order.status);
+  v.innerHTML = kop + `
+    <div class="wachtrij-item">
+      <div class="mini" style="background:${it.kleur};border-radius:8px;padding:8px 12px">${it.icoon}</div>
+      <div style="flex:1">
+        <b>Chanel ${it.titel}</b><br>
+        <span style="color:var(--grijs);font-size:12px">Order #DEMO-001 · ${eur(it.prijs)} · verkoper: ${it.verkoper}</span>
+      </div>
+      <span class="status-chip">${stap ? stap.titel : order.status}</span>
+    </div>
+    <div class="paneel">${actie}</div>`;
+}
+
+function keurAf() {
+  order.afgekeurd = true;
+  order.status = 'REJECTED';
+  toast('❌ Afgekeurd. Koper krijgt geld terug, item gaat retour (kosten verkoper).');
+  notif('koper', true); notif('verkoper', true);
+  render();
+}
+
+// ─────────────────────────────────────────────
+// VERKOPER
+// ─────────────────────────────────────────────
+function renderVerkoper() {
+  const v = document.getElementById('view-verkoper');
+  const kop = `
+    <h2>Verkopersaccount</h2>
+    <p class="sub">Vera Verkoper · particulier · KYC geverifieerd via Stripe</p>`;
+
+  // Bod-demo
+  const bodBlok = `
+    <div class="paneel">
+      <h2 style="font-size:17px">💬 Bieden en onderhandelen</h2>
+      ${bod.status === 'geen' ? `
+        <p class="sub">Zo voelt een binnenkomend bod:</p>
+        <button class="knop klein" onclick="bod={status:'ontvangen'};render()">Simuleer: koper doet een bod van € 5.200 op je Classic Flap (vraagprijs € 5.800)</button>` : ''}
+      ${bod.status === 'ontvangen' ? `
+        <div class="melding">💬 <b>Nieuw bod: € 5.200</b> van Koos K. op Chanel Classic Flap Medium 1995 (vraagprijs € 5.800) · verloopt over 72 uur</div>
+        <button class="knop groen klein" onclick="bod={status:'geaccepteerd'};toast('✅ Bod geaccepteerd. De koper kan nu afrekenen voor € 5.200.');render()">Accepteren</button>
+        <button class="knop klein" onclick="bod={status:'tegenbod'};toast('↩️ Tegenbod van € 5.500 verstuurd.');render()">Tegenbod € 5.500</button>
+        <button class="knop rood klein" onclick="bod={status:'afgewezen'};render()">Afwijzen</button>` : ''}
+      ${bod.status === 'geaccepteerd' ? `<div class="melding">✅ Bod van € 5.200 geaccepteerd. De koper heeft 24 uur om af te rekenen; het item staat zolang gereserveerd.</div>` : ''}
+      ${bod.status === 'tegenbod' ? `<div class="melding">↩️ Tegenbod van € 5.500 verstuurd. De koper kan accepteren, afwijzen of opnieuw bieden.</div>` : ''}
+      ${bod.status === 'afgewezen' ? `<div class="melding">Bod afgewezen. Het item blijft gewoon te koop.</div>` : ''}
+      ${bod.status !== 'geen' ? `<button class="terug" style="margin:10px 0 0" onclick="bod={status:'geen'};render()">bod-demo resetten</button>` : ''}
+    </div>`;
+
+  if (!order) {
+    v.innerHTML = kop + `<div class="paneel leeg">Nog geen verkopen. Koop een item via de rol <b>Koper</b> om te zien wat jij als verkoper meemaakt.</div>` + bodBlok;
+    return;
+  }
+
+  const it = order.item;
+  const netto = it.prijs * (1 - VERKOPERSFEE);
+  let inhoud = '';
+
+  if (order.afgekeurd) {
+    inhoud = `
+      <div class="melding" style="border-color:var(--rood);background:#f5dcdc">❌ <b>Inspectie afgekeurd.</b> Het item komt retour; de retourkosten (€ 9,50) worden ingehouden. De verkoop gaat niet door.</div>
+      <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw starten</button>`;
+  } else if (order.status === 'PAID') {
+    inhoud = `
+      <div class="melding">🎉 <b>Verkocht!</b> Chanel ${it.titel} voor ${eur(it.prijs)}. Je verzekerde verzendlabel staat klaar.</div>
+      <div class="bon" style="margin-bottom:16px">
+        <div class="bon-rij"><span>Verkoopprijs</span><span>${eur(it.prijs)}</span></div>
+        <div class="bon-rij"><span>Platformfee (10%)</span><span>- ${eur(it.prijs * VERKOPERSFEE)}</span></div>
+        <div class="bon-rij"><span>Verzending naar atelier</span><span>- € 9,50</span></div>
+        <div class="bon-rij totaal"><span>Jouw uitbetaling na levering</span><span>${eur(netto - 9.5)}</span></div>
+      </div>
+      <button class="knop goud" onclick="zetStatus('AWAITING_ITEM','📦 Pakket onderweg naar het atelier.','atelier')">📦 Label geprint, pakket meegegeven aan PostNL</button>`;
+  } else if (order.status === 'COMPLETED') {
+    inhoud = `
+      <div class="melding" style="background:#dcefe3;border-color:var(--groen)">💰 <b>Uitbetaald: ${eur(netto - 9.5)}</b> — direct overgemaakt via Stripe zodra de koper de ontvangst bevestigde. Geen wachttijden, geen batches.</div>
+      <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw starten</button>`;
+  } else {
+    const stap = STAPPEN.find(s => s.key === order.status);
+    inhoud = `
+      <div class="wachtrij-item">
+        <div class="mini" style="background:${it.kleur};border-radius:8px;padding:8px 12px">${it.icoon}</div>
+        <div style="flex:1"><b>Chanel ${it.titel}</b><br><span style="color:var(--grijs);font-size:12px">Verwachte uitbetaling: ${eur(netto - 9.5)}</span></div>
+        <span class="status-chip ${order.status === 'APPROVED' || order.status === 'SHIPPED_TO_BUYER' || order.status === 'DELIVERED' ? 'groen' : ''}">${stap ? stap.titel : ''}</span>
+      </div>
+      <div class="stap-uitleg">Je hoeft nu niets te doen. Volg de voortgang; het atelier en de koper zetten de volgende stappen (wissel van rol om ze uit te voeren).</div>`;
+  }
+
+  v.innerHTML = kop + `<div class="paneel"><h2 style="font-size:17px">📦 Je verkoop</h2>${inhoud}</div>` + bodBlok;
+}
+
+function resetDemo() {
+  order = null; kijkItem = null; scherm = 'browse';
+  ['koper', 'atelier', 'verkoper'].forEach(r => notif(r, false));
+  toast('Demo gereset. Koop opnieuw een item om de flow te starten.');
+  render();
+}
+
+function render() { renderKoper(); renderAtelier(); renderVerkoper(); }
+render();
+</script>
+</body>
+</html>
