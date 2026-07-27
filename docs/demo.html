@@ -164,6 +164,25 @@
   .telregel { font-family: var(--sans); font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--grijs); margin-bottom: 18px; }
   .allin { font-family: var(--sans); font-size: 10px; color: var(--grijs); margin-top: 3px; }
 
+  /* ─── Koper/verkoper-wisselaar ─── */
+  .wisselaar {
+    display: flex; justify-content: center; gap: 0; margin: 0 auto 30px; max-width: 340px;
+    border: 1px solid var(--lijn);
+  }
+  .wissel-knop {
+    flex: 1; font-family: var(--sans); font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+    background: var(--wit); color: var(--grijs); border: none; padding: 13px 10px; cursor: pointer;
+    transition: all .15s;
+  }
+  .wissel-knop.actief { background: var(--noir); color: var(--champagne); }
+  .status-nu {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px;
+    border: 1px solid var(--lijn-goud); background: rgba(216,196,154,.08);
+    padding: 16px 20px; margin: 20px 0;
+  }
+  .status-nu .groot { font-family: var(--serif); font-size: 19px; }
+  .status-nu .toel { font-family: var(--sans); font-size: 11.5px; color: var(--grijs); line-height: 1.6; flex: 1; min-width: 200px; }
+
   /* ─── Conditierapport / bieden ─── */
   .zone-rij { display: flex; justify-content: space-between; gap: 18px; padding: 9px 0; border-bottom: 1px solid var(--lijn); font-size: 13px; }
   .zone-rij dt { font-family: var(--sans); font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--grijs); white-space: nowrap; padding-top: 3px; }
@@ -394,12 +413,12 @@
 <nav class="roltabs">
   <button class="roltab actief" data-rol="koper" onclick="toonRol('koper')">Boutique<span class="notif" id="notif-koper"></span></button>
   <button class="roltab" data-rol="atelier" onclick="toonRol('atelier')">Atelier<span class="notif" id="notif-atelier"></span></button>
-  <button class="roltab" data-rol="verkoper" onclick="toonRol('verkoper')">Verkoper<span class="notif" id="notif-verkoper"></span></button>
+  <button class="roltab" data-rol="account" onclick="toonRol('account')">Mijn account<span class="notif" id="notif-account"></span></button>
 </nav>
 
 <div class="view actief" id="view-koper"></div>
 <div class="view" id="view-atelier"></div>
-<div class="view" id="view-verkoper"></div>
+<div class="view" id="view-account"></div>
 
 <div id="toast"></div>
 
@@ -539,6 +558,21 @@ let kijkItem = null;
 let scherm = 'browse';
 let betaalmethode = 'iDEAL';
 let bod = { status: 'geen' };
+// Mijn account: wisselen tussen koper- en verkoperweergave
+let mijnRol = 'koper';
+let accountDetail = null; // geopende voorbeeld-bestelling
+
+// Historische voorbeeld-bestellingen (koperzijde), zodat de lijst realistisch voelt
+const EERDERE_BESTELLINGEN = [
+  { id: 'H1', art: 'boy', titel: 'Vanity Case', jaar: 1997, prijs: 2900, status: 'COMPLETED', datum: '12 juli 2026' },
+  { id: 'H2', art: 'zonnebril', titel: 'Zonnebril Vintage', jaar: 1992, prijs: 420, status: 'REFUNDED', datum: '28 juni 2026' },
+];
+// Verkoophistorie en uitbetalingen (verkoperzijde)
+const EERDERE_VERKOPEN = [
+  { titel: 'Zijden Sjaal Camélia 2001', prijs: 310, netto: 269.5, datum: '3 juli 2026' },
+  { titel: 'Kettingriem Vintage 1998', prijs: 1480, netto: 1322.5, datum: '19 juni 2026' },
+];
+
 // Filterstate voor de boutique (voorstel uit het concurrentie-onderzoek)
 let filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '' };
 // Biedstate op de detailpagina (Vestiaire-model: 70-100%, 48 uur geldig)
@@ -739,18 +773,28 @@ function betaal() {
   order = { item: kijkItem, status: 'PAID', afgekeurd: false };
   scherm = 'tracking';
   toast('Betaling ontvangen. <b>De verkoper krijgt nu een verzekerd verzendlabel.</b>');
-  notif('verkoper', true);
+  notif('account', true);
   render();
 }
 
 function htmlTracking() {
   const idx = statusIndex();
+  const huidig = STAPPEN[idx];
+  const volgende = STAPPEN[idx + 1];
   return `
     <button class="terug" onclick="scherm='browse';render()">&larr; De collectie</button>
     <div class="paneel">
       <div class="voorregel">Order N&deg; TM-2026-001</div>
       <h2 class="kop" style="font-size:24px">Chanel ${order.item.titel} ${order.item.jaar}</h2>
-      <p class="sub">Wissel van rol via de navigatie bovenaan om de volgende stap zelf uit te voeren.</p>
+      ${order.afgekeurd ? '' : `
+      <div class="status-nu">
+        <div>
+          <div class="caps-nu" style="font-family:var(--sans);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--goud-diep);margin-bottom:5px">Status nu &middot; stap ${idx + 1} van ${STAPPEN.length}</div>
+          <div class="groot">${huidig ? huidig.titel : ''}</div>
+        </div>
+        <div class="toel">${huidig ? huidig.toel : ''}${volgende ? ` <br><b>Hierna:</b> ${volgende.titel.toLowerCase()}.` : ''}</div>
+      </div>`}
+      <p class="sub" style="margin-top:0">Wissel van tabblad bovenaan om de volgende stap zelf uit te voeren; deze pagina werkt live bij.</p>
       ${order.afgekeurd ? `
         <div class="melding rood" style="margin-top:24px">
           <b>Expertise negatief.</b> Het stuk wijkt af van de beschrijving. Uw volledige betaling wordt teruggestort; het stuk gaat retour naar de verkoper op diens kosten. Zo beschermt de maison uw vertrouwen.
@@ -764,9 +808,9 @@ function htmlTracking() {
             </li>`).join('')}
         </ul>
         ${order.status === 'SHIPPED_TO_BUYER' ? `<button class="knop" onclick="zetStatus('DELIVERED','Het pakket is bezorgd. Nog &eacute;&eacute;n stap.')">Simuleer de bezorging</button>` : ''}
-        ${order.status === 'DELIVERED' ? `<button class="knop groen" onclick="zetStatus('COMPLETED','Voltooid. <b>De verkoper is direct uitbetaald.</b>', 'verkoper')">Bevestig ontvangst</button>` : ''}
+        ${order.status === 'DELIVERED' ? `<button class="knop groen" onclick="zetStatus('COMPLETED','Voltooid. <b>De verkoper is direct uitbetaald.</b>', 'account')">Bevestig ontvangst</button>` : ''}
         ${order.status === 'COMPLETED' ? `
-          <div class="melding groen"><b>Voltooid.</b> Bekijk de uitbetaling bij de rol Verkoper, of begin de demo opnieuw.</div>
+          <div class="melding groen"><b>Voltooid.</b> Bekijk de uitbetaling onder Mijn account &rsaquo; Verkoper, of begin de demo opnieuw.</div>
           <button class="knop sec klein" onclick="resetDemo()">Demo opnieuw beginnen</button>` : ''}
       `}
     </div>`;
@@ -798,7 +842,7 @@ function renderAtelier() {
   const it = order.item;
   let actie = '';
   if (order.status === 'PAID') {
-    actie = `<div class="stap-uitleg">In afwachting van de verkoper. Ga naar de rol <b>Verkoper</b> om het pakket te verzenden.</div>`;
+    actie = `<div class="stap-uitleg">In afwachting van de verkoper. Ga naar <b>Mijn account &rsaquo; Als verkoper</b> om het pakket te verzenden.</div>`;
   } else if (order.status === 'AWAITING_ITEM') {
     actie = `<button class="knop" onclick="zetStatus('ITEM_RECEIVED','Het stuk is binnengeboekt in het atelier.','koper')">Stuk binnenboeken</button>`;
   } else if (order.status === 'ITEM_RECEIVED') {
@@ -831,21 +875,101 @@ function keurAf() {
   order.afgekeurd = true;
   order.status = 'REJECTED';
   toast('<b>Afgekeurd.</b> De koper wordt volledig terugbetaald; het stuk gaat retour op kosten van de verkoper.');
-  notif('koper', true); notif('verkoper', true);
+  notif('koper', true); notif('account', true);
   render();
 }
 
 // ─────────────────────────────────────────────────────────
-// VERKOPER
+// MIJN ACCOUNT — één persoon, twee petten (koper én verkoper)
 // ─────────────────────────────────────────────────────────
-function renderVerkoper() {
-  const v = document.getElementById('view-verkoper');
+const KOPER_STATUS_CHIP = {
+  COMPLETED: { label: 'Afgerond', klasse: 'groen' },
+  REFUNDED: { label: 'Terugbetaald', klasse: 'rood' },
+};
+
+function renderAccount() {
+  const v = document.getElementById('view-account');
   const kop = `
-    <div class="centreer intro">
-      <div class="voorregel">Uw Consignatie</div>
-      <h2 class="kop">Verkopersaccount</h2>
-      <p class="sub">Vera V. &middot; particulier &middot; geverifieerd via Stripe</p>
+    <div class="centreer intro" style="margin-bottom:26px">
+      <div class="voorregel">Mijn Account</div>
+      <h2 class="kop">Vera V.</h2>
+      <p class="sub">Particulier account &middot; identiteit geverifieerd via Stripe</p>
+    </div>
+    <div class="wisselaar">
+      <button class="wissel-knop ${mijnRol === 'koper' ? 'actief' : ''}" onclick="mijnRol='koper';accountDetail=null;render()">Als koper</button>
+      <button class="wissel-knop ${mijnRol === 'verkoper' ? 'actief' : ''}" onclick="mijnRol='verkoper';accountDetail=null;render()">Als verkoper</button>
     </div>`;
+
+  v.innerHTML = kop + (mijnRol === 'koper' ? htmlAccountKoper() : htmlAccountVerkoper());
+}
+
+// ── Koperzijde: bestellingenlijst met duidelijke status ──
+function htmlAccountKoper() {
+  if (accountDetail) {
+    const b = EERDERE_BESTELLINGEN.find(x => x.id === accountDetail);
+    if (b) return htmlEerdereBestelling(b);
+  }
+
+  const rijen = [];
+  if (order) {
+    const stap = STAPPEN.find(s => s.key === order.status);
+    const idx = statusIndex();
+    const chip = order.afgekeurd
+      ? '<span class="status-chip rood">Terugbetaling onderweg</span>'
+      : `<span class="status-chip ${order.status === 'COMPLETED' ? 'groen' : ''}">${stap ? stap.titel : ''}</span>`;
+    rijen.push(`
+      <div class="wachtrij-item" style="cursor:pointer" onclick="scherm='tracking';toonRol('koper')">
+        <div class="mini-foto quilt">${art(order.item.art)}</div>
+        <div class="wachtrij-info">
+          <div class="wachtrij-titel">Chanel ${order.item.titel} ${order.item.jaar}</div>
+          <div class="wachtrij-meta">Order N&deg; TM-2026-001 &middot; ${eur(order.item.prijs)} &middot; ${order.afgekeurd ? 'expertise negatief, u wordt volledig terugbetaald' : `stap ${idx + 1} van ${STAPPEN.length} &middot; klik voor de volledige tracking`}</div>
+        </div>
+        ${chip}
+      </div>`);
+  }
+  for (const b of EERDERE_BESTELLINGEN) {
+    const chip = KOPER_STATUS_CHIP[b.status];
+    rijen.push(`
+      <div class="wachtrij-item" style="cursor:pointer" onclick="accountDetail='${b.id}';render()">
+        <div class="mini-foto quilt">${art(b.art)}</div>
+        <div class="wachtrij-info">
+          <div class="wachtrij-titel">Chanel ${b.titel} ${b.jaar}</div>
+          <div class="wachtrij-meta">${b.datum} &middot; ${eur(b.prijs)}</div>
+        </div>
+        <span class="status-chip ${chip.klasse}">${chip.label}</span>
+      </div>`);
+  }
+
+  return `
+    <div class="sectiekop">Uw bestellingen (${rijen.length})</div>
+    ${order ? '' : `<div class="stap-uitleg">Geen lopende bestelling. Verwerf een stuk in de <b>Boutique</b> en volg hier live de status.</div>`}
+    ${rijen.join('')}
+    <p class="biedregel" style="margin-top:6px">Elke bestelling doorloopt dezelfde acht stappen; klik op een bestelling voor de volledige tijdlijn.</p>`;
+}
+
+function htmlEerdereBestelling(b) {
+  const klaar = b.status === 'COMPLETED';
+  const stappenTotEnMet = klaar ? STAPPEN.length : 4; // terugbetaald = gestopt bij expertise
+  return `
+    <button class="terug" onclick="accountDetail=null;render()">&larr; Uw bestellingen</button>
+    <div class="paneel">
+      <div class="voorregel">${b.datum}</div>
+      <h2 class="kop" style="font-size:24px">Chanel ${b.titel} ${b.jaar}</h2>
+      ${klaar
+        ? `<div class="melding groen" style="margin-top:16px"><b>Afgerond.</b> Geleverd en bevestigd op ${b.datum}. De verkoper is direct uitbetaald.</div>`
+        : `<div class="melding rood" style="margin-top:16px"><b>Terugbetaald.</b> Het stuk kwam niet door onze expertise. Uw volledige betaling (${eur(b.prijs)} plus kosten) is op ${b.datum} teruggestort.</div>`}
+      <ul class="tijdlijn">
+        ${STAPPEN.slice(0, stappenTotEnMet).map((s, i) => `
+          <li class="klaar"><div class="stip">&#10003;</div><div><div class="stap-titel">${s.titel}</div></div></li>`).join('')}
+        ${klaar ? '' : `<li class="nu"><div class="stip">&#33;</div><div><div class="stap-titel">Expertise negatief &mdash; volledig terugbetaald</div><div class="stap-toel">Het stuk is op kosten van de verkoper retour gezonden.</div></div></li>`}
+      </ul>
+    </div>`;
+}
+
+// ── Verkoperzijde: uitgewerkt dashboard ──
+function htmlAccountVerkoper() {
+  const kop = `
+    <p class="sub centreer" style="margin:-10px 0 24px">Verkopen als particulier &middot; KYC afgerond &middot; uitbetaling binnen 1 werkdag na levering</p>`;
 
   const bodBlok = `
     <div class="paneel">
@@ -864,13 +988,51 @@ function renderVerkoper() {
       ${bod.status !== 'geen' ? `<button class="terug" style="margin:14px 0 0" onclick="bod={status:'geen'};render()">bod-demo herstellen</button>` : ''}
     </div>`;
 
+  // Listings van Vera in de collectie
+  const mijnListings = ITEMS.filter(it => it.verkoper === 'Vera V.');
+  const listingsBlok = `
+    <div class="paneel">
+      <div class="sectiekop">Uw listings</div>
+      ${mijnListings.map(it => {
+        const verkocht = order && order.item.id === it.id && !order.afgekeurd;
+        return `
+        <div class="wachtrij-item" style="border:none;padding:10px 0;margin:0">
+          <div class="mini-foto quilt" style="width:48px;height:48px">${art(it.art)}</div>
+          <div class="wachtrij-info">
+            <div style="font-family:var(--serif);font-size:15px">Chanel ${it.titel} ${it.jaar}</div>
+            <div class="wachtrij-meta">${eur(it.prijs)} &middot; ${it.conditie}</div>
+          </div>
+          <span class="status-chip ${verkocht ? 'groen' : ''}">${verkocht ? 'Verkocht' : 'Te koop'}</span>
+        </div>`;
+      }).join('')}
+      <p class="biedregel" style="margin-top:8px">In het echte platform beheert u hier al uw listings, met concepten en ingetrokken stukken.</p>
+    </div>`;
+
+  // Uitbetalingen: historie + de lopende verkoop zodra afgerond
+  const liveNetto = order ? order.item.prijs * (1 - VERKOPERSFEE) - 9.5 : 0;
+  const uitbetalingen = [
+    ...(order && order.status === 'COMPLETED' && !order.afgekeurd
+      ? [`<div class="bon-rij"><span class="oms">Chanel ${order.item.titel} ${order.item.jaar} &middot; vandaag</span><span style="color:var(--groen)"><b>${eur(liveNetto)}</b></span></div>`]
+      : []),
+    ...EERDERE_VERKOPEN.map(vk =>
+      `<div class="bon-rij"><span class="oms">Chanel ${vk.titel} &middot; ${vk.datum}</span><span>${eur(vk.netto)}</span></div>`),
+  ];
+  const totaalUitbetaald = EERDERE_VERKOPEN.reduce((s, vk) => s + vk.netto, 0) + (order && order.status === 'COMPLETED' && !order.afgekeurd ? liveNetto : 0);
+  const uitbetalingenBlok = `
+    <div class="paneel">
+      <div class="sectiekop">Uitbetalingen</div>
+      <div class="bon">${uitbetalingen.join('')}
+        <div class="bon-rij totaal"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div>
+      </div>
+      <p class="biedregel">Uitbetaling direct via Stripe zodra de koper de ontvangst bevestigt. Geen batches, geen wachttijden.</p>
+    </div>`;
+
   if (!order) {
-    v.innerHTML = kop + `
-      <div class="paneel leeg">
+    return kop + `
+      <div class="paneel leeg" style="padding:30px">
         <div class="orn">&#9670;&#9670;&#9670;</div>
-        <p>Nog geen verkopen.<br>Verwerf een stuk in de <b>Boutique</b> om te ervaren wat u als verkoper meemaakt.</p>
-      </div>` + bodBlok;
-    return;
+        <p>Geen lopende verkoop.<br>Verwerf als <b>koper</b> een stuk in de Boutique om de verkoopflow te ervaren.</p>
+      </div>` + listingsBlok + uitbetalingenBlok + bodBlok;
   }
 
   const it = order.item;
@@ -910,17 +1072,18 @@ function renderVerkoper() {
       <div class="stap-uitleg" style="margin:0">U hoeft niets te doen. Het atelier en de koper zetten de volgende stappen; wissel van rol om ze uit te voeren.</div>`;
   }
 
-  v.innerHTML = kop + `<div class="paneel"><div class="sectiekop">Uw verkoop</div>${inhoud}</div>` + bodBlok;
+  return kop + `<div class="paneel"><div class="sectiekop">Uw verkoop</div>${inhoud}</div>` + listingsBlok + uitbetalingenBlok + bodBlok;
 }
 
 function resetDemo() {
-  order = null; kijkItem = null; scherm = 'browse';
-  ['koper', 'atelier', 'verkoper'].forEach(r => notif(r, false));
+  order = null; kijkItem = null; scherm = 'browse'; accountDetail = null;
+  biedOpen = false; biedVerstuurd = null;
+  ['koper', 'atelier', 'account'].forEach(r => notif(r, false));
   toast('De demo is hersteld. Verwerf opnieuw een stuk om de flow te beginnen.');
   render();
 }
 
-function render() { renderKoper(); renderAtelier(); renderVerkoper(); }
+function render() { renderKoper(); renderAtelier(); renderAccount(); }
 render();
 </script>
 </body>
