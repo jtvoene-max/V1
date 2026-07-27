@@ -19,7 +19,21 @@ Status: ontwerp, 27 juli 2026. Te valideren door de boekhouder/jurist (afspraak 
 - De koper kan bij marge-items nooit BTW aftrekken, ook een zakelijke koper niet. Dit staat op de factuur.
 - De BTW over de marge berekent en voldoet de verkoper zelf in de eigen aangifte. Het platform kent de inkoopprijs niet en hoeft die niet te kennen.
 - EU-breed voordeel: marge-goederen vallen buiten de afstandsverkopen-/OSS-regels; heffing blijft in het land van de verkoper. Grensoverschrijdend verkopen binnen de EU verandert niets aan de item-factuur.
-- Items die niet marge-waardig zijn (nieuw, of ingekocht mét afgetrokken BTW) zijn niet toegestaan op het platform. Een STANDARD-BTW-flow kan later alsnog gebouwd worden als daar vraag naar is.
+- Items die niet marge-waardig zijn (ingekocht mét afgetrokken BTW) zijn in fase 1 niet toegestaan op het platform. Zie hieronder: "Beide regimes hanteren?"
+
+## Beide regimes hanteren? (marge én standaard-BTW)
+
+Overwogen en bewust gefaseerd:
+
+**Fase 1 (launch): alleen marge, afgedwongen via het attest.**
+- Dekt vrijwel de hele vintage-markt (C2C, B2C)
+- Eén uniforme factuur- en prijsweergave, snelste route naar live
+
+**Fase 2 (zodra B2B-handel loopt): STANDARD erbij, verkoper kiest per listing.**
+- Bij standaard-BTW-items kan een zakelijke koper de BTW aftrekken: aantrekkelijk voor handelaren die voorraad inkopen (C2B/B2B), eventueel zelfs als B2B-filter "BTW-aftrekbaar"
+- Consequenties die dan gebouwd moeten worden: prijsweergave incl./excl. BTW per koperstype; grensoverschrijdend B2C raakt afstandsverkopen/OSS van de verkoper; grensoverschrijdend B2B wordt een intracommunautaire levering (0%, VIES); de keuze van de verkoper wordt vastgelegd in het papertrail zodat de verantwoordelijkheid aantoonbaar bij de verkoper ligt
+
+**Nu al geregeld in het datamodel:** `Order.vatScheme` is vanaf dag één een enum (MARGIN | STANDARD), en het attest-vinkje wordt een keuzeveld zodra fase 2 aangaat. Fase 2 is daarmee een schakelaar, geen verbouwing.
 
 ## Stroom 2: de platformfees (kopersfee + verkopersfee)
 
@@ -50,6 +64,7 @@ Alle documenten genummerd, onveranderlijk opgeslagen, en gelogd in het papertrai
 
 - [ ] Bevestig de bemiddelaarsstatus in combinatie met fysiek bezit (consignatie) en Stripe Connect-geldstromen
 - [ ] Bevestig de marge-attest-constructie en de factuurtekst namens de verkoper (machtiging in de voorwaarden regelen)
+- [ ] Bevestig de gefaseerde aanpak: fase 1 alleen marge, fase 2 ook standaard-BTW met verkoperskeuze per listing
 - [ ] Plaats van dienst voor fees aan EU-consumenten buiten NL (OSS ja/nee voor de fees)
 - [ ] DAC7-rapportageproces (drempels: 30 transacties of € 2.000 per verkoper per jaar)
 - [ ] Wat te doen bij export buiten de EU (latere fase)
