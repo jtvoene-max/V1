@@ -259,6 +259,7 @@
   }
   .telregel { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: #3a3a3a; margin-bottom: 18px; }
   .allin { font-family: var(--sans); font-size: 11px; color: #4a4a4a; margin-top: 4px; }
+  .verif-goud { color: var(--goud-diep); font-weight: 500; }
 
   /* ─── Koper/verkoper-wisselaar ─── */
   .wisselaar {
@@ -952,7 +953,7 @@ function bodActie(id, actie) {
 }
 
 // Filterstate voor de boutique (voorstel uit het concurrentie-onderzoek)
-let filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false };
+let filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false, verificatie: '' };
 // Biedstate op de detailpagina (Vestiaire-model: 70-100%, 48 uur geldig)
 let biedOpen = false, biedVerstuurd = null;
 // Fotonavigatie op de detailpagina + geopend verkocht stuk in het account
@@ -984,11 +985,25 @@ ITEMS.forEach(it => { it.bodOpen = !(it.zakelijk && it.prijs > 2000); });
 // Routing: tassen gaan altijd langs het atelier (daar zit onze expertise),
 // overige categorieen alleen boven 1.000 euro. Rest gaat rechtstreeks,
 // met een fotocontrole vooraf in plaats van fysieke expertise.
-const ATELIER_DREMPEL = 1000;
-ITEMS.forEach(it => { it.viaAtelier = it.categorie === 'tas' || it.prijs >= ATELIER_DREMPEL; });
+// Verificatie is een keuze van de verkoper, geen platformregel.
+// PHOTO  = foto's vooraf gecontroleerd, rechtstreeks verzonden
+// ATELIER = fysiek beoordeeld in ons atelier (alle categorieen)
+// ENTRUPY = machinaal gecertificeerd (alleen tassen, gaat ook via atelier)
+const VERIFICATIE = {
+  PHOTO:   { kort: 'Photo-checked',   lang: 'Photographs checked by our team', badge: '' },
+  ATELIER: { kort: 'Atelier-verified', lang: 'Physically inspected in our atelier', badge: 'goud' },
+  ENTRUPY: { kort: 'Entrupy certified', lang: 'Machine-authenticated by Entrupy, certificate included', badge: 'goud' },
+};
+ITEMS.forEach((it, i) => {
+  // Demodata: een mix, met Entrupy alleen op tassen
+  it.verificatie = it.categorie === 'tas' && i % 3 === 0 ? 'ENTRUPY'
+    : it.prijs >= 1000 ? 'ATELIER'
+    : 'PHOTO';
+  it.viaAtelier = it.verificatie !== 'PHOTO';
+});
 const eraVan = it => `${String(Math.floor(it.jaar / 10) * 10)}s`;
 function zetFilter(veld, waarde) { filt[veld] = waarde; render(); }
-function wisFilters() { filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false }; render(); }
+function wisFilters() { filt = { model: '', kleur: '', materiaal: '', hardware: '', conditie: '', era: '', categorie: '', nieuw: false, verificatie: '' }; render(); }
 function gefilterd() {
   return ITEMS.filter(it =>
     (!filt.model || it.model === filt.model) &&
@@ -998,7 +1013,8 @@ function gefilterd() {
     (!filt.conditie || it.conditie === filt.conditie) &&
     (!filt.era || eraVan(it) === filt.era) &&
     (!filt.categorie || it.categorie === filt.categorie) &&
-    (!filt.nieuw || it.jaar >= 2010)
+    (!filt.nieuw || it.jaar >= 2010) &&
+    (!filt.verificatie || it.verificatie === filt.verificatie)
   );
 }
 
@@ -1169,6 +1185,13 @@ function renderKoper() {
       ${selectVoor('hardware', 'Hardware', uniek('hardware'))}
       ${selectVoor('conditie', 'Condition', CONDITIES)}
       ${selectVoor('era', 'Era', uniek('era'))}
+      <div class="filterveld">
+        <span class="fl">Verification</span>
+        <select class="fsel" onchange="zetFilter('verificatie', this.value)">
+          <option value="">All</option>
+          ${Object.entries(VERIFICATIE).map(([k, v]) => `<option value="${k}" ${filt.verificatie === k ? 'selected' : ''}>${v.kort}</option>`).join('')}
+        </select>
+      </div>
       ${actieveFilters ? `<button class="filter-wissen" onclick="wisFilters()">Clear (${actieveFilters})</button>` : ''}
     </div>
     ${!filt.categorie && !filt.nieuw && !Object.values(filt).some(v => v && v !== false) ? htmlStatusbalk() : ''}
@@ -1184,7 +1207,7 @@ function renderKoper() {
             <div class="kaart-titel">Chanel ${it.titel}</div>
             <div class="kaart-meta">${it.jaar} &middot; ${it.conditie} &middot; ${it.hardware !== 'n/a' ? it.hardware + ' hardware &middot; ' : ''}${it.zakelijk ? 'Business' : 'Private'}</div>
             <div class="kaart-prijs ${verkocht ? 'verkocht' : ''}">${verkocht ? 'Sold' : eur(it.prijs)}</div>
-            ${verkocht ? '' : `<div class="allin">${it.viaAtelier ? 'Via the atelier' : 'Direct'} &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. protection</div>`}
+            ${verkocht ? '' : `<div class="allin"><span class="${VERIFICATIE[it.verificatie].badge ? 'verif-goud' : ''}">${VERIFICATIE[it.verificatie].kort}</span> &middot; ${eur(Math.round(it.prijs * (1 + KOPERSFEE)))} incl. protection</div>`}
           </div>
         </div>`;
       }).join('')}
@@ -1393,7 +1416,29 @@ function htmlListForm() {
     </div>
 
     <div class="paneel">
-      <div class="sectiekop">4. Price and terms</div>
+      <div class="sectiekop">4. Verification</div>
+      <p class="sub" style="margin:0 0 16px">Choose how your piece is verified. Verified pieces sell faster and command higher prices, because buyers know exactly what they are getting.</p>
+      ${[
+        ['PHOTO', 'Photo check', 'Free · ships directly to the buyer',
+         'Our team reviews your photographs before the listing goes live. Your piece never leaves your hands until it sells.'],
+        ['ATELIER', 'Atelier expertise', 'Recommended · via our atelier',
+         'You send the piece to us first. We verify authenticity and condition, sharpen the condition report, then forward it to the buyer. Available for every category.'],
+        ['ENTRUPY', 'Entrupy certificate', 'Bags only · via our atelier',
+         'Machine authentication with microscopic image analysis, on top of our own expertise. The certificate stays with the piece and can be passed on to the next owner.'],
+      ].map(([key, titel, meta, uitleg], i) => `
+        <label style="display:flex;gap:14px;border:1px solid ${i === 1 ? 'var(--goud)' : 'var(--lijn)'};padding:16px 18px;margin-bottom:10px;cursor:pointer">
+          <input type="radio" name="verificatie" ${i === 1 ? 'checked' : ''} style="margin-top:4px">
+          <span>
+            <span style="font-family:var(--serif);font-size:17px">${titel}</span>
+            <span class="caps-mini" style="font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--goud-diep);display:block;margin:3px 0 5px">${meta}</span>
+            <span class="stap-toel" style="max-width:none;display:block;margin:0">${uitleg}</span>
+          </span>
+        </label>`).join('')}
+      <p class="biedregel">Entrupy is only available for bags; the technology does not cover clothing or jewellery. For those, atelier expertise is the highest level.</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">5. Price and terms</div>
       <div class="rapport-grid">
         ${veld('Asking price', inp('e.g. 5800', 'number'), 'Comparable pieces in our archive sold for € 5,100 to € 6,400.')}
         ${veld('Offers', sel(['Allow offers from 70% of the asking price', 'Fixed price, no offers']))}
@@ -1449,7 +1494,7 @@ function htmlDetail(it) {
           <div class="spec"><dt>Dimensions</dt><dd>${it.afmetingen}</dd></div>
           <div class="spec"><dt>Era</dt><dd>${it.serie}</dd></div>
           <div class="spec"><dt>Seller</dt><dd>${it.verkoper} <span class="goudtekst">&middot; ${it.zakelijk ? 'business' : 'private'}</span></dd></div>
-          <div class="spec"><dt>Expertise</dt><dd>${it.viaAtelier ? 'Physically authenticated in our atelier' : 'Photographs checked in advance by our team'}</dd></div>
+          <div class="spec"><dt>Verification</dt><dd>${VERIFICATIE[it.verificatie].lang}</dd></div>
           <div class="spec"><dt>Shipping</dt><dd>${it.viaAtelier ? 'Via our atelier to you' : 'Directly from the seller'}</dd></div>
           ${it.zakelijk ? '<div class="spec"><dt>Cooling-off period</dt><dd>14 days right of withdrawal</dd></div>' : ''}
         </dl>

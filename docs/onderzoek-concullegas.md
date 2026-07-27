@@ -100,18 +100,27 @@ De huidige 3 niveaus (Uitstekend/Goed/Gebruikssporen) zijn te grof vergeleken me
 
 De duurste operationele keuze. Vestiaire bewijst dat een drempel werkt: boven €1.000 verplicht via de hub, eronder mag rechtstreeks ("Direct Shipping"). Alles langs het atelier sturen is puur verlies op een sjaal van €200: de authenticatie kost meer tijd dan de marge oplevert, en de koper wacht onnodig lang.
 
-**Advies: routeer op categorie én waarde.**
+**Besluit (27 juli 2026): de verkoper kiest, in drie niveaus.**
 
-| Route | Wanneer | Waarom |
-|---|---|---|
-| **Via het atelier** (drie verzendbenen) | alle tassen, ongeacht prijs, plus elk ander stuk boven €1.000 | Tassen zijn het hart van de collectie, dragen de omzet en zijn het vaakst vervalst; daar is fysieke expertise het verschil. Dure kleding en sieraden verdienen dezelfde behandeling. |
-| **Rechtstreeks** (verkoper naar koper) | sjaals, zonnebrillen, kleine sieraden en overige stukken onder €1.000 | Sneller en goedkoper voor beide partijen; het platform houdt het geld nog steeds vast tot levering, dus de kopersbescherming blijft. |
+Niet het platform bepaalt de route, maar de verkoper vinkt zelf aan hoe zijn stuk wordt gecontroleerd. Dat is beter dan een vaste regel: je dwingt geen operationele kosten af op een sjaal van €200, en je maakt van de expertise een aantrekkelijke dienst in plaats van een verplichting.
 
-Bij de rechtstreekse route vervangen wij de fysieke check door een **fotocontrole vooraf**: de verkoper levert de acht standaardbeelden, ons team beoordeelt die vóór de listing live gaat. Minder zeker dan fysiek, maar aantoonbaar beter dan wat Vinted of Marktplaats doet, en het verschil is transparant zichtbaar op de listing.
+| Niveau | Wat er gebeurt | Voor wie | Verzendroute |
+|---|---|---|---|
+| **1. Fotocontrole** | Ons team beoordeelt de acht standaardbeelden vóór de listing live gaat | standaard, alle categorieën | rechtstreeks van verkoper naar koper |
+| **2. Atelier-expertise** | Het stuk komt fysiek binnen, wordt beoordeeld op echtheid en conditie, en het conditierapport wordt door ons aangescherpt | optioneel, **alle categorieën** | via het atelier, drie verzendbenen |
+| **3. Entrupy-certificaat** | Machinale authenticatie met microscopische beeldanalyse, met een certificaat dat aan het stuk gekoppeld blijft | optioneel, **alleen tassen** (Entrupy dekt geen kleding of sieraden) | via het atelier |
 
-Twee dingen om vast te leggen:
-- Toon de route op de listing ("Gaat via ons atelier" of "Rechtstreeks verzonden, foto's gecontroleerd"), zodat de koper weet wat hij koopt. Vestiaire doet dit ook.
-- Ondergrens bewaken: als tassen onder de €300 in de collectie komen, opnieuw wegen of die de ateliertijd waard zijn.
+**Waarom dit sterker is dan een vaste regel:**
+- De verkoper met een twijfelgeval kiest zelf voor zekerheid, want een geverifieerd stuk verkoopt sneller en voor meer
+- Jij bouwt geen operationele last op waar de marge het niet draagt
+- Entrupy wordt een onderscheidende premiumlaag in plaats van een kostenpost: geen enkele Europese concurrent biedt machinale certificering standaard aan
+- Kopers krijgen een filter dat nergens anders bestaat: "alleen Entrupy-gecertificeerd"
+
+**Wat je moet vastleggen:**
+- Het niveau staat zichtbaar op elke listing en op de productkaart, zodat de koper weet wat hij koopt
+- Wie betaalt niveau 2 en 3? Advies: verwerk het in een iets hogere verkopersfee bij geverifieerde stukken, of reken een vast bedrag per certificaat. Neem dit mee in het gesprek met de boekhouder
+- Entrupy vereist een abonnement plus apparatuur; onderzoek de kosten voordat je het aanbiedt
+- Bij niveau 1 blijft de kopersbescherming volledig gelden: het platform houdt het geld vast tot levering, en bij een geschil beslist ons team
 
 ### 5f. Nog te overwegen (later, uit het onderzoek)
 
