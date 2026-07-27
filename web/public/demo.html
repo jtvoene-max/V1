@@ -137,7 +137,7 @@
   .megamenu.open { display: block; animation: megafade .18s ease; }
   @keyframes megafade { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
   .mega-binnen {
-    max-width: 1000px; margin: 0 auto; padding: 30px 24px 34px;
+    max-width: 1180px; margin: 0 auto; padding: 30px 24px 34px;
     display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 26px 34px;
   }
   .mega-kolom h4 {
@@ -203,7 +203,7 @@
     55% { box-shadow: 0 0 0 6px rgba(168,137,79,0); }
   }
 
-  .view { display: none; max-width: 1000px; margin: 0 auto; padding: 46px 24px 90px; animation: fade .35s ease; }
+  .view { display: none; max-width: 1180px; margin: 0 auto; padding: 46px 24px 90px; animation: fade .35s ease; }
   .view.actief { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
@@ -397,7 +397,7 @@
 
   /* ─── Fotonavigatie ─── */
   .foto-hoofd { overflow: hidden; }
-  .foto-binnen { width: 55%; height: 55%; transition: transform .3s ease; display: flex; align-items: center; justify-content: center; }
+  .foto-binnen { width: 58%; height: 58%; transition: transform .3s ease; display: flex; align-items: center; justify-content: center; }
   .foto-binnen svg { width: 100%; height: 100%; }
   .foto-strook { margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--lijn); }
   .foto-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 14px; }
@@ -454,15 +454,16 @@
   }
   .terug:hover { color: var(--inkt); }
 
-  .detail-flex { display: flex; gap: 44px; flex-wrap: wrap; }
+  .detail-flex { display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start; }
   .detail-foto {
-    flex: 1; min-width: 280px; aspect-ratio: 1;
+    aspect-ratio: 1; width: 100%;
     display: flex; align-items: center; justify-content: center;
     border: 1px solid var(--lijn);
     color: var(--noir);
   }
   .detail-foto svg { width: 55%; height: 55%; }
-  .detail-info { flex: 1.1; min-width: 300px; }
+  .detail-kolom { flex: 1.05; min-width: 300px; position: sticky; top: 76px; }
+  .detail-info { flex: 1; min-width: 300px; }
   .detail-prijs { font-size: 30px; margin: 18px 0 26px; }
 
   .specs { margin: 26px 0; }
@@ -1295,7 +1296,7 @@ function htmlDetail(it) {
   return `
     <button class="terug" onclick="scherm='browse';render()">&larr; De collectie</button>
     <div class="paneel detail-flex">
-      <div style="flex:1;min-width:280px">
+      <div class="detail-kolom">
         <div class="detail-foto quilt foto-hoofd">
           ${FOTO_VIEWS[fotoView].serial
             ? `<div class="serial-kaart">
@@ -1611,47 +1612,100 @@ function htmlVoorraad() {
     </div>`;
 }
 
-// ── Rapportage: sturen op doorlooptijd en kwaliteit ──
+// ── Rapportage: uw eigen stuurinformatie over de hele marktplaats ──
 function htmlRapportage() {
-  const kpi = (label, waarde, toel) => `
-    <div style="flex:1;min-width:150px;border:1px solid var(--lijn);padding:18px 20px">
+  const kpi = (label, waarde, toel, trend) => `
+    <div style="border:1px solid var(--lijn);background:var(--wit);padding:18px 20px">
       <div class="voorregel" style="margin-bottom:6px">${label}</div>
-      <div style="font-family:var(--serif);font-size:26px">${waarde}</div>
-      <div class="biedregel" style="margin-top:2px">${toel}</div>
+      <div style="font-family:var(--serif);font-size:27px;line-height:1.1">${waarde}</div>
+      <div class="biedregel" style="margin-top:4px">${trend ? `<span style="color:${trend.startsWith('+') ? 'var(--groen)' : 'var(--bordeaux)'}">${trend}</span> &middot; ` : ''}${toel}</div>
     </div>`;
-  const balk = (label, pct, dagen) => `
-    <div style="margin-bottom:12px">
-      <div style="display:flex;justify-content:space-between"><span class="biedregel" style="margin:0">${label}</span><span class="biedregel" style="margin:0">${dagen}</span></div>
-      <div style="height:6px;background:#eee;margin-top:5px"><div style="height:6px;width:${pct}%;background:var(--goud)"></div></div>
+  const balk = (label, pct, rechts, kleur) => `
+    <div style="margin-bottom:13px">
+      <div style="display:flex;justify-content:space-between;gap:12px"><span class="biedregel" style="margin:0">${label}</span><span class="biedregel" style="margin:0;white-space:nowrap">${rechts}</span></div>
+      <div style="height:6px;background:#ececea;margin-top:5px"><div style="height:6px;width:${pct}%;background:${kleur || 'var(--goud)'}"></div></div>
     </div>`;
+  const grid = (inhoud, min) => `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(${min || 165}px,1fr));gap:14px;margin-bottom:22px">${inhoud}</div>`;
+
   return `
     <div class="centreer intro">
       <div class="voorregel">Rapportage</div>
-      <h2 class="kop">Hoe loopt het atelier</h2>
-      <p class="sub">Doorlooptijd per fase, afkeurpercentage en waarde in behandeling: de cijfers waarop u stuurt en waarmee u capaciteit plant.</p>
+      <h2 class="kop">Hoe loopt de marktplaats</h2>
+      <p class="sub">Uw eigen stuurinformatie: aanbod, handel, atelier en geld. Alleen zichtbaar voor uw team.</p>
     </div>
-    <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:22px">
-      ${kpi('Doorlooptijd', '3,4 dagen', 'van binnenkomst tot verzending')}
-      ${kpi('Afkeurpercentage', '6,2%', '4 van de 64 stukken deze maand')}
-      ${kpi('In behandeling', eur(16600), 'verzekerde waarde in huis')}
-      ${kpi('Verwerkt', '64', 'stukken deze maand')}
-    </div>
+
+    <div class="sectiekop">Afgelopen 7 dagen</div>
+    ${grid(
+      kpi('Nieuwe listings', '18', 'geplaatst door 11 verkopers', '+22%') +
+      kpi('Verkocht', '9', 'waarvan 2 via een geaccepteerd bod', '+12%') +
+      kpi('Omzet in verkopen', eur(31450), 'gemiddeld ' + eur(3494) + ' per stuk', '+8%') +
+      kpi('Uw commissie', eur(3145), '10% verkoperszijde plus 5% koperszijde', '+8%')
+    )}
+
+    <div class="sectiekop">De collectie nu</div>
+    ${grid(
+      kpi('Stuks te koop', '412', 'waarvan 47 gereserveerd of in bod') +
+      kpi('Waarde collectie', eur(1284000), 'gemiddelde vraagprijs ' + eur(3117)) +
+      kpi('In het atelier', eur(16600), '4 stuks fysiek in huis') +
+      kpi('Gemiddelde tijd te koop', '23 dagen', 'mediaan 14 dagen')
+    )}
+
     <div class="paneel">
-      <div class="sectiekop">Gemiddelde tijd per fase</div>
+      <div class="sectiekop">Aanbod per categorie</div>
+      ${balk('Tassen', 68, '280 stuks · ' + eur(982000))}
+      ${balk('Sieraden', 17, '70 stuks · ' + eur(126000))}
+      ${balk('Kleding', 9, '38 stuks · ' + eur(121000))}
+      ${balk('Accessoires', 6, '24 stuks · ' + eur(55000))}
+      <p class="biedregel">Tassen dragen de omzet; kleding groeit het hardst (+31% ten opzichte van vorige maand).</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">Handel en conversie</div>
+      <div class="bon">
+        <div class="bon-rij"><span class="oms">Biedingen uitgebracht deze week</span><span>34</span></div>
+        <div class="bon-rij"><span class="oms">Daarvan geaccepteerd</span><span>11 (32%)</span></div>
+        <div class="bon-rij"><span class="oms">Gemiddeld geaccepteerd bod</span><span>86% van de vraagprijs</span></div>
+        <div class="bon-rij"><span class="oms">Verkocht tegen vaste prijs</span><span>7 van de 9</span></div>
+        <div class="bon-rij totaal"><span class="oms">Bezoeker naar koop</span><span>1,8%</span></div>
+      </div>
+      <p class="biedregel">Stukken waarop bieden is toegestaan verkopen sneller, maar leveren gemiddeld 14% minder op.</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">Het atelier</div>
+      ${grid(
+        kpi('Doorlooptijd', '3,4 dagen', 'binnenkomst tot verzending', '-0,4 dag') +
+        kpi('Afkeurpercentage', '6,2%', '4 van de 64 deze maand') +
+        kpi('Verwerkt', '64', 'stukken deze maand', '+9') +
+        kpi('Capaciteit', '78%', 'van de wekelijkse expertisecapaciteit'), 150
+      )}
+      <div class="sectiekop" style="margin-top:6px">Gemiddelde tijd per fase</div>
       ${balk('Onderweg naar het atelier', 62, '1,8 dagen')}
       ${balk('Te behandelen', 20, '0,6 dagen')}
       ${balk('In expertise', 14, '0,4 dagen')}
       ${balk('Klaar voor verzending', 8, '0,2 dagen')}
       ${balk('Onderweg naar de koper', 48, '1,4 dagen')}
-      <p class="biedregel">De grootste winst zit in de verzending naar het atelier: sneller labelgebruik door verkopers verkort de hele keten.</p>
+      <p class="biedregel">De grootste winst zit vooraan: sneller labelgebruik door verkopers verkort de hele keten.</p>
     </div>
+
     <div class="paneel">
       <div class="sectiekop">Redenen van afkeuring</div>
+      ${balk('Afwijkende stiksels of hardware', 50, '2 stuks', 'var(--bordeaux)')}
+      ${balk('Conditie wijkt af van de listing', 25, '1 stuk', 'var(--bordeaux)')}
+      ${balk('Serienummer klopt niet met het jaar', 25, '1 stuk', 'var(--bordeaux)')}
+      <p class="biedregel">Elke afkeuring kost gemiddeld ${eur(9.5)} retourkosten voor de verkoper en 1,2 dag ateliertijd.</p>
+    </div>
+
+    <div class="paneel">
+      <div class="sectiekop">Verkopers en kopers</div>
       <div class="bon">
-        <div class="bon-rij"><span class="oms">Afwijkende stiksels of hardware</span><span>2</span></div>
-        <div class="bon-rij"><span class="oms">Conditie wijkt af van de listing</span><span>1</span></div>
-        <div class="bon-rij"><span class="oms">Serienummer klopt niet met het jaar</span><span>1</span></div>
+        <div class="bon-rij"><span class="oms">Actieve verkopers</span><span>63 (11 zakelijk)</span></div>
+        <div class="bon-rij"><span class="oms">Nieuwe verkopers deze week</span><span>5</span></div>
+        <div class="bon-rij"><span class="oms">Verkopers boven de DAC7-drempel</span><span>4 &middot; rapportageplicht</span></div>
+        <div class="bon-rij"><span class="oms">Terugkerende kopers</span><span>28%</span></div>
+        <div class="bon-rij totaal"><span class="oms">Openstaand uit te betalen</span><span>${eur(24800)}</span></div>
       </div>
+      <button class="knop klein sec" onclick="toast('Export levert alle cijfers als CSV, met dezelfde periode.')">Exporteer rapportage</button>
     </div>`;
 }
 
