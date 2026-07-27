@@ -1,0 +1,328 @@
+// Timeless Marketplace — datamodel
+// Bron: docs/PLANNING.md + bouwplan. Elke listing is een uniek item (geen stock).
+// Elke gebruiker is PRIVATE of BUSINESS; dat veld stuurt KYC, facturatie en consumentenrecht.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Enums ────────────────────────────────────────────────────────────────
+
+enum AccountType {
+  PRIVATE
+  BUSINESS
+}
+
+enum UserRole {
+  USER // koper en/of verkoper
+  TEAM // operatie: intake, inspectie, verzending
+  ADMIN
+}
+
+enum Condition {
+  EXCELLENT
+  GOOD
+  VISIBLE_WEAR
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  RESERVED // checkout gestart, tijdslot via reservedUntil
+  SOLD
+  WITHDRAWN
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID // geld vastgehouden, wachten op inzending verkoper
+  AWAITING_ITEM // label verstuurd naar verkoper
+  ITEM_RECEIVED // fysiek binnen bij platform
+  IN_INSPECTION
+  APPROVED // inspectie akkoord, klaar voor verzending naar koper
+  REJECTED // inspectie afgekeurd
+  RETURNING_TO_SELLER // retour na afkeuring, kosten verkoper
+  SHIPPED_TO_BUYER
+  DELIVERED
+  COMPLETED // triggert directe payout
+  CANCELLED
+  REFUNDED
+}
+
+enum ShipmentLeg {
+  SELLER_TO_PLATFORM
+  PLATFORM_TO_BUYER
+  PLATFORM_TO_SELLER_RETURN
+}
+
+enum ShipmentPaidBy {
+  SELLER
+  BUYER
+  PLATFORM
+}
+
+enum ShipmentStatus {
+  PENDING
+  LABEL_CREATED
+  IN_TRANSIT
+  DELIVERED
+}
+
+enum OfferStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  COUNTERED
+  EXPIRED
+  WITHDRAWN
+}
+
+enum InspectionResult {
+  APPROVED
+  REJECTED
+}
+
+enum PayoutStatus {
+  PENDING
+  PAID
+  FAILED
+}
+
+// ── Gebruikers ───────────────────────────────────────────────────────────
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  passwordHash String
+  name         String
+  accountType  AccountType @default(PRIVATE)
+  role         UserRole    @default(USER)
+  locale       String      @default("nl")
+
+  // Alleen ingevuld bij accountType BUSINESS
+  companyName String?
+  vatNumber   String?
+  kvkNumber   String?
+
+  // Stripe-koppelingen (milestone 3)
+  stripeAccountId  String? @unique // Connect-account (verkoper)
+  stripeCustomerId String? @unique // Customer (koper)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  addresses      Address[]
+  listings       Listing[]
+  ordersAsBuyer  Order[]   @relation("BuyerOrders")
+  ordersAsSeller Order[]   @relation("SellerOrders")
+  offers         Offer[]
+  payouts        Payout[]
+  inspections    InspectionReport[]
+  orderEvents    OrderEvent[]
+}
+
+model Address {
+  id         String  @id @default(cuid())
+  userId     String
+  user       User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  street     String
+  houseNo    String
+  postalCode String
+  city       String
+  country    String  @default("NL") // ISO 3166-1 alpha-2
+  isDefault  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ── Listings ─────────────────────────────────────────────────────────────
+
+model Listing {
+  id       String @id @default(cuid())
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+
+  title       String
+  description String
+  brand       String    @default("Chanel")
+  model       String? // bv. "Classic Flap Medium"
+  category    String // bv. "bag", "jewelry", "accessory"
+  condition   Condition
+  productionYear Int?
+  serialNumber   String? // alleen zichtbaar voor team
+
+  priceCents Int // vraagprijs in centen
+  currency   String @default("EUR")
+
+  status        ListingStatus @default(DRAFT)
+  reservedUntil DateTime? // checkout-reservering tegen dubbele verkoop
+  allowOffers   Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  photos ListingPhoto[]
+  offers Offer[]
+  order  Order? // uniek item: maximaal één (actieve) order
+
+  @@index([status, createdAt])
+  @@index([sellerId])
+  @@index([category, status])
+  @@index([priceCents])
+}
+
+model ListingPhoto {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url       String
+  position  Int     @default(0)
+
+  @@index([listingId])
+}
+
+// ── Bieden ───────────────────────────────────────────────────────────────
+
+model Offer {
+  id        String  @id @default(cuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  buyerId   String
+  buyer     User    @relation(fields: [buyerId], references: [id])
+
+  amountCents Int
+  status      OfferStatus @default(PENDING)
+  expiresAt   DateTime
+
+  // Tegenbod-keten: een tegenbod verwijst naar het bod waarop het reageert
+  parentOfferId String?
+  parentOffer   Offer?  @relation("CounterChain", fields: [parentOfferId], references: [id])
+  counters      Offer[] @relation("CounterChain")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([listingId, status])
+  @@index([buyerId])
+}
+
+// ── Orders ───────────────────────────────────────────────────────────────
+
+model Order {
+  id        String  @id @default(cuid())
+  listingId String  @unique // uniek item: één order per listing
+  listing   Listing @relation(fields: [listingId], references: [id])
+  buyerId   String
+  buyer     User    @relation("BuyerOrders", fields: [buyerId], references: [id])
+  sellerId  String
+  seller    User    @relation("SellerOrders", fields: [sellerId], references: [id])
+
+  status OrderStatus @default(PENDING_PAYMENT)
+
+  // Bedragen vastgelegd op moment van koop (nooit herleiden uit listing)
+  itemPriceCents      Int
+  buyerFeeCents       Int
+  sellerFeeCents      Int
+  buyerShippingCents  Int // been B: platform → koper, betaald door koper
+  sellerShippingCents Int // been A: verkoper → platform, betaald door verkoper
+  currency            String @default("EUR")
+
+  stripePaymentIntentId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  shipments  Shipment[]
+  inspection InspectionReport?
+  payout     Payout?
+  events     OrderEvent[]
+
+  @@index([status])
+  @@index([buyerId])
+  @@index([sellerId])
+}
+
+// Audit-log van elke statusovergang: wie, wat, wanneer.
+model OrderEvent {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  fromStatus OrderStatus?
+  toStatus   OrderStatus
+  note       String?
+  actorId    String? // null = systeem (bv. webhook)
+  actor      User?   @relation(fields: [actorId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([orderId, createdAt])
+}
+
+// ── Verzending ───────────────────────────────────────────────────────────
+
+model Shipment {
+  id      String @id @default(cuid())
+  orderId String
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  leg    ShipmentLeg
+  paidBy ShipmentPaidBy
+  status ShipmentStatus @default(PENDING)
+
+  carrier          String?
+  trackingNumber   String?
+  trackingUrl      String?
+  sendcloudParcelId String?
+  labelUrl         String?
+  insuredValueCents Int? // verzekerde waarde, belangrijk bij deze itemprijzen
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([orderId, leg])
+  @@index([status])
+}
+
+// ── Inspectie ────────────────────────────────────────────────────────────
+
+model InspectionReport {
+  id      String @id @default(cuid())
+  orderId String @unique
+  order   Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  result      InspectionResult
+  notes       String?
+  inspectorId String
+  inspector   User             @relation(fields: [inspectorId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+// ── Uitbetaling ──────────────────────────────────────────────────────────
+
+model Payout {
+  id       String @id @default(cuid())
+  orderId  String @unique
+  order    Order  @relation(fields: [orderId], references: [id])
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+
+  amountCents      Int
+  currency         String       @default("EUR")
+  status           PayoutStatus @default(PENDING)
+  stripeTransferId String?      @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sellerId])
+}

@@ -1,0 +1,426 @@
+// Seed-script: vult de lokale database met realistische testdata.
+// Draaien: npx prisma db seed  (of: npx tsx prisma/seed.ts)
+// Alle testaccounts hebben wachtwoord: Test1234!
+import "dotenv/config";
+import { faker } from "@faker-js/faker";
+import bcrypt from "bcryptjs";
+import { PrismaPg } from "@prisma/adapter-pg";
+import {
+  PrismaClient,
+  AccountType,
+  Condition,
+  ListingStatus,
+  OrderStatus,
+  OfferStatus,
+  ShipmentLeg,
+  ShipmentPaidBy,
+  ShipmentStatus,
+  UserRole,
+  type User,
+  type Listing,
+} from "../src/generated/prisma/client";
+
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+const prisma = new PrismaClient({ adapter });
+
+faker.seed(20260727);
+
+const CHANEL_MODELS: { model: string; category: string; min: number; max: number }[] = [
+  { model: "Classic Flap Small", category: "bag", min: 3500, max: 9000 },
+  { model: "Classic Flap Medium", category: "bag", min: 4500, max: 12000 },
+  { model: "Classic Flap Jumbo", category: "bag", min: 5000, max: 14000 },
+  { model: "2.55 Reissue 226", category: "bag", min: 4000, max: 11000 },
+  { model: "Boy Bag Old Medium", category: "bag", min: 3000, max: 8000 },
+  { model: "Chanel 19 Large", category: "bag", min: 3500, max: 7500 },
+  { model: "Coco Handle Small", category: "bag", min: 3800, max: 8500 },
+  { model: "Gabrielle Hobo", category: "bag", min: 2500, max: 6000 },
+  { model: "Wallet on Chain", category: "bag", min: 1800, max: 4500 },
+  { model: "Vanity Case", category: "bag", min: 2200, max: 7000 },
+  { model: "Deauville Tote Large", category: "bag", min: 1500, max: 4000 },
+  { model: "Timeless Clutch", category: "bag", min: 1200, max: 3500 },
+  { model: "Diana Flap Vintage", category: "bag", min: 4000, max: 10000 },
+  { model: "Kelly Flap Vintage", category: "bag", min: 3000, max: 9000 },
+  { model: "Duma Backpack Vintage", category: "bag", min: 2500, max: 6500 },
+  { model: "CC Drop Oorbellen Vintage", category: "jewelry", min: 400, max: 1800 },
+  { model: "Gripoix Ketting Vintage", category: "jewelry", min: 800, max: 4500 },
+  { model: "CC Broche Goud", category: "jewelry", min: 350, max: 1500 },
+  { model: "Parelketting CC Vintage", category: "jewelry", min: 600, max: 3000 },
+  { model: "Zijden Sjaal Camellia", category: "accessory", min: 150, max: 600 },
+  { model: "Kettingriem Vintage", category: "accessory", min: 500, max: 2200 },
+  { model: "Zonnebril Vintage", category: "accessory", min: 200, max: 800 },
+];
+
+const CONDITIONS: Condition[] = [Condition.EXCELLENT, Condition.GOOD, Condition.VISIBLE_WEAR];
+
+function priceFor(min: number, max: number): number {
+  // Prijzen in centen, afgerond op hele tientjes
+  const eur = faker.number.int({ min, max });
+  return Math.round(eur / 10) * 10 * 100;
+}
+
+async function main() {
+  console.log("Seed gestart...");
+  const passwordHash = await bcrypt.hash("Test1234!", 10);
+
+  // Schoon beginnen (volgorde i.v.m. relaties)
+  await prisma.orderEvent.deleteMany();
+  await prisma.payout.deleteMany();
+  await prisma.inspectionReport.deleteMany();
+  await prisma.shipment.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.offer.deleteMany();
+  await prisma.listingPhoto.deleteMany();
+  await prisma.listing.deleteMany();
+  await prisma.address.deleteMany();
+  await prisma.user.deleteMany();
+
+  // ── Vaste testaccounts ──────────────────────────────────────────────
+  const admin = await prisma.user.create({
+    data: {
+      email: "admin@test.local",
+      passwordHash,
+      name: "Admin Test",
+      role: UserRole.ADMIN,
+      accountType: AccountType.PRIVATE,
+    },
+  });
+  await prisma.user.create({
+    data: {
+      email: "team@test.local",
+      passwordHash,
+      name: "Team Test",
+      role: UserRole.TEAM,
+      accountType: AccountType.PRIVATE,
+    },
+  });
+  const buyer = await prisma.user.create({
+    data: {
+      email: "koper@test.local",
+      passwordHash,
+      name: "Koos Koper",
+      accountType: AccountType.PRIVATE,
+    },
+  });
+  const sellerPrivate = await prisma.user.create({
+    data: {
+      email: "verkoper@test.local",
+      passwordHash,
+      name: "Vera Verkoper",
+      accountType: AccountType.PRIVATE,
+    },
+  });
+  const sellerBusiness = await prisma.user.create({
+    data: {
+      email: "zakelijk@test.local",
+      passwordHash,
+      name: "Bas Boetiek",
+      accountType: AccountType.BUSINESS,
+      companyName: "Vintage Boetiek B.V.",
+      vatNumber: "NL123456789B01",
+      kvkNumber: "12345678",
+    },
+  });
+
+  // ── Extra gebruikers (mix particulier/zakelijk) ─────────────────────
+  const extraSellers: User[] = [];
+  for (let i = 0; i < 20; i++) {
+    const isBusiness = i % 4 === 0; // kwart zakelijk
+    const first = faker.person.firstName();
+    const last = faker.person.lastName();
+    extraSellers.push(
+      await prisma.user.create({
+        data: {
+          email: faker.internet.email({ firstName: first, lastName: last, provider: `test${i}.local` }).toLowerCase(),
+          passwordHash,
+          name: `${first} ${last}`,
+          accountType: isBusiness ? AccountType.BUSINESS : AccountType.PRIVATE,
+          companyName: isBusiness ? faker.company.name() : null,
+          vatNumber: isBusiness ? `NL${faker.string.numeric(9)}B01` : null,
+          kvkNumber: isBusiness ? faker.string.numeric(8) : null,
+          locale: faker.helpers.arrayElement(["nl", "en", "fr", "de"]),
+        },
+      })
+    );
+  }
+  const extraBuyers: User[] = [];
+  for (let i = 0; i < 15; i++) {
+    const first = faker.person.firstName();
+    const last = faker.person.lastName();
+    extraBuyers.push(
+      await prisma.user.create({
+        data: {
+          email: faker.internet.email({ firstName: first, lastName: last, provider: `koper${i}.local` }).toLowerCase(),
+          passwordHash,
+          name: `${first} ${last}`,
+          accountType: i % 5 === 0 ? AccountType.BUSINESS : AccountType.PRIVATE,
+          companyName: i % 5 === 0 ? faker.company.name() : null,
+          vatNumber: i % 5 === 0 ? `NL${faker.string.numeric(9)}B01` : null,
+        },
+      })
+    );
+  }
+
+  // Adressen voor vaste accounts
+  for (const u of [buyer, sellerPrivate, sellerBusiness]) {
+    await prisma.address.create({
+      data: {
+        userId: u.id,
+        name: u.name,
+        street: faker.location.street(),
+        houseNo: String(faker.number.int({ min: 1, max: 200 })),
+        postalCode: `${faker.number.int({ min: 1000, max: 9999 })} ${faker.string.alpha({ length: 2, casing: "upper" })}`,
+        city: faker.location.city(),
+        country: "NL",
+        isDefault: true,
+      },
+    });
+  }
+
+  // ── Listings: 550 stuks ─────────────────────────────────────────────
+  const allSellers = [sellerPrivate, sellerBusiness, ...extraSellers];
+  const listings: Listing[] = [];
+  const TOTAL = 550;
+
+  for (let i = 0; i < TOTAL; i++) {
+    const spec = faker.helpers.arrayElement(CHANEL_MODELS);
+    const condition = faker.helpers.weightedArrayElement([
+      { value: CONDITIONS[0], weight: 3 },
+      { value: CONDITIONS[1], weight: 5 },
+      { value: CONDITIONS[2], weight: 2 },
+    ]);
+    const year = faker.number.int({ min: 1985, max: 2018 });
+    const seller = faker.helpers.arrayElement(allSellers);
+    // ~88% actief, rest verdeeld over draft/withdrawn (verkochte komen via orders)
+    const status = faker.helpers.weightedArrayElement([
+      { value: ListingStatus.ACTIVE, weight: 88 },
+      { value: ListingStatus.DRAFT, weight: 7 },
+      { value: ListingStatus.WITHDRAWN, weight: 5 },
+    ]);
+
+    const listing = await prisma.listing.create({
+      data: {
+        sellerId: seller.id,
+        title: `Chanel ${spec.model} ${year}`,
+        description: [
+          `Vintage Chanel ${spec.model} uit ${year}.`,
+          condition === Condition.EXCELLENT
+            ? "In uitstekende staat, nauwelijks gedragen."
+            : condition === Condition.GOOD
+              ? "In goede staat met lichte gebruikssporen passend bij de leeftijd."
+              : "Duidelijke gebruikssporen, zie foto's. Prijs is hierop aangepast.",
+          "Wordt geleverd met authenticiteitscontrole door ons atelier.",
+        ].join(" "),
+        category: spec.category,
+        model: spec.model,
+        condition,
+        productionYear: year,
+        serialNumber: faker.string.numeric(8),
+        priceCents: priceFor(spec.min, spec.max),
+        status,
+        allowOffers: faker.datatype.boolean({ probability: 0.8 }),
+        photos: {
+          create: [0, 1, 2, 3].map((p) => ({
+            url: `https://picsum.photos/seed/tm-${i}-${p}/800/800`,
+            position: p,
+          })),
+        },
+      },
+    });
+    listings.push(listing);
+  }
+
+  // ── Biedingen op actieve listings ───────────────────────────────────
+  const activeListings = listings.filter((l) => l.status === ListingStatus.ACTIVE && l.allowOffers);
+  let offerCount = 0;
+  for (const listing of faker.helpers.arrayElements(activeListings, 60)) {
+    const bidder = faker.helpers.arrayElement([buyer, ...extraBuyers]);
+    const amount = Math.round(listing.priceCents * faker.number.float({ min: 0.7, max: 0.95 }));
+    const status = faker.helpers.weightedArrayElement([
+      { value: OfferStatus.PENDING, weight: 5 },
+      { value: OfferStatus.REJECTED, weight: 2 },
+      { value: OfferStatus.EXPIRED, weight: 2 },
+      { value: OfferStatus.COUNTERED, weight: 1 },
+    ]);
+    const offer = await prisma.offer.create({
+      data: {
+        listingId: listing.id,
+        buyerId: bidder.id,
+        amountCents: Math.round(amount / 1000) * 1000,
+        status,
+        expiresAt: faker.date.soon({ days: 3 }),
+      },
+    });
+    if (status === OfferStatus.COUNTERED) {
+      await prisma.offer.create({
+        data: {
+          listingId: listing.id,
+          buyerId: bidder.id,
+          amountCents: Math.round((offer.amountCents + listing.priceCents) / 2 / 1000) * 1000,
+          status: OfferStatus.PENDING,
+          expiresAt: faker.date.soon({ days: 3 }),
+          parentOfferId: offer.id,
+        },
+      });
+    }
+    offerCount++;
+  }
+
+  // ── Orders in verschillende fasen van de flow ───────────────────────
+  // Statuspaden: hoe ver een order is, bepaalt welke shipments/events er zijn.
+  const ORDER_FLOWS: { status: OrderStatus; count: number }[] = [
+    { status: OrderStatus.PAID, count: 4 },
+    { status: OrderStatus.AWAITING_ITEM, count: 4 },
+    { status: OrderStatus.ITEM_RECEIVED, count: 3 },
+    { status: OrderStatus.IN_INSPECTION, count: 3 },
+    { status: OrderStatus.APPROVED, count: 2 },
+    { status: OrderStatus.SHIPPED_TO_BUYER, count: 3 },
+    { status: OrderStatus.DELIVERED, count: 2 },
+    { status: OrderStatus.COMPLETED, count: 8 },
+    { status: OrderStatus.REJECTED, count: 1 },
+    { status: OrderStatus.RETURNING_TO_SELLER, count: 2 },
+  ];
+
+  const STATUS_SEQUENCE: OrderStatus[] = [
+    OrderStatus.PENDING_PAYMENT,
+    OrderStatus.PAID,
+    OrderStatus.AWAITING_ITEM,
+    OrderStatus.ITEM_RECEIVED,
+    OrderStatus.IN_INSPECTION,
+    OrderStatus.APPROVED,
+    OrderStatus.SHIPPED_TO_BUYER,
+    OrderStatus.DELIVERED,
+    OrderStatus.COMPLETED,
+  ];
+
+  const availableForOrder = listings.filter((l) => l.status === ListingStatus.ACTIVE);
+  let orderIdx = 0;
+  let orderCount = 0;
+
+  for (const flow of ORDER_FLOWS) {
+    for (let n = 0; n < flow.count; n++) {
+      const listing = availableForOrder[orderIdx++];
+      if (!listing) break;
+      const orderBuyer = faker.helpers.arrayElement([buyer, ...extraBuyers]);
+
+      await prisma.listing.update({ where: { id: listing.id }, data: { status: ListingStatus.SOLD } });
+
+      const buyerFee = Math.round(listing.priceCents * 0.05); // 5% kopersfee (voorlopig)
+      const sellerFee = Math.round(listing.priceCents * 0.1); // 10% verkopersfee (voorlopig)
+
+      const order = await prisma.order.create({
+        data: {
+          listingId: listing.id,
+          buyerId: orderBuyer.id,
+          sellerId: listing.sellerId,
+          status: flow.status,
+          itemPriceCents: listing.priceCents,
+          buyerFeeCents: buyerFee,
+          sellerFeeCents: sellerFee,
+          buyerShippingCents: 1250,
+          sellerShippingCents: 950,
+        },
+      });
+
+      // Events: het pad tot en met de huidige status
+      const isRejectPath =
+        flow.status === OrderStatus.REJECTED || flow.status === OrderStatus.RETURNING_TO_SELLER;
+      const path = isRejectPath
+        ? [...STATUS_SEQUENCE.slice(0, 5), OrderStatus.REJECTED, ...(flow.status === OrderStatus.RETURNING_TO_SELLER ? [OrderStatus.RETURNING_TO_SELLER] : [])]
+        : STATUS_SEQUENCE.slice(0, STATUS_SEQUENCE.indexOf(flow.status) + 1);
+
+      let prev: OrderStatus | null = null;
+      for (const st of path) {
+        await prisma.orderEvent.create({
+          data: { orderId: order.id, fromStatus: prev, toStatus: st, actorId: st === OrderStatus.IN_INSPECTION || st === OrderStatus.REJECTED ? admin.id : null },
+        });
+        prev = st;
+      }
+
+      // Shipments afhankelijk van fase
+      const reached = (s: OrderStatus) => path.includes(s);
+      if (reached(OrderStatus.AWAITING_ITEM)) {
+        await prisma.shipment.create({
+          data: {
+            orderId: order.id,
+            leg: ShipmentLeg.SELLER_TO_PLATFORM,
+            paidBy: ShipmentPaidBy.SELLER,
+            status: reached(OrderStatus.ITEM_RECEIVED) ? ShipmentStatus.DELIVERED : ShipmentStatus.LABEL_CREATED,
+            carrier: "postnl",
+            trackingNumber: `3S${faker.string.numeric(13)}`,
+            insuredValueCents: listing.priceCents,
+          },
+        });
+      }
+      if (reached(OrderStatus.SHIPPED_TO_BUYER)) {
+        await prisma.shipment.create({
+          data: {
+            orderId: order.id,
+            leg: ShipmentLeg.PLATFORM_TO_BUYER,
+            paidBy: ShipmentPaidBy.BUYER,
+            status: reached(OrderStatus.DELIVERED) ? ShipmentStatus.DELIVERED : ShipmentStatus.IN_TRANSIT,
+            carrier: "postnl",
+            trackingNumber: `3S${faker.string.numeric(13)}`,
+            insuredValueCents: listing.priceCents,
+          },
+        });
+      }
+      if (flow.status === OrderStatus.RETURNING_TO_SELLER) {
+        await prisma.shipment.create({
+          data: {
+            orderId: order.id,
+            leg: ShipmentLeg.PLATFORM_TO_SELLER_RETURN,
+            paidBy: ShipmentPaidBy.SELLER,
+            status: ShipmentStatus.IN_TRANSIT,
+            carrier: "postnl",
+            trackingNumber: `3S${faker.string.numeric(13)}`,
+            insuredValueCents: listing.priceCents,
+          },
+        });
+      }
+
+      // Inspectie + payout waar van toepassing
+      if (reached(OrderStatus.APPROVED) || isRejectPath) {
+        await prisma.inspectionReport.create({
+          data: {
+            orderId: order.id,
+            result: isRejectPath ? "REJECTED" : "APPROVED",
+            notes: isRejectPath ? "Wijkt af van beschrijving; hardware vertoont niet-gemelde schade." : "Authentiek bevonden, staat komt overeen met listing.",
+            inspectorId: admin.id,
+          },
+        });
+      }
+      if (flow.status === OrderStatus.COMPLETED) {
+        await prisma.payout.create({
+          data: {
+            orderId: order.id,
+            sellerId: listing.sellerId,
+            amountCents: listing.priceCents - sellerFee,
+            status: "PAID",
+          },
+        });
+      }
+      orderCount++;
+    }
+  }
+
+  const counts = {
+    users: await prisma.user.count(),
+    listings: await prisma.listing.count(),
+    photos: await prisma.listingPhoto.count(),
+    offers: await prisma.offer.count(),
+    orders: await prisma.order.count(),
+    shipments: await prisma.shipment.count(),
+    events: await prisma.orderEvent.count(),
+    payouts: await prisma.payout.count(),
+  };
+  console.log("Seed klaar:", JSON.stringify(counts, null, 2));
+  console.log(`(waarvan ${offerCount} listings met biedingen en ${orderCount} orders)`);
+  console.log("Testaccounts (wachtwoord Test1234!): admin@test.local, team@test.local, koper@test.local, verkoper@test.local, zakelijk@test.local");
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(() => prisma.$disconnect());
