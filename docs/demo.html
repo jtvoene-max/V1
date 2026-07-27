@@ -567,10 +567,15 @@ const EERDERE_BESTELLINGEN = [
   { id: 'H1', art: 'boy', titel: 'Vanity Case', jaar: 1997, prijs: 2900, status: 'COMPLETED', datum: '12 juli 2026' },
   { id: 'H2', art: 'zonnebril', titel: 'Zonnebril Vintage', jaar: 1992, prijs: 420, status: 'REFUNDED', datum: '28 juni 2026' },
 ];
-// Verkoophistorie en uitbetalingen (verkoperzijde)
+// Verkoophistorie, biedingen en facturen (verkoperzijde)
 const EERDERE_VERKOPEN = [
-  { titel: 'Zijden Sjaal Camélia 2001', prijs: 310, netto: 269.5, datum: '3 juli 2026' },
-  { titel: 'Kettingriem Vintage 1998', prijs: 1480, netto: 1322.5, datum: '19 juni 2026' },
+  { titel: 'Zijden Sjaal Camélia 2001', art: 'sjaal', prijs: 310, netto: 269.5, datum: '3 juli 2026', factuur: 'TM-F-2026-0142' },
+  { titel: 'Kettingriem Vintage 1998', art: 'ketting', prijs: 1480, netto: 1322.5, datum: '19 juni 2026', factuur: 'TM-F-2026-0117' },
+];
+const EERDERE_BIEDINGEN = [
+  { stuk: 'Classic Flap Medium 1995', bieder: 'Amber D.', bedrag: 4950, status: 'Afgewezen', datum: '24 juli 2026' },
+  { stuk: 'Kettingriem Vintage 1998', bieder: 'Jules B.', bedrag: 1350, status: 'Tegenbod € 1.480 · geaccepteerd', datum: '18 juni 2026' },
+  { stuk: 'Deauville Tote Large 2017', bieder: 'Mika S.', bedrag: 1250, status: 'Verlopen (48 uur)', datum: '11 juni 2026' },
 ];
 
 // Filterstate voor de boutique (voorstel uit het concurrentie-onderzoek)
@@ -1008,23 +1013,75 @@ function htmlAccountVerkoper() {
       <p class="biedregel" style="margin-top:8px">In het echte platform beheert u hier al uw listings, met concepten en ingetrokken stukken.</p>
     </div>`;
 
-  // Uitbetalingen: historie + de lopende verkoop zodra afgerond
+  // Verkochte stukken: historie + de lopende verkoop zodra afgerond
   const liveNetto = order ? order.item.prijs * (1 - VERKOPERSFEE) - 9.5 : 0;
-  const uitbetalingen = [
-    ...(order && order.status === 'COMPLETED' && !order.afgekeurd
-      ? [`<div class="bon-rij"><span class="oms">Chanel ${order.item.titel} ${order.item.jaar} &middot; vandaag</span><span style="color:var(--groen)"><b>${eur(liveNetto)}</b></span></div>`]
-      : []),
-    ...EERDERE_VERKOPEN.map(vk =>
-      `<div class="bon-rij"><span class="oms">Chanel ${vk.titel} &middot; ${vk.datum}</span><span>${eur(vk.netto)}</span></div>`),
+  const liveAfgerond = order && order.status === 'COMPLETED' && !order.afgekeurd;
+  const verkochtRijen = [
+    ...(liveAfgerond ? [`
+      <div class="wachtrij-item" style="border:none;padding:10px 0;margin:0">
+        <div class="mini-foto quilt" style="width:48px;height:48px">${art(order.item.art)}</div>
+        <div class="wachtrij-info">
+          <div style="font-family:var(--serif);font-size:15px">Chanel ${order.item.titel} ${order.item.jaar}</div>
+          <div class="wachtrij-meta">vandaag &middot; verkocht voor ${eur(order.item.prijs)} &middot; netto ${eur(liveNetto)}</div>
+        </div>
+        <span class="status-chip groen">Uitbetaald</span>
+      </div>`] : []),
+    ...EERDERE_VERKOPEN.map(vk => `
+      <div class="wachtrij-item" style="border:none;padding:10px 0;margin:0">
+        <div class="mini-foto quilt" style="width:48px;height:48px">${art(vk.art)}</div>
+        <div class="wachtrij-info">
+          <div style="font-family:var(--serif);font-size:15px">Chanel ${vk.titel}</div>
+          <div class="wachtrij-meta">${vk.datum} &middot; verkocht voor ${eur(vk.prijs)} &middot; netto ${eur(vk.netto)}</div>
+        </div>
+        <span class="status-chip groen">Uitbetaald</span>
+      </div>`),
   ];
-  const totaalUitbetaald = EERDERE_VERKOPEN.reduce((s, vk) => s + vk.netto, 0) + (order && order.status === 'COMPLETED' && !order.afgekeurd ? liveNetto : 0);
-  const uitbetalingenBlok = `
+  const totaalUitbetaald = EERDERE_VERKOPEN.reduce((s, vk) => s + vk.netto, 0) + (liveAfgerond ? liveNetto : 0);
+  const verkochtBlok = `
     <div class="paneel">
-      <div class="sectiekop">Uitbetalingen</div>
-      <div class="bon">${uitbetalingen.join('')}
-        <div class="bon-rij totaal"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div>
-      </div>
+      <div class="sectiekop">Verkochte stukken (${verkochtRijen.length})</div>
+      ${verkochtRijen.join('')}
+      <div class="bon" style="margin:8px 0 0"><div class="bon-rij totaal" style="padding-top:10px"><span class="oms">Totaal uitbetaald</span><span>${eur(totaalUitbetaald)}</span></div></div>
       <p class="biedregel">Uitbetaling direct via Stripe zodra de koper de ontvangst bevestigt. Geen batches, geen wachttijden.</p>
+    </div>`;
+
+  // Biedhistorie: eerdere biedingen + de lopende bied-simulatie
+  const bodSimStatus = { ontvangen: 'In behandeling', geaccepteerd: 'Geaccepteerd', tegenbod: 'Tegenbod € 5.500 verstuurd', afgewezen: 'Afgewezen' }[bod.status];
+  const biedRijen = [
+    ...(bodSimStatus ? [{ stuk: 'Classic Flap Medium 1995', bieder: 'Koos K.', bedrag: 5200, status: bodSimStatus, datum: 'vandaag' }] : []),
+    ...EERDERE_BIEDINGEN,
+  ];
+  const biedBlok = `
+    <div class="paneel">
+      <div class="sectiekop">Biedhistorie (${biedRijen.length})</div>
+      <div class="bon">
+        ${biedRijen.map(b => `
+        <div class="bon-rij">
+          <span class="oms">${b.datum} &middot; <b>${eur(b.bedrag)}</b> van ${b.bieder} op ${b.stuk}</span>
+          <span style="font-family:var(--sans);font-size:11px;color:${b.status.includes('eaccepteerd') ? 'var(--groen)' : b.status === 'Afgewezen' ? 'var(--bordeaux)' : 'var(--grijs)'}">${b.status}</span>
+        </div>`).join('')}
+      </div>
+      <p class="biedregel">Elk bod is 48 uur geldig en wordt vastgelegd in het papertrail: bedrag, bieder, uitkomst en tijdstip.</p>
+    </div>`;
+
+  // Facturen: commissienota's per verkoop (particuliere verkoper: alleen fee-facturen)
+  const factuurRijen = [
+    ...(liveAfgerond ? [`
+      <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
+        <span class="oms">TM-F-2026-0198 &middot; vandaag &middot; commissienota Chanel ${order.item.titel}</span>
+        <span>${eur(order.item.prijs * VERKOPERSFEE + 9.5)}</span>
+      </div>`] : []),
+    ...EERDERE_VERKOPEN.map(vk => `
+      <div class="bon-rij" style="cursor:pointer" onclick="toast('In het echte platform downloadt u hier de PDF.')">
+        <span class="oms">${vk.factuur} &middot; ${vk.datum} &middot; commissienota Chanel ${vk.titel}</span>
+        <span>${eur(vk.prijs - vk.netto)}</span>
+      </div>`),
+  ];
+  const facturenBlok = `
+    <div class="paneel">
+      <div class="sectiekop">Facturen</div>
+      <div class="bon">${factuurRijen.join('')}</div>
+      <p class="biedregel">Als particuliere verkoper ontvangt u alleen commissienota's van de maison (incl. 21% BTW over de fee). Zakelijke verkopers zien hier ook de verkoopfacturen die het platform namens hen uitreikt onder de margeregeling.</p>
     </div>`;
 
   if (!order) {
@@ -1032,7 +1089,7 @@ function htmlAccountVerkoper() {
       <div class="paneel leeg" style="padding:30px">
         <div class="orn">&#9670;&#9670;&#9670;</div>
         <p>Geen lopende verkoop.<br>Verwerf als <b>koper</b> een stuk in de Boutique om de verkoopflow te ervaren.</p>
-      </div>` + listingsBlok + uitbetalingenBlok + bodBlok;
+      </div>` + listingsBlok + verkochtBlok + biedBlok + bodBlok + facturenBlok;
   }
 
   const it = order.item;
@@ -1072,7 +1129,7 @@ function htmlAccountVerkoper() {
       <div class="stap-uitleg" style="margin:0">U hoeft niets te doen. Het atelier en de koper zetten de volgende stappen; wissel van rol om ze uit te voeren.</div>`;
   }
 
-  return kop + `<div class="paneel"><div class="sectiekop">Uw verkoop</div>${inhoud}</div>` + listingsBlok + uitbetalingenBlok + bodBlok;
+  return kop + `<div class="paneel"><div class="sectiekop">Uw verkoop</div>${inhoud}</div>` + listingsBlok + verkochtBlok + biedBlok + bodBlok + facturenBlok;
 }
 
 function resetDemo() {
