@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { SiteHeader } from "@/components/site-header";
 import { CATEGORIES, CONDITION_LABELS, formatPrice } from "@/lib/listing-search";
 
 export default async function ListingDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -24,19 +25,26 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
   const categoryLabel = CATEGORIES.find((c) => c.value === listing.category)?.label ?? listing.category;
   const sold = listing.status === "SOLD" || listing.status === "RESERVED";
 
+  const spec = (label: string, value: React.ReactNode) => (
+    <div className="flex items-baseline justify-between gap-6 border-b hairline py-3">
+      <dt className="caps-label whitespace-nowrap">{label}</dt>
+      <dd className="text-right text-sm">{value}</dd>
+    </div>
+  );
+
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
-      <nav className="mb-6 text-sm text-neutral-500">
-        <Link href="/" className="underline">
-          Alle items
-        </Link>{" "}
-        / {listing.title}
+      <SiteHeader />
+      <nav className="mb-8">
+        <Link href="/" className="caps-label underline">
+          ← De collectie
+        </Link>
       </nav>
 
-      <div className="grid gap-10 md:grid-cols-2">
+      <div className="grid gap-12 md:grid-cols-2">
         {/* Fotogalerij */}
         <div className="flex flex-col gap-3">
-          <div className="relative aspect-square overflow-hidden rounded-lg bg-neutral-100">
+          <div className="relative aspect-square overflow-hidden border hairline bg-neutral-100">
             {listing.photos[0] && (
               <Image
                 src={listing.photos[0].url}
@@ -51,7 +59,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
           {listing.photos.length > 1 && (
             <div className="grid grid-cols-4 gap-3">
               {listing.photos.slice(1, 5).map((photo) => (
-                <div key={photo.id} className="relative aspect-square overflow-hidden rounded bg-neutral-100">
+                <div key={photo.id} className="relative aspect-square overflow-hidden border hairline bg-neutral-100">
                   <Image src={photo.url} alt={listing.title} fill sizes="12vw" className="object-cover" />
                 </div>
               ))}
@@ -61,64 +69,50 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
 
         {/* Info */}
         <div>
-          <h1 className="mb-1 font-serif text-3xl">{listing.title}</h1>
-          <p className="mb-4 text-sm text-neutral-500">
+          <p className="caps-gold mb-3">
             {categoryLabel}
-            {listing.productionYear ? ` · ${listing.productionYear}` : ""}
+            {listing.productionYear ? ` · ${listing.productionYear}` : ""} · Vintage
           </p>
-
-          <p className="mb-6 text-3xl font-semibold">{formatPrice(listing.priceCents)}</p>
+          <h1 className="font-serif text-4xl">{listing.title}</h1>
+          <p className="mt-5 font-serif text-3xl">{formatPrice(listing.priceCents)}</p>
 
           {sold ? (
-            <p className="mb-6 inline-block rounded bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-500">
+            <p className="caps-label mt-7 inline-block border hairline px-5 py-3">
               {listing.status === "RESERVED" ? "Gereserveerd" : "Verkocht"}
             </p>
           ) : (
-            <div className="mb-6 flex gap-3">
-              <button className="rounded bg-black px-6 py-3 font-medium text-white" disabled title="Checkout volgt in milestone 3">
-                Kopen
+            <div className="mt-7 flex flex-wrap gap-3">
+              <button className="btn-maison" disabled title="Checkout volgt in milestone 3">
+                Acquisitie
               </button>
               {listing.allowOffers && (
-                <button className="rounded border border-black px-6 py-3 font-medium" disabled title="Bieden volgt in milestone 5">
+                <button className="btn-maison-line" disabled title="Bieden volgt in milestone 5">
                   Bod uitbrengen
                 </button>
               )}
             </div>
           )}
 
-          <dl className="mb-6 grid grid-cols-2 gap-x-4 gap-y-2 rounded-lg border border-neutral-200 p-4 text-sm">
-            <dt className="text-neutral-500">Conditie</dt>
-            <dd>{CONDITION_LABELS[listing.condition]}</dd>
-            {listing.model && (
+          <dl className="mt-9 border-t hairline">
+            {spec("Conditie", CONDITION_LABELS[listing.condition])}
+            {listing.model && spec("Model", listing.model)}
+            {spec(
+              "Verkoper",
               <>
-                <dt className="text-neutral-500">Model</dt>
-                <dd>{listing.model}</dd>
+                {sellerLabel} <span className="text-[#8a6f3c]">· {isBusiness ? "zakelijk" : "particulier"}</span>
               </>
             )}
-            <dt className="text-neutral-500">Verkoper</dt>
-            <dd>
-              {sellerLabel}
-              <span className="ml-1 rounded bg-neutral-100 px-1.5 py-0.5 text-xs text-neutral-500">
-                {isBusiness ? "Zakelijk" : "Particulier"}
-              </span>
-            </dd>
-            <dt className="text-neutral-500">Authenticatie</dt>
-            <dd>Fysiek gecontroleerd door ons atelier vóór verzending</dd>
-            {isBusiness && (
-              <>
-                <dt className="text-neutral-500">Herroepingsrecht</dt>
-                <dd>14 dagen bedenktijd (zakelijke verkoper)</dd>
-              </>
-            )}
+            {spec("Expertise", "Fysiek geauthenticeerd in ons atelier")}
+            {isBusiness && spec("Bedenktijd", "14 dagen herroepingsrecht")}
           </dl>
 
-          <h2 className="mb-2 font-medium">Beschrijving</h2>
+          <h2 className="caps-label mt-9 mb-3">Beschrijving</h2>
           <p className="whitespace-pre-line text-sm leading-relaxed text-neutral-700">{listing.description}</p>
 
           {!isBusiness && (
-            <p className="mt-6 rounded bg-neutral-50 p-3 text-xs text-neutral-500">
-              Je koopt van een particuliere verkoper. Het wettelijk herroepingsrecht is niet van toepassing; elk item wordt
-              vóór verzending fysiek geïnspecteerd en geauthenticeerd door ons atelier.
+            <p className="mt-7 border-l-2 border-[#a8894f] bg-white px-4 py-3 text-xs leading-relaxed text-neutral-500">
+              Je koopt van een particuliere verkoper; het wettelijk herroepingsrecht is niet van toepassing. Elk stuk
+              wordt vóór verzending fysiek geïnspecteerd en geauthenticeerd door ons atelier.
             </p>
           )}
         </div>

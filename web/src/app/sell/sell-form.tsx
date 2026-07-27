@@ -115,7 +115,7 @@ export function SellForm() {
 
       {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
 
-      <button type="submit" disabled={pending} className="rounded bg-black px-4 py-3 font-medium text-white disabled:opacity-50">
+      <button type="submit" disabled={pending} className="btn-maison">
         {pending ? "Bezig met plaatsen..." : "Item plaatsen"}
       </button>
     </form>

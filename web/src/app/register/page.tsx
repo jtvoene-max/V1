@@ -75,7 +75,7 @@ export default function RegisterPage() {
         )}
 
         {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
-        <button type="submit" disabled={pending} className="mt-2 rounded bg-black px-4 py-2 text-white disabled:opacity-50">
+        <button type="submit" disabled={pending} className="btn-maison mt-2">
           {pending ? "Bezig..." : "Account aanmaken"}
         </button>
       </form>

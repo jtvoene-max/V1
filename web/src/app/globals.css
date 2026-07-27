@@ -23,3 +23,53 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+/* ── Maison-designtaal ─────────────────────────────────────────────
+   Zwart-wit, hairlines, serif voor titels, goud (#a8894f) spaarzaam
+   als accent. Deze klassen houden de stijl overal identiek. */
+
+@layer components {
+  .caps-label {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: 0.625rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #767676;
+  }
+  .caps-gold {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: 0.625rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: #8a6f3c;
+  }
+  .btn-maison {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    background: #0a0a0a;
+    color: #f2e8d5;
+    border: 1px solid #0a0a0a;
+    padding: 0.875rem 1.75rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-maison:hover:not(:disabled) { background: #ffffff; color: #0a0a0a; }
+  .btn-maison:disabled { opacity: 0.4; cursor: default; }
+  .btn-maison-line {
+    font-family: var(--font-geist-sans), sans-serif;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    background: transparent;
+    color: #1a1a1a;
+    border: 1px solid #1a1a1a;
+    padding: 0.875rem 1.75rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-maison-line:hover:not(:disabled) { background: #0a0a0a; color: #ffffff; }
+  .hairline { border-color: rgba(10, 10, 10, 0.14); }
+  .goud-lijn { width: 3.5rem; height: 1px; background: #a8894f; }
+}
