@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/lib/auth";
+import { logAudit } from "@/lib/audit";
 
 const registerSchema = z
   .object({
@@ -52,7 +53,7 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 10);
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email,
       passwordHash,
@@ -62,6 +63,13 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
       vatNumber: parsed.data.accountType === "BUSINESS" ? parsed.data.vatNumber : null,
       kvkNumber: parsed.data.accountType === "BUSINESS" ? parsed.data.kvkNumber : null,
     },
+  });
+  await logAudit(prisma, {
+    entityType: "USER",
+    entityId: user.id,
+    action: "CREATED",
+    toValue: parsed.data.accountType,
+    actorId: user.id,
   });
 
   await signIn("credentials", {

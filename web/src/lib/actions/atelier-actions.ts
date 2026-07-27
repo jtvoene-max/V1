@@ -5,6 +5,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ATELIER_ACTIONS } from "@/lib/order-flow";
+import { logAudit } from "@/lib/audit";
 import type { Prisma } from "@/generated/prisma/client";
 
 export type AtelierFormState = { error?: string } | undefined;
@@ -53,11 +54,21 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
     await tx.orderEvent.create({
       data: { orderId: order.id, fromStatus: action.from, toStatus: action.to, note, actorId },
     });
+    // Papertrail: de statusovergang zelf
+    await logAudit(tx, {
+      entityType: "ORDER",
+      entityId: order.id,
+      action: "STATUS_CHANGED",
+      fromValue: action.from,
+      toValue: action.to,
+      note,
+      actorId,
+    });
 
     switch (action.key) {
-      case "create_label":
+      case "create_label": {
         // Sendcloud-integratie volgt; tot die tijd een handmatig label-record.
-        await tx.shipment.upsert({
+        const shipment = await tx.shipment.upsert({
           where: { orderId_leg: { orderId: order.id, leg: "SELLER_TO_PLATFORM" } },
           create: {
             orderId: order.id,
@@ -68,35 +79,53 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           },
           update: { status: "LABEL_CREATED" },
         });
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: shipment.id,
+          action: "LABEL_CREATED",
+          toValue: "SELLER_TO_PLATFORM",
+          note: `Order ${order.id} · verzekerd ${Math.round(order.itemPriceCents / 100)} EUR`,
+          actorId,
+        });
         break;
+      }
 
       case "receive_item":
         await tx.shipment.updateMany({
           where: { orderId: order.id, leg: "SELLER_TO_PLATFORM" },
           data: { status: "DELIVERED" },
         });
-        break;
-
-      case "approve":
-      case "reject":
-        await tx.inspectionReport.upsert({
-          where: { orderId: order.id },
-          create: {
-            orderId: order.id,
-            result: action.key === "approve" ? "APPROVED" : "REJECTED",
-            notes: note,
-            inspectorId: actorId,
-          },
-          update: {
-            result: action.key === "approve" ? "APPROVED" : "REJECTED",
-            notes: note,
-            inspectorId: actorId,
-          },
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: order.id,
+          action: "RECEIVED",
+          toValue: "SELLER_TO_PLATFORM",
+          note: `Order ${order.id} fysiek ontvangen in atelier`,
+          actorId,
         });
         break;
 
-      case "ship_to_buyer":
-        await tx.shipment.upsert({
+      case "approve":
+      case "reject": {
+        const result = action.key === "approve" ? "APPROVED" : "REJECTED";
+        const report = await tx.inspectionReport.upsert({
+          where: { orderId: order.id },
+          create: { orderId: order.id, result, notes: note, inspectorId: actorId },
+          update: { result, notes: note, inspectorId: actorId },
+        });
+        await logAudit(tx, {
+          entityType: "INSPECTION",
+          entityId: report.id,
+          action: "INSPECTED",
+          toValue: result,
+          note,
+          actorId,
+        });
+        break;
+      }
+
+      case "ship_to_buyer": {
+        const shipment = await tx.shipment.upsert({
           where: { orderId_leg: { orderId: order.id, leg: "PLATFORM_TO_BUYER" } },
           create: {
             orderId: order.id,
@@ -107,18 +136,35 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           },
           update: { status: "IN_TRANSIT" },
         });
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: shipment.id,
+          action: "SHIPPED",
+          toValue: "PLATFORM_TO_BUYER",
+          note: `Order ${order.id} · verzekerd ${Math.round(order.itemPriceCents / 100)} EUR`,
+          actorId,
+        });
         break;
+      }
 
       case "mark_delivered":
         await tx.shipment.updateMany({
           where: { orderId: order.id, leg: "PLATFORM_TO_BUYER" },
           data: { status: "DELIVERED" },
         });
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: order.id,
+          action: "DELIVERED",
+          toValue: "PLATFORM_TO_BUYER",
+          note: `Order ${order.id} bezorgd bij koper`,
+          actorId,
+        });
         break;
 
-      case "complete":
+      case "complete": {
         // Directe uitbetaling; de echte Stripe-transfer volgt in milestone 3/5.
-        await tx.payout.upsert({
+        const payout = await tx.payout.upsert({
           where: { orderId: order.id },
           create: {
             orderId: order.id,
@@ -128,10 +174,19 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           },
           update: {},
         });
+        await logAudit(tx, {
+          entityType: "PAYOUT",
+          entityId: payout.id,
+          action: "PAYOUT_CREATED",
+          toValue: "PENDING",
+          note: `${Math.round(payout.amountCents / 100)} EUR aan verkoper ${order.sellerId} · order ${order.id}`,
+          actorId,
+        });
         break;
+      }
 
-      case "start_return":
-        await tx.shipment.upsert({
+      case "start_return": {
+        const shipment = await tx.shipment.upsert({
           where: { orderId_leg: { orderId: order.id, leg: "PLATFORM_TO_SELLER_RETURN" } },
           create: {
             orderId: order.id,
@@ -142,7 +197,16 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           },
           update: { status: "IN_TRANSIT" },
         });
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: shipment.id,
+          action: "RETURN_STARTED",
+          toValue: "PLATFORM_TO_SELLER_RETURN",
+          note: `Order ${order.id} · kosten voor verkoper`,
+          actorId,
+        });
         break;
+      }
 
       case "finish_return":
         await tx.shipment.updateMany({
@@ -151,6 +215,22 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
         });
         // Item komt weer beschikbaar voor de verkoper als concept.
         await tx.listing.update({ where: { id: order.listingId }, data: { status: "DRAFT" } });
+        await logAudit(tx, {
+          entityType: "SHIPMENT",
+          entityId: order.id,
+          action: "RETURN_FINISHED",
+          note: `Order ${order.id} retour bezorgd bij verkoper`,
+          actorId,
+        });
+        await logAudit(tx, {
+          entityType: "LISTING",
+          entityId: order.listingId,
+          action: "RELISTED",
+          fromValue: "SOLD",
+          toValue: "DRAFT",
+          note: `Na afgekeurde inspectie van order ${order.id}`,
+          actorId,
+        });
         break;
     }
   });

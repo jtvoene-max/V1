@@ -93,6 +93,16 @@ enum PayoutStatus {
   FAILED
 }
 
+enum AuditEntity {
+  USER
+  LISTING
+  OFFER
+  ORDER
+  SHIPMENT
+  INSPECTION
+  PAYOUT
+}
+
 // ── Gebruikers ───────────────────────────────────────────────────────────
 
 model User {
@@ -124,6 +134,7 @@ model User {
   payouts        Payout[]
   inspections    InspectionReport[]
   orderEvents    OrderEvent[]
+  auditLogs      AuditLog[]
 }
 
 model Address {
@@ -305,6 +316,28 @@ model InspectionReport {
   inspector   User             @relation(fields: [inspectorId], references: [id])
 
   createdAt DateTime @default(now())
+}
+
+// ── Papertrail ───────────────────────────────────────────────────────────
+// Append-only logboek van alles wat er op het platform gebeurt.
+// Regels worden nooit gewijzigd of verwijderd.
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  entityType AuditEntity
+  entityId   String
+  action     String // bv. CREATED, STATUS_CHANGED, INSPECTED, PAYOUT_CREATED
+  fromValue  String?
+  toValue    String?
+  note       String?
+  actorId    String? // null = systeem (seed, webhook, automatisch)
+  actor      User?       @relation(fields: [actorId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@index([createdAt])
+  @@index([actorId])
 }
 
 // ── Uitbetaling ──────────────────────────────────────────────────────────

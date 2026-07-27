@@ -20,6 +20,7 @@ Marketplace voor vintage Chanel met fysieke authenticatie: items gaan via het pl
 - Bedragen altijd in centen (Int), prijzen in EUR. Bedragen op een Order zijn vastgelegd op koopmoment, nooit herleiden uit de listing.
 - Elke listing is een uniek item: geen stock-veld, dubbele verkoop voorkomen via `reservedUntil` + status RESERVED.
 - Elke orderstatus-overgang krijgt een OrderEvent (audit-log).
+- Papertrail: ELKE mutatie (order, listing, verzending, inspectie, payout, gebruiker) logt óók naar AuditLog via `logAudit()` uit `src/lib/audit.ts`, binnen dezelfde transactie als de wijziging. AuditLog is append-only: nooit updaten of verwijderen. Inzage en CSV-export op /atelier/audit (TEAM/ADMIN). Nieuwe features zonder audit-regels zijn niet af.
 - Dev-server via de preview-tool met configuratie `timeless-web` (poort 3000).
 
 ## Regels

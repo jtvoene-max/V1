@@ -63,6 +63,7 @@ async function main() {
   const passwordHash = await bcrypt.hash("Test1234!", 10);
 
   // Schoon beginnen (volgorde i.v.m. relaties)
+  await prisma.auditLog.deleteMany();
   await prisma.orderEvent.deleteMany();
   await prisma.payout.deleteMany();
   await prisma.inspectionReport.deleteMany();
@@ -227,6 +228,16 @@ async function main() {
       },
     });
     listings.push(listing);
+    await prisma.auditLog.create({
+      data: {
+        entityType: "LISTING",
+        entityId: listing.id,
+        action: "CREATED",
+        toValue: status,
+        actorId: seller.id,
+        note: `${listing.title} · ${Math.round(listing.priceCents / 100)} EUR (seed)`,
+      },
+    });
   }
 
   // ── Biedingen op actieve listings ───────────────────────────────────
@@ -330,8 +341,20 @@ async function main() {
 
       let prev: OrderStatus | null = null;
       for (const st of path) {
+        const actorId = st === OrderStatus.IN_INSPECTION || st === OrderStatus.REJECTED ? admin.id : null;
         await prisma.orderEvent.create({
-          data: { orderId: order.id, fromStatus: prev, toStatus: st, actorId: st === OrderStatus.IN_INSPECTION || st === OrderStatus.REJECTED ? admin.id : null },
+          data: { orderId: order.id, fromStatus: prev, toStatus: st, actorId },
+        });
+        await prisma.auditLog.create({
+          data: {
+            entityType: "ORDER",
+            entityId: order.id,
+            action: "STATUS_CHANGED",
+            fromValue: prev,
+            toValue: st,
+            actorId,
+            note: "Seed-data",
+          },
         });
         prev = st;
       }
@@ -390,12 +413,21 @@ async function main() {
         });
       }
       if (flow.status === OrderStatus.COMPLETED) {
-        await prisma.payout.create({
+        const payout = await prisma.payout.create({
           data: {
             orderId: order.id,
             sellerId: listing.sellerId,
             amountCents: listing.priceCents - sellerFee,
             status: "PAID",
+          },
+        });
+        await prisma.auditLog.create({
+          data: {
+            entityType: "PAYOUT",
+            entityId: payout.id,
+            action: "PAYOUT_CREATED",
+            toValue: "PAID",
+            note: `${Math.round(payout.amountCents / 100)} EUR · order ${order.id} (seed)`,
           },
         });
       }
@@ -412,6 +444,7 @@ async function main() {
     shipments: await prisma.shipment.count(),
     events: await prisma.orderEvent.count(),
     payouts: await prisma.payout.count(),
+    auditRegels: await prisma.auditLog.count(),
   };
   console.log("Seed klaar:", JSON.stringify(counts, null, 2));
   console.log(`(waarvan ${offerCount} listings met biedingen en ${orderCount} orders)`);

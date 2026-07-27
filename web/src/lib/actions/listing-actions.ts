@@ -8,6 +8,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { CATEGORIES } from "@/lib/listing-search";
+import { logAudit } from "@/lib/audit";
 
 const MAX_PHOTOS = 8;
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
@@ -87,9 +88,10 @@ export async function createListingAction(_prev: ListingFormState, formData: For
     urls.push(`/uploads/${name}`);
   }
 
+  const sellerId = session.user.id;
   const listing = await prisma.listing.create({
     data: {
-      sellerId: session.user.id,
+      sellerId,
       title: parsed.data.title,
       model: parsed.data.model ?? null,
       category: parsed.data.category,
@@ -101,6 +103,14 @@ export async function createListingAction(_prev: ListingFormState, formData: For
       status: "ACTIVE",
       photos: { create: urls.map((url, i) => ({ url, position: i })) },
     },
+  });
+  await logAudit(prisma, {
+    entityType: "LISTING",
+    entityId: listing.id,
+    action: "CREATED",
+    toValue: "ACTIVE",
+    note: `${listing.title} · ${Math.round(listing.priceCents / 100)} EUR · ${files.length} foto's`,
+    actorId: sellerId,
   });
 
   redirect(`/listing/${listing.id}`);

@@ -39,11 +39,16 @@ export default async function AtelierDashboard() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-8">
       <SiteHeader />
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold">Atelier</h1>
-        <p className="text-sm text-neutral-500">
-          {orders.length} lopende orders · {doneCount} afgerond of geannuleerd
-        </p>
+      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">Atelier</h1>
+          <p className="text-sm text-neutral-500">
+            {orders.length} lopende orders · {doneCount} afgerond of geannuleerd
+          </p>
+        </div>
+        <Link href="/atelier/audit" className="rounded border border-black px-3 py-1.5 text-sm font-medium">
+          Papertrail
+        </Link>
       </div>
 
       <div className="flex flex-col gap-8">
