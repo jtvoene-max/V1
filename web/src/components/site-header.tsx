@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { logoutAction } from "@/lib/actions/auth-actions";
+import { t } from "@/lib/i18n";
 
 export async function SiteHeader() {
   const session = await auth();
@@ -11,17 +12,17 @@ export async function SiteHeader() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Link href="/" className="font-serif text-3xl tracking-wide">
-            Timeless <span className="text-[#a8894f]">Marketplace</span>
+            Still <span className="text-[#a8894f]">Iconic</span>
           </Link>
-          <p className="caps-label mt-2">La Maison de la Revente · Vintage Chanel</p>
+          <p className="caps-label mt-2">{t.merk.tagline}</p>
         </div>
         <nav className="flex items-center gap-5">
           <Link href="/sell" className="caps-label !text-black hover:!text-[#8a6f3c]">
-            Verkopen
+            {t.nav.sell}
           </Link>
           {isTeam && (
             <Link href="/atelier" className="caps-label !text-black hover:!text-[#8a6f3c]">
-              Atelier
+              {t.nav.atelier}
             </Link>
           )}
           {session?.user ? (
@@ -29,22 +30,22 @@ export async function SiteHeader() {
               <Link href="/account" className="caps-label !text-black hover:!text-[#8a6f3c]">
                 {session.user.name}
                 <span className="ml-1 text-[#a8894f]">
-                  · {session.user.accountType === "BUSINESS" ? "Zakelijk" : "Particulier"}
+                  · {session.user.accountType === "BUSINESS" ? t.nav.business : t.nav.private}
                 </span>
               </Link>
               <form action={logoutAction}>
                 <button type="submit" className="caps-label cursor-pointer hover:!text-black">
-                  Uitloggen
+                  {t.nav.signOut}
                 </button>
               </form>
             </>
           ) : (
             <>
               <Link href="/login" className="caps-label !text-black hover:!text-[#8a6f3c]">
-                Inloggen
+                {t.nav.signIn}
               </Link>
               <Link href="/register" className="btn-maison !px-4 !py-2">
-                Registreren
+                {t.nav.register}
               </Link>
             </>
           )}

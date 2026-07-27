@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { t } from "@/lib/i18n";
 
 type InstallEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
 
@@ -41,11 +42,11 @@ export function InstallPrompt() {
 
   return (
     <div className="fixed inset-x-3 bottom-3 z-50 border border-[#a8894f] bg-white p-4 shadow-[0_10px_36px_rgba(10,10,10,.18)] sm:left-auto sm:right-4 sm:w-80">
-      <p className="caps-gold mb-2">Add to your home screen</p>
+      <p className="caps-gold mb-2">{t.installeren.voorregel}</p>
       <p className="text-sm leading-relaxed text-neutral-700">
         {prompt
-          ? "Install Still Iconic for quick access to the collection, your orders and offers."
-          : "Tap the share icon, then choose Add to Home Screen."}
+          ? t.installeren.tekstPrompt
+          : t.installeren.tekstIos}
       </p>
       <div className="mt-3 flex gap-2">
         {prompt && (
@@ -57,11 +58,11 @@ export function InstallPrompt() {
               sluit();
             }}
           >
-            Install
+            {t.installeren.installeer}
           </button>
         )}
         <button className="btn-maison-line !px-4 !py-2" onClick={sluit}>
-          Not now
+          {t.installeren.nietNu}
         </button>
       </div>
     </div>

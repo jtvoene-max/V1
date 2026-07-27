@@ -5,19 +5,8 @@ import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { actionsForStatus, ORDER_STATUS_LABELS } from "@/lib/order-flow";
 import { formatPrice, CONDITION_LABELS } from "@/lib/listing-search";
+import { t, formatDateTime } from "@/lib/i18n";
 import { ActionPanel } from "./action-panel";
-
-const LEG_LABELS: Record<string, string> = {
-  SELLER_TO_PLATFORM: "Verkoper → atelier",
-  PLATFORM_TO_BUYER: "Atelier → koper",
-  PLATFORM_TO_SELLER_RETURN: "Retour: atelier → verkoper",
-};
-const SHIPMENT_STATUS_LABELS: Record<string, string> = {
-  PENDING: "Nog niet aangemaakt",
-  LABEL_CREATED: "Label aangemaakt",
-  IN_TRANSIT: "Onderweg",
-  DELIVERED: "Bezorgd",
-};
 
 export default async function AtelierOrderDetail({ params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
@@ -41,25 +30,23 @@ export default async function AtelierOrderDetail({ params }: { params: Promise<{
   if (!order) notFound();
 
   const actions = actionsForStatus(order.status);
-  const datum = (d: Date) =>
-    new Intl.DateTimeFormat("nl-NL", { dateStyle: "medium", timeStyle: "short" }).format(d);
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-8">
       <SiteHeader />
       <nav className="mb-6 text-sm text-neutral-500">
         <Link href="/atelier" className="underline">
-          Atelier
+          {t.atelier.titel}
         </Link>{" "}
-        / Order
+        / {t.atelier.order}
       </nav>
 
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 className="font-serif text-3xl">{order.listing.title}</h1>
           <p className="text-sm text-neutral-500">
-            Order {order.id.slice(-8)} · {CONDITION_LABELS[order.listing.condition]}
-            {order.listing.serialNumber ? ` · serienummer ${order.listing.serialNumber}` : ""}
+            {t.atelier.order} {order.id.slice(-8)} · {CONDITION_LABELS[order.listing.condition]}
+            {order.listing.serialNumber ? ` · ${t.atelier.serienummer} ${order.listing.serialNumber}` : ""}
           </p>
         </div>
         <span className="rounded bg-neutral-800 px-3 py-1.5 text-sm text-white">
@@ -68,55 +55,61 @@ export default async function AtelierOrderDetail({ params }: { params: Promise<{
       </div>
 
       <div className="mb-6 grid gap-4 sm:grid-cols-2">
-        <section className="rounded-lg border border-neutral-200 p-4 text-sm">
-          <h2 className="mb-2 font-medium">Partijen</h2>
+        <section className="border hairline p-4 text-sm">
+          <h2 className="mb-2 font-medium">{t.atelier.partijen}</h2>
           <p>
-            <span className="text-neutral-500">Verkoper:</span>{" "}
+            <span className="text-neutral-500">{t.listing.verkoper}:</span>{" "}
             {order.seller.accountType === "BUSINESS" ? (order.seller.companyName ?? order.seller.name) : order.seller.name}{" "}
             <span className="text-xs text-neutral-400">
-              ({order.seller.accountType === "BUSINESS" ? "zakelijk" : "particulier"}, {order.seller.email})
+              ({order.seller.accountType === "BUSINESS" ? t.listing.zakelijkKort : t.listing.priveKort}, {order.seller.email})
             </span>
           </p>
           <p className="mt-1">
-            <span className="text-neutral-500">Koper:</span> {order.buyer.name}{" "}
+            <span className="text-neutral-500">Buyer:</span> {order.buyer.name}{" "}
             <span className="text-xs text-neutral-400">
-              ({order.buyer.accountType === "BUSINESS" ? "zakelijk" : "particulier"}, {order.buyer.email})
+              ({order.buyer.accountType === "BUSINESS" ? t.listing.zakelijkKort : t.listing.priveKort}, {order.buyer.email})
             </span>
           </p>
         </section>
-        <section className="rounded-lg border border-neutral-200 p-4 text-sm">
-          <h2 className="mb-2 font-medium">Bedragen</h2>
+        <section className="border hairline p-4 text-sm">
+          <h2 className="mb-2 font-medium">{t.atelier.bedragen}</h2>
           <dl className="grid grid-cols-2 gap-y-1">
-            <dt className="text-neutral-500">Itemprijs</dt>
+            <dt className="text-neutral-500">{t.atelier.itemprijs}</dt>
             <dd className="text-right">{formatPrice(order.itemPriceCents)}</dd>
-            <dt className="text-neutral-500">Kopersfee</dt>
+            <dt className="text-neutral-500">{t.atelier.kopersfee}</dt>
             <dd className="text-right">{formatPrice(order.buyerFeeCents)}</dd>
-            <dt className="text-neutral-500">Verkopersfee</dt>
+            <dt className="text-neutral-500">{t.atelier.verkopersfee}</dt>
             <dd className="text-right">− {formatPrice(order.sellerFeeCents)}</dd>
-            <dt className="text-neutral-500">Uitbetaling verkoper</dt>
+            <dt className="text-neutral-500">{t.atelier.uitbetaling}</dt>
             <dd className="text-right font-medium">{formatPrice(order.itemPriceCents - order.sellerFeeCents)}</dd>
           </dl>
           {order.payout && (
             <p className="mt-2 rounded bg-neutral-50 px-2 py-1 text-xs">
-              Payout: {formatPrice(order.payout.amountCents)} ({order.payout.status === "PAID" ? "uitbetaald" : order.payout.status === "PENDING" ? "in behandeling" : "mislukt"})
+              {t.atelier.payout}: {formatPrice(order.payout.amountCents)} (
+              {order.payout.status === "PAID"
+                ? t.account.uitbetaald.toLowerCase()
+                : order.payout.status === "PENDING"
+                  ? t.account.inBehandeling.toLowerCase()
+                  : t.account.mislukt.toLowerCase()}
+              )
             </p>
           )}
         </section>
       </div>
 
-      <section className="mb-6 rounded-lg border border-neutral-200 p-4 text-sm">
-        <h2 className="mb-2 font-medium">Verzendingen</h2>
+      <section className="mb-6 border hairline p-4 text-sm">
+        <h2 className="mb-2 font-medium">{t.atelier.verzendingen}</h2>
         {order.shipments.length === 0 ? (
-          <p className="text-neutral-400">Nog geen verzendingen</p>
+          <p className="text-neutral-400">{t.atelier.geenVerzendingen}</p>
         ) : (
           <ul className="flex flex-col gap-1">
             {order.shipments.map((s) => (
               <li key={s.id} className="flex flex-wrap justify-between gap-2">
-                <span>{LEG_LABELS[s.leg]}</span>
+                <span>{t.verzending.legs[s.leg]}</span>
                 <span className="text-neutral-500">
-                  {SHIPMENT_STATUS_LABELS[s.status]}
+                  {t.verzending.statussen[s.status]}
                   {s.trackingNumber ? ` · ${s.trackingNumber}` : ""}
-                  {s.insuredValueCents ? ` · verzekerd ${formatPrice(s.insuredValueCents)}` : ""}
+                  {s.insuredValueCents ? ` · ${t.verzending.verzekerd} ${formatPrice(s.insuredValueCents)}` : ""}
                 </span>
               </li>
             ))}
@@ -125,13 +118,13 @@ export default async function AtelierOrderDetail({ params }: { params: Promise<{
       </section>
 
       {order.inspection && (
-        <section className="mb-6 rounded-lg border border-neutral-200 p-4 text-sm">
-          <h2 className="mb-2 font-medium">Inspectierapport</h2>
+        <section className="mb-6 border hairline p-4 text-sm">
+          <h2 className="mb-2 font-medium">{t.atelier.inspectierapport}</h2>
           <p>
             <span className={order.inspection.result === "APPROVED" ? "text-green-700" : "text-red-700"}>
-              {order.inspection.result === "APPROVED" ? "Goedgekeurd" : "Afgekeurd"}
+              {order.inspection.result === "APPROVED" ? t.atelier.goedgekeurd : t.atelier.afgekeurd}
             </span>{" "}
-            door {order.inspection.inspector.name} op {datum(order.inspection.createdAt)}
+            {t.atelier.door} {order.inspection.inspector.name} {t.atelier.op} {formatDateTime(order.inspection.createdAt)}
           </p>
           {order.inspection.notes && <p className="mt-1 text-neutral-600">{order.inspection.notes}</p>}
         </section>
@@ -139,18 +132,20 @@ export default async function AtelierOrderDetail({ params }: { params: Promise<{
 
       {actions.length > 0 && <ActionPanel orderId={order.id} actions={actions} />}
 
-      <section className="mt-6 rounded-lg border border-neutral-200 p-4 text-sm">
-        <h2 className="mb-3 font-medium">Geschiedenis</h2>
+      <section className="mt-6 border hairline p-4 text-sm">
+        <h2 className="mb-3 font-medium">{t.atelier.geschiedenis}</h2>
         <ul className="flex flex-col gap-2">
           {order.events.map((e) => (
             <li key={e.id} className="flex flex-wrap gap-2 border-b border-dashed border-neutral-100 pb-2 last:border-0">
-              <span className="text-neutral-400">{datum(e.createdAt)}</span>
+              <span className="text-neutral-400">{formatDateTime(e.createdAt)}</span>
               <span>
                 {e.fromStatus ? `${ORDER_STATUS_LABELS[e.fromStatus]} → ` : ""}
                 <b>{ORDER_STATUS_LABELS[e.toStatus]}</b>
               </span>
-              <span className="text-neutral-500">{e.actor ? `door ${e.actor.name}` : "automatisch"}</span>
-              {e.note && <span className="w-full text-neutral-500">„{e.note}"</span>}
+              <span className="text-neutral-500">
+                {e.actor ? `${t.atelier.door} ${e.actor.name}` : t.atelier.automatisch}
+              </span>
+              {e.note && <span className="w-full text-neutral-500">&ldquo;{e.note}&rdquo;</span>}
             </li>
           ))}
         </ul>

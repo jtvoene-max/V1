@@ -2,8 +2,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { SellForm } from "./sell-form";
+import { t } from "@/lib/i18n";
 
-export const metadata = { title: "Item verkopen — Timeless Marketplace" };
+export const metadata = { title: "Sell a piece — Still Iconic" };
 
 export default async function SellPage() {
   const session = await auth();
@@ -13,25 +14,20 @@ export default async function SellPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-6 py-10">
-      <nav className="mb-6 text-sm text-neutral-500">
-        <Link href="/" className="underline">
-          Alle items
-        </Link>{" "}
-        / Verkopen
+      <nav className="mb-6">
+        <Link href="/" className="caps-label underline">
+          {t.nav.backToCollection}
+        </Link>
       </nav>
-      <h1 className="mb-2 font-serif text-3xl">Item verkopen</h1>
-      <p className="mb-8 text-sm text-neutral-600">
-        Na verkoop stuur je het item naar ons atelier. Wij controleren de echtheid en conditie, en sturen het daarna door
-        naar de koper. Uitbetaling volgt direct na levering.
-      </p>
+      <h1 className="mb-2 font-serif text-3xl">{t.verkopen.titel}</h1>
+      <p className="mb-8 text-sm leading-relaxed text-neutral-600">{t.verkopen.intro}</p>
 
-      <section className="mb-8 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-sm">
-        <h2 className="mb-2 font-medium">Fotorichtlijnen</h2>
+      <section className="mb-8 border hairline bg-white p-5 text-sm">
+        <h2 className="caps-label mb-3">{t.verkopen.richtlijnenTitel}</h2>
         <ul className="list-disc space-y-1 pl-5 text-neutral-600">
-          <li>Daglicht, neutrale achtergrond, geen filters</li>
-          <li>Voorkant, achterkant, binnenkant en onderkant</li>
-          <li>Close-ups van hardware, stiksels en het serienummer of de hologramsticker</li>
-          <li>Fotografeer gebruikssporen eerlijk; ons atelier controleert elk item fysiek</li>
+          {t.verkopen.richtlijnen.map((r) => (
+            <li key={r}>{r}</li>
+          ))}
         </ul>
       </section>
 

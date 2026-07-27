@@ -41,13 +41,13 @@ const CHANEL_MODELS: { model: string; category: string; min: number; max: number
   { model: "Diana Flap Vintage", category: "bag", min: 4000, max: 10000 },
   { model: "Kelly Flap Vintage", category: "bag", min: 3000, max: 9000 },
   { model: "Duma Backpack Vintage", category: "bag", min: 2500, max: 6500 },
-  { model: "CC Drop Oorbellen Vintage", category: "jewelry", min: 400, max: 1800 },
-  { model: "Gripoix Ketting Vintage", category: "jewelry", min: 800, max: 4500 },
-  { model: "CC Broche Goud", category: "jewelry", min: 350, max: 1500 },
-  { model: "Parelketting CC Vintage", category: "jewelry", min: 600, max: 3000 },
-  { model: "Zijden Sjaal Camellia", category: "accessory", min: 150, max: 600 },
-  { model: "Kettingriem Vintage", category: "accessory", min: 500, max: 2200 },
-  { model: "Zonnebril Vintage", category: "accessory", min: 200, max: 800 },
+  { model: "CC Drop Earrings Vintage", category: "jewelry", min: 400, max: 1800 },
+  { model: "Gripoix Necklace Vintage", category: "jewelry", min: 800, max: 4500 },
+  { model: "CC Brooch Gold", category: "jewelry", min: 350, max: 1500 },
+  { model: "Pearl Necklace CC Vintage", category: "jewelry", min: 600, max: 3000 },
+  { model: "Silk Scarf Camellia", category: "accessory", min: 150, max: 600 },
+  { model: "Chain Belt Vintage", category: "accessory", min: 500, max: 2200 },
+  { model: "Sunglasses Vintage", category: "accessory", min: 200, max: 800 },
 ];
 
 const CONDITIONS: Condition[] = [Condition.EXCELLENT, Condition.GOOD, Condition.VISIBLE_WEAR];
@@ -59,7 +59,7 @@ function priceFor(min: number, max: number): number {
 }
 
 async function main() {
-  console.log("Seed gestart...");
+  console.log("Seeding...");
   const passwordHash = await bcrypt.hash("Test1234!", 10);
 
   // Schoon beginnen (volgorde i.v.m. relaties)
@@ -98,7 +98,7 @@ async function main() {
     data: {
       email: "koper@test.local",
       passwordHash,
-      name: "Koos Koper",
+      name: "Karl Buyer",
       accountType: AccountType.PRIVATE,
     },
   });
@@ -106,7 +106,7 @@ async function main() {
     data: {
       email: "verkoper@test.local",
       passwordHash,
-      name: "Vera Verkoper",
+      name: "Vera Seller",
       accountType: AccountType.PRIVATE,
     },
   });
@@ -114,9 +114,9 @@ async function main() {
     data: {
       email: "zakelijk@test.local",
       passwordHash,
-      name: "Bas Boetiek",
+      name: "Bas Boutique",
       accountType: AccountType.BUSINESS,
-      companyName: "Vintage Boetiek B.V.",
+      companyName: "Vintage Boutique Ltd",
       vatNumber: "NL123456789B01",
       kvkNumber: "12345678",
     },
@@ -203,13 +203,13 @@ async function main() {
         sellerId: seller.id,
         title: `Chanel ${spec.model} ${year}`,
         description: [
-          `Vintage Chanel ${spec.model} uit ${year}.`,
+          `Vintage Chanel ${spec.model} from ${year}.`,
           condition === Condition.EXCELLENT
-            ? "In uitstekende staat, nauwelijks gedragen."
+            ? "In excellent condition, barely worn."
             : condition === Condition.GOOD
-              ? "In goede staat met lichte gebruikssporen passend bij de leeftijd."
-              : "Duidelijke gebruikssporen, zie foto's. Prijs is hierop aangepast.",
-          "Wordt geleverd met authenticiteitscontrole door ons atelier.",
+              ? "In good condition with light signs of wear in keeping with its age."
+              : "Clear signs of wear, see photographs. Priced accordingly.",
+          "Comes with an authenticity check by our atelier.",
         ].join(" "),
         category: spec.category,
         model: spec.model,
@@ -353,7 +353,7 @@ async function main() {
             fromValue: prev,
             toValue: st,
             actorId,
-            note: "Seed-data",
+            note: "Seed data",
           },
         });
         prev = st;
@@ -407,7 +407,7 @@ async function main() {
           data: {
             orderId: order.id,
             result: isRejectPath ? "REJECTED" : "APPROVED",
-            notes: isRejectPath ? "Wijkt af van beschrijving; hardware vertoont niet-gemelde schade." : "Authentiek bevonden, staat komt overeen met listing.",
+            notes: isRejectPath ? "Differs from the description; hardware shows undisclosed damage." : "Found authentic, condition matches the listing.",
             inspectorId: admin.id,
           },
         });
@@ -446,9 +446,9 @@ async function main() {
     payouts: await prisma.payout.count(),
     auditRegels: await prisma.auditLog.count(),
   };
-  console.log("Seed klaar:", JSON.stringify(counts, null, 2));
-  console.log(`(waarvan ${offerCount} listings met biedingen en ${orderCount} orders)`);
-  console.log("Testaccounts (wachtwoord Test1234!): admin@test.local, team@test.local, koper@test.local, verkoper@test.local, zakelijk@test.local");
+  console.log("Seed complete:", JSON.stringify(counts, null, 2));
+  console.log(`(${offerCount} listings with offers, ${orderCount} orders)`);
+  console.log("Test accounts (password Test1234!): admin@test.local, team@test.local, koper@test.local, verkoper@test.local, zakelijk@test.local");
 }
 
 main()

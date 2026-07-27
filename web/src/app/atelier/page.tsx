@@ -5,9 +5,10 @@ import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { ATELIER_QUEUES, ORDER_STATUS_LABELS } from "@/lib/order-flow";
 import { formatPrice } from "@/lib/listing-search";
+import { t } from "@/lib/i18n";
 import type { OrderStatus } from "@/generated/prisma/client";
 
-export const metadata = { title: "Atelier — Timeless Marketplace" };
+export const metadata = { title: "Atelier — Still Iconic" };
 
 export default async function AtelierDashboard() {
   const session = await auth();
@@ -41,13 +42,11 @@ export default async function AtelierDashboard() {
       <SiteHeader />
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-serif text-3xl">Atelier</h1>
-          <p className="text-sm text-neutral-500">
-            {orders.length} lopende orders · {doneCount} afgerond of geannuleerd
-          </p>
+          <h1 className="font-serif text-3xl">{t.atelier.titel}</h1>
+          <p className="text-sm text-neutral-500">{t.atelier.tellingen(orders.length, doneCount)}</p>
         </div>
-        <Link href="/atelier/audit" className="rounded border border-black px-3 py-1.5 text-sm font-medium">
-          Papertrail
+        <Link href="/atelier/audit" className="btn-maison-line !px-4 !py-2">
+          {t.atelier.papertrail}
         </Link>
       </div>
 
@@ -63,8 +62,8 @@ export default async function AtelierDashboard() {
                 </span>
               </h2>
               {queueOrders.length === 0 ? (
-                <p className="rounded-lg border border-dashed border-neutral-200 p-4 text-sm text-neutral-400">
-                  Geen orders in deze fase
+                <p className="border border-dashed hairline p-4 text-sm text-neutral-400">
+                  {t.atelier.geenOrders}
                 </p>
               ) : (
                 <div className="flex flex-col gap-2">
@@ -72,15 +71,15 @@ export default async function AtelierDashboard() {
                     <Link
                       key={order.id}
                       href={`/atelier/order/${order.id}`}
-                      className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm hover:border-neutral-400"
+                      className="flex flex-wrap items-center justify-between gap-3 border hairline bg-white px-4 py-3 text-sm hover:border-neutral-400"
                     >
                       <span className="font-medium">{order.listing.title}</span>
                       <span className="text-neutral-500">
-                        {formatPrice(order.itemPriceCents)} · verkoper:{" "}
+                        {formatPrice(order.itemPriceCents)} · {t.listing.verkoper.toLowerCase()}:{" "}
                         {order.seller.accountType === "BUSINESS"
                           ? (order.seller.companyName ?? order.seller.name)
                           : order.seller.name}{" "}
-                        · koper: {order.buyer.name}
+                        · buyer: {order.buyer.name}
                       </span>
                       <span className="rounded bg-neutral-100 px-2 py-1 text-xs text-neutral-600">
                         {ORDER_STATUS_LABELS[order.status]}

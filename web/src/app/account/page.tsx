@@ -5,16 +5,9 @@ import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { ORDER_STATUS_LABELS } from "@/lib/order-flow";
 import { formatPrice } from "@/lib/listing-search";
+import { t } from "@/lib/i18n";
 
-export const metadata = { title: "Mijn account — Timeless Marketplace" };
-
-const LISTING_STATUS_LABELS: Record<string, string> = {
-  DRAFT: "Concept",
-  ACTIVE: "Te koop",
-  RESERVED: "Gereserveerd",
-  SOLD: "Verkocht",
-  WITHDRAWN: "Ingetrokken",
-};
+export const metadata = { title: "My account — Still Iconic" };
 
 export default async function AccountPage() {
   const session = await auth();
@@ -50,27 +43,31 @@ export default async function AccountPage() {
     <main className="mx-auto max-w-4xl px-6 py-8">
       <SiteHeader />
       <div className="mb-8">
-        <h1 className="font-serif text-3xl">Mijn account</h1>
+        <h1 className="font-serif text-3xl">{t.account.titel}</h1>
         <p className="text-sm text-neutral-500">
-          {session.user.name} · {isBusiness ? "zakelijk account" : "particulier account"}
+          {session.user.name} · {isBusiness ? t.account.zakelijkAccount : t.account.priveAccount}
         </p>
       </div>
 
       <section className="mb-8">
-        <h2 className="mb-3 font-medium">Mijn bestellingen ({purchases.length})</h2>
+        <h2 className="mb-3 font-medium">
+          {t.account.bestellingen} ({purchases.length})
+        </h2>
         {purchases.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-neutral-200 p-4 text-sm text-neutral-400">
-            Nog geen bestellingen.{" "}
+          <p className="border border-dashed hairline p-4 text-sm text-neutral-400">
+            {t.account.geenBestellingen}{" "}
             <Link href="/" className="underline">
-              Bekijk de collectie
+              {t.account.bekijkCollectie}
             </Link>
           </p>
         ) : (
           <div className="flex flex-col gap-2">
             {purchases.map((o) => (
-              <div key={o.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm">
+              <div key={o.id} className="flex flex-wrap items-center justify-between gap-2 border hairline bg-white px-4 py-3 text-sm">
                 <span className="font-medium">{o.listing.title}</span>
-                <span className="text-neutral-500">{formatPrice(o.itemPriceCents + o.buyerFeeCents + o.buyerShippingCents)}</span>
+                <span className="text-neutral-500">
+                  {formatPrice(o.itemPriceCents + o.buyerFeeCents + o.buyerShippingCents)}
+                </span>
                 <span className="rounded bg-neutral-100 px-2 py-1 text-xs">{ORDER_STATUS_LABELS[o.status]}</span>
               </div>
             ))}
@@ -79,12 +76,14 @@ export default async function AccountPage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="mb-3 font-medium">Mijn listings ({listings.length})</h2>
+        <h2 className="mb-3 font-medium">
+          {t.account.listings} ({listings.length})
+        </h2>
         {listings.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-neutral-200 p-4 text-sm text-neutral-400">
-            Nog geen listings.{" "}
+          <p className="border border-dashed hairline p-4 text-sm text-neutral-400">
+            {t.account.geenListings}{" "}
             <Link href="/sell" className="underline">
-              Plaats je eerste item
+              {t.account.plaatsEerste}
             </Link>
           </p>
         ) : (
@@ -93,11 +92,11 @@ export default async function AccountPage() {
               <Link
                 key={l.id}
                 href={`/listing/${l.id}`}
-                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm hover:border-neutral-400"
+                className="flex flex-wrap items-center justify-between gap-2 border hairline bg-white px-4 py-3 text-sm hover:border-neutral-400"
               >
                 <span className="font-medium">{l.title}</span>
                 <span className="text-neutral-500">{formatPrice(l.priceCents)}</span>
-                <span className="rounded bg-neutral-100 px-2 py-1 text-xs">{LISTING_STATUS_LABELS[l.status]}</span>
+                <span className="rounded bg-neutral-100 px-2 py-1 text-xs">{t.listingStatus[l.status]}</span>
               </Link>
             ))}
           </div>
@@ -106,13 +105,15 @@ export default async function AccountPage() {
 
       {sales.length > 0 && (
         <section className="mb-8">
-          <h2 className="mb-3 font-medium">Mijn verkopen ({sales.length})</h2>
+          <h2 className="mb-3 font-medium">
+            {t.account.verkopen} ({sales.length})
+          </h2>
           <div className="flex flex-col gap-2">
             {sales.map((o) => (
-              <div key={o.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm">
+              <div key={o.id} className="flex flex-wrap items-center justify-between gap-2 border hairline bg-white px-4 py-3 text-sm">
                 <span className="font-medium">{o.listing.title}</span>
                 <span className="text-neutral-500">
-                  uitbetaling: {formatPrice(o.itemPriceCents - o.sellerFeeCents)}
+                  {t.account.uitbetalingLabel}: {formatPrice(o.itemPriceCents - o.sellerFeeCents)}
                 </span>
                 <span className="rounded bg-neutral-100 px-2 py-1 text-xs">{ORDER_STATUS_LABELS[o.status]}</span>
               </div>
@@ -123,14 +124,14 @@ export default async function AccountPage() {
 
       {payouts.length > 0 && (
         <section>
-          <h2 className="mb-3 font-medium">Uitbetalingen</h2>
+          <h2 className="mb-3 font-medium">{t.account.uitbetalingen}</h2>
           <div className="flex flex-col gap-2">
             {payouts.map((p) => (
-              <div key={p.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm">
+              <div key={p.id} className="flex flex-wrap items-center justify-between gap-2 border hairline bg-white px-4 py-3 text-sm">
                 <span>{p.order.listing.title}</span>
                 <span className="font-medium">{formatPrice(p.amountCents)}</span>
                 <span className={`rounded px-2 py-1 text-xs ${p.status === "PAID" ? "bg-green-50 text-green-700" : "bg-neutral-100"}`}>
-                  {p.status === "PAID" ? "Uitbetaald" : p.status === "PENDING" ? "In behandeling" : "Mislukt"}
+                  {p.status === "PAID" ? t.account.uitbetaald : p.status === "PENDING" ? t.account.inBehandeling : t.account.mislukt}
                 </span>
               </div>
             ))}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/site-header";
+import { t } from "@/lib/i18n";
 import {
   buildOrderBy,
   buildWhere,
@@ -46,25 +47,30 @@ export default async function Home({
       <SiteHeader />
 
       <div className="mb-10 text-center">
-        <p className="caps-gold mb-3">De Collectie</p>
-        <h1 className="font-serif text-3xl">Vintage Chanel, geauthenticeerd</h1>
+        <p className="caps-gold mb-3">{t.collectie.voorregel}</p>
+        <h1 className="font-serif text-3xl">{t.collectie.titel}</h1>
         <div className="goud-lijn mx-auto mt-4" />
         <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-500">
-          Elk stuk passeert fysiek ons atelier voordat het je bereikt: echtheid, conditie en herkomst, gecontroleerd
-          door onze experts.
+          {t.collectie.intro}
         </p>
       </div>
 
       {/* Zoeken en filters (GET: deelbare URL's) */}
       <form method="GET" className="mb-8 flex flex-wrap items-end gap-3 border hairline bg-white p-5">
         <label className="flex min-w-48 flex-1 flex-col gap-1.5">
-          <span className="caps-label">Zoeken</span>
-          <input type="search" name="q" defaultValue={filters.q ?? ""} placeholder="Classic Flap, Boy Bag..." className={inputClass} />
+          <span className="caps-label">{t.collectie.zoeken}</span>
+          <input
+            type="search"
+            name="q"
+            defaultValue={filters.q ?? ""}
+            placeholder={t.collectie.zoekenPlaceholder}
+            className={inputClass}
+          />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="caps-label">Categorie</span>
+          <span className="caps-label">{t.collectie.categorie}</span>
           <select name="category" defaultValue={filters.category ?? ""} className={inputClass}>
-            <option value="">Alle</option>
+            <option value="">{t.collectie.alle}</option>
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>
                 {c.label}
@@ -73,9 +79,9 @@ export default async function Home({
           </select>
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="caps-label">Conditie</span>
+          <span className="caps-label">{t.collectie.conditie}</span>
           <select name="condition" defaultValue={filters.condition ?? ""} className={inputClass}>
-            <option value="">Alle</option>
+            <option value="">{t.collectie.alle}</option>
             {Object.entries(CONDITION_LABELS).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
@@ -84,23 +90,23 @@ export default async function Home({
           </select>
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="caps-label">Verkoper</span>
+          <span className="caps-label">{t.collectie.verkoper}</span>
           <select name="sellerType" defaultValue={filters.sellerType ?? ""} className={inputClass}>
-            <option value="">Alle</option>
-            <option value="PRIVATE">Particulier</option>
-            <option value="BUSINESS">Zakelijk</option>
+            <option value="">{t.collectie.alle}</option>
+            <option value="PRIVATE">{t.nav.private}</option>
+            <option value="BUSINESS">{t.nav.business}</option>
           </select>
         </label>
         <label className="flex w-24 flex-col gap-1.5">
-          <span className="caps-label">Min €</span>
+          <span className="caps-label">{t.collectie.minPrijs}</span>
           <input type="number" name="minPrice" min={0} defaultValue={filters.minPrice ?? ""} className={inputClass} />
         </label>
         <label className="flex w-24 flex-col gap-1.5">
-          <span className="caps-label">Max €</span>
+          <span className="caps-label">{t.collectie.maxPrijs}</span>
           <input type="number" name="maxPrice" min={0} defaultValue={filters.maxPrice ?? ""} className={inputClass} />
         </label>
         <label className="flex flex-col gap-1.5">
-          <span className="caps-label">Sorteren</span>
+          <span className="caps-label">{t.collectie.sorteren}</span>
           <select name="sort" defaultValue={filters.sort ?? "newest"} className={inputClass}>
             {SORT_OPTIONS.map((s) => (
               <option key={s.value} value={s.value}>
@@ -110,21 +116,19 @@ export default async function Home({
           </select>
         </label>
         <button type="submit" className="btn-maison !px-5 !py-2.5">
-          Filteren
+          {t.collectie.filteren}
         </button>
         <Link href="/" className="caps-label self-center underline">
-          Wissen
+          {t.collectie.wissen}
         </Link>
       </form>
 
       <p className="caps-label mb-5">
-        {totalCount} {totalCount === 1 ? "stuk" : "stuks"}
+        {totalCount} {totalCount === 1 ? t.collectie.stuk : t.collectie.stukken}
       </p>
 
       {listings.length === 0 ? (
-        <p className="py-16 text-center text-sm text-neutral-500">
-          Geen stukken gevonden. Probeer een andere zoekterm of minder filters.
-        </p>
+        <p className="py-16 text-center text-sm text-neutral-500">{t.collectie.geenResultaat}</p>
       ) : (
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
           {listings.map((listing) => (
@@ -144,7 +148,8 @@ export default async function Home({
                 <div className="px-4 py-4 text-center">
                   <h2 className="truncate font-serif text-[15px]">{listing.title}</h2>
                   <p className="caps-label mt-1.5 !text-[9px]">
-                    {CONDITION_LABELS[listing.condition]} · {listing.seller.accountType === "BUSINESS" ? "Zakelijk" : "Particulier"}
+                    {CONDITION_LABELS[listing.condition]} ·{" "}
+                    {listing.seller.accountType === "BUSINESS" ? t.nav.business : t.nav.private}
                   </p>
                   <p className="mt-2 text-[15px] font-medium">{formatPrice(listing.priceCents)}</p>
                 </div>
@@ -155,23 +160,21 @@ export default async function Home({
       )}
 
       {totalPages > 1 && (
-        <nav className="mt-12 flex items-center justify-center gap-6" aria-label="Paginering">
+        <nav className="mt-12 flex items-center justify-center gap-6" aria-label="Pagination">
           {page > 1 ? (
             <Link href={`/${filterQuery(filters, { page: String(page - 1) })}`} className="btn-maison-line !px-4 !py-2">
-              Vorige
+              {t.collectie.vorige}
             </Link>
           ) : (
-            <span className="btn-maison-line !px-4 !py-2 opacity-30">Vorige</span>
+            <span className="btn-maison-line !px-4 !py-2 opacity-30">{t.collectie.vorige}</span>
           )}
-          <span className="caps-label">
-            Pagina {page} van {totalPages}
-          </span>
+          <span className="caps-label">{t.collectie.pagina(page, totalPages)}</span>
           {page < totalPages ? (
             <Link href={`/${filterQuery(filters, { page: String(page + 1) })}`} className="btn-maison-line !px-4 !py-2">
-              Volgende
+              {t.collectie.volgende}
             </Link>
           ) : (
-            <span className="btn-maison-line !px-4 !py-2 opacity-30">Volgende</span>
+            <span className="btn-maison-line !px-4 !py-2 opacity-30">{t.collectie.volgende}</span>
           )}
         </nav>
       )}

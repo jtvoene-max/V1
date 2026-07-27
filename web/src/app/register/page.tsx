@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import Link from "next/link";
 import { registerAction, type FormState } from "@/lib/actions/auth-actions";
+import { t } from "@/lib/i18n";
 
 export default function RegisterPage() {
   const [state, formAction, pending] = useActionState<FormState, FormData>(registerAction, undefined);
@@ -10,19 +11,19 @@ export default function RegisterPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
-      <h1 className="mb-2 font-serif text-3xl">Account aanmaken</h1>
+      <h1 className="mb-2 font-serif text-3xl">{t.auth.registerTitel}</h1>
       <p className="mb-8 text-sm text-neutral-500">
-        Al een account?{" "}
+        {t.auth.registerSub}{" "}
         <Link href="/login" className="underline">
-          Inloggen
+          {t.auth.registerLink}
         </Link>
       </p>
       <form action={formAction} className="flex flex-col gap-4">
-        <div className="flex gap-2" role="radiogroup" aria-label="Accounttype">
+        <div className="flex gap-2" role="radiogroup" aria-label={t.auth.accounttype}>
           {(
             [
-              { value: "PRIVATE", label: "Particulier" },
-              { value: "BUSINESS", label: "Zakelijk" },
+              { value: "PRIVATE", label: t.auth.prive },
+              { value: "BUSINESS", label: t.auth.zakelijk },
             ] as const
           ).map((opt) => (
             <label
@@ -45,30 +46,30 @@ export default function RegisterPage() {
         </div>
 
         <label className="flex flex-col gap-1 text-sm">
-          Naam
+          {t.auth.naam}
           <input name="name" required autoComplete="name" className="rounded border border-neutral-300 px-3 py-2" />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          E-mailadres
+          {t.auth.email}
           <input name="email" type="email" required autoComplete="email" className="rounded border border-neutral-300 px-3 py-2" />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          Wachtwoord (minimaal 8 tekens)
+          {t.auth.wachtwoordNieuw}
           <input name="password" type="password" required minLength={8} autoComplete="new-password" className="rounded border border-neutral-300 px-3 py-2" />
         </label>
 
         {accountType === "BUSINESS" && (
           <>
             <label className="flex flex-col gap-1 text-sm">
-              Bedrijfsnaam
+              {t.auth.bedrijfsnaam}
               <input name="companyName" required className="rounded border border-neutral-300 px-3 py-2" />
             </label>
             <label className="flex flex-col gap-1 text-sm">
-              KVK-nummer
+              {t.auth.kvk}
               <input name="kvkNumber" required className="rounded border border-neutral-300 px-3 py-2" />
             </label>
             <label className="flex flex-col gap-1 text-sm">
-              BTW-nummer (optioneel)
+              {t.auth.btw}
               <input name="vatNumber" className="rounded border border-neutral-300 px-3 py-2" />
             </label>
           </>
@@ -76,7 +77,7 @@ export default function RegisterPage() {
 
         {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
         <button type="submit" disabled={pending} className="btn-maison mt-2">
-          {pending ? "Bezig..." : "Account aanmaken"}
+          {pending ? t.auth.bezig : t.auth.registerKnop}
         </button>
       </form>
     </main>

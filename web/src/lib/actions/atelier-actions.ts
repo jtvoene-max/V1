@@ -19,7 +19,7 @@ const inputSchema = z.object({
 export async function atelierAction(_prev: AtelierFormState, formData: FormData): Promise<AtelierFormState> {
   const session = await auth();
   if (!session?.user?.id || (session.user.role !== "TEAM" && session.user.role !== "ADMIN")) {
-    return { error: "Geen toegang: alleen teamleden kunnen orders verwerken" };
+    return { error: "Access denied: only team members can process orders" };
   }
   const actorId = session.user.id;
 
@@ -28,21 +28,21 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
     actionKey: formData.get("actionKey"),
     note: formData.get("note") || undefined,
   });
-  if (!parsed.success) return { error: "Ongeldige invoer" };
+  if (!parsed.success) return { error: "Invalid input" };
 
   const action = ATELIER_ACTIONS.find((a) => a.key === parsed.data.actionKey);
-  if (!action) return { error: "Onbekende actie" };
+  if (!action) return { error: "Unknown action" };
   if (action.needsNote && !parsed.data.note?.trim()) {
-    return { error: "Een notitie is verplicht bij deze actie" };
+    return { error: "A note is required for this action" };
   }
 
   const order = await prisma.order.findUnique({
     where: { id: parsed.data.orderId },
     include: { listing: true },
   });
-  if (!order) return { error: "Order niet gevonden" };
+  if (!order) return { error: "Order not found" };
   if (order.status !== action.from) {
-    return { error: `Order heeft niet de verwachte status (${action.from}); ververs de pagina` };
+    return { error: `Order is not in the expected status (${action.from}); please refresh the page` };
   }
 
   const note = parsed.data.note?.trim() || null;
@@ -84,7 +84,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: shipment.id,
           action: "LABEL_CREATED",
           toValue: "SELLER_TO_PLATFORM",
-          note: `Order ${order.id} · verzekerd ${Math.round(order.itemPriceCents / 100)} EUR`,
+          note: `Order ${order.id} · insured ${Math.round(order.itemPriceCents / 100)} EUR`,
           actorId,
         });
         break;
@@ -100,7 +100,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: order.id,
           action: "RECEIVED",
           toValue: "SELLER_TO_PLATFORM",
-          note: `Order ${order.id} fysiek ontvangen in atelier`,
+          note: `Order ${order.id} physically received at the atelier`,
           actorId,
         });
         break;
@@ -141,7 +141,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: shipment.id,
           action: "SHIPPED",
           toValue: "PLATFORM_TO_BUYER",
-          note: `Order ${order.id} · verzekerd ${Math.round(order.itemPriceCents / 100)} EUR`,
+          note: `Order ${order.id} · insured ${Math.round(order.itemPriceCents / 100)} EUR`,
           actorId,
         });
         break;
@@ -157,7 +157,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: order.id,
           action: "DELIVERED",
           toValue: "PLATFORM_TO_BUYER",
-          note: `Order ${order.id} bezorgd bij koper`,
+          note: `Order ${order.id} delivered to the buyer`,
           actorId,
         });
         break;
@@ -179,7 +179,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: payout.id,
           action: "PAYOUT_CREATED",
           toValue: "PENDING",
-          note: `${Math.round(payout.amountCents / 100)} EUR aan verkoper ${order.sellerId} · order ${order.id}`,
+          note: `${Math.round(payout.amountCents / 100)} EUR to seller ${order.sellerId} · order ${order.id}`,
           actorId,
         });
         break;
@@ -202,7 +202,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityId: shipment.id,
           action: "RETURN_STARTED",
           toValue: "PLATFORM_TO_SELLER_RETURN",
-          note: `Order ${order.id} · kosten voor verkoper`,
+          note: `Order ${order.id} · at the seller's expense`,
           actorId,
         });
         break;
@@ -219,7 +219,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           entityType: "SHIPMENT",
           entityId: order.id,
           action: "RETURN_FINISHED",
-          note: `Order ${order.id} retour bezorgd bij verkoper`,
+          note: `Order ${order.id} returned to the seller`,
           actorId,
         });
         await logAudit(tx, {
@@ -228,7 +228,7 @@ export async function atelierAction(_prev: AtelierFormState, formData: FormData)
           action: "RELISTED",
           fromValue: "SOLD",
           toValue: "DRAFT",
-          note: `Na afgekeurde inspectie van order ${order.id}`,
+          note: `After failed inspection of order ${order.id}`,
           actorId,
         });
         break;

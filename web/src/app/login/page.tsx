@@ -3,22 +3,23 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { loginAction, type FormState } from "@/lib/actions/auth-actions";
+import { t } from "@/lib/i18n";
 
 export default function LoginPage() {
   const [state, formAction, pending] = useActionState<FormState, FormData>(loginAction, undefined);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
-      <h1 className="mb-2 font-serif text-3xl">Inloggen</h1>
+      <h1 className="mb-2 font-serif text-3xl">{t.auth.signInTitel}</h1>
       <p className="mb-8 text-sm text-neutral-500">
-        Nog geen account?{" "}
+        {t.auth.signInSub}{" "}
         <Link href="/register" className="underline">
-          Registreren
+          {t.auth.signInLink}
         </Link>
       </p>
       <form action={formAction} className="flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm">
-          E-mailadres
+          {t.auth.email}
           <input
             name="email"
             type="email"
@@ -28,7 +29,7 @@ export default function LoginPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm">
-          Wachtwoord
+          {t.auth.wachtwoord}
           <input
             name="password"
             type="password"
@@ -39,7 +40,7 @@ export default function LoginPage() {
         </label>
         {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
         <button type="submit" disabled={pending} className="btn-maison mt-2">
-          {pending ? "Bezig..." : "Inloggen"}
+          {pending ? t.auth.bezig : t.auth.signInKnop}
         </button>
       </form>
     </main>

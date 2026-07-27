@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/site-header";
+import { t } from "@/lib/i18n";
 import { CATEGORIES, CONDITION_LABELS, formatPrice } from "@/lib/listing-search";
 
 export default async function ListingDetail({ params }: { params: Promise<{ id: string }> }) {
@@ -37,7 +38,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
       <SiteHeader />
       <nav className="mb-8">
         <Link href="/" className="caps-label underline">
-          ← De collectie
+          {t.nav.backToCollection}
         </Link>
       </nav>
 
@@ -71,48 +72,50 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
         <div>
           <p className="caps-gold mb-3">
             {categoryLabel}
-            {listing.productionYear ? ` · ${listing.productionYear}` : ""} · Vintage
+            {listing.productionYear ? ` · ${listing.productionYear}` : ""} · {t.listing.vintage}
           </p>
           <h1 className="font-serif text-4xl">{listing.title}</h1>
           <p className="mt-5 font-serif text-3xl">{formatPrice(listing.priceCents)}</p>
 
           {sold ? (
             <p className="caps-label mt-7 inline-block border hairline px-5 py-3">
-              {listing.status === "RESERVED" ? "Gereserveerd" : "Verkocht"}
+              {listing.status === "RESERVED" ? t.listing.gereserveerd : t.listing.verkocht}
             </p>
           ) : (
             <div className="mt-7 flex flex-wrap gap-3">
-              <button className="btn-maison" disabled title="Checkout volgt in milestone 3">
-                Acquisitie
+              <button className="btn-maison" disabled title={t.listing.binnenkort.kopen}>
+                {t.listing.kopen}
               </button>
               {listing.allowOffers && (
-                <button className="btn-maison-line" disabled title="Bieden volgt in milestone 5">
-                  Bod uitbrengen
+                <button className="btn-maison-line" disabled title={t.listing.binnenkort.bod}>
+                  {t.listing.bod}
                 </button>
               )}
             </div>
           )}
 
           <dl className="mt-9 border-t hairline">
-            {spec("Conditie", CONDITION_LABELS[listing.condition])}
-            {listing.model && spec("Model", listing.model)}
+            {spec(t.listing.conditie, CONDITION_LABELS[listing.condition])}
+            {listing.model && spec(t.listing.model, listing.model)}
             {spec(
-              "Verkoper",
+              t.listing.verkoper,
               <>
-                {sellerLabel} <span className="text-[#8a6f3c]">· {isBusiness ? "zakelijk" : "particulier"}</span>
+                {sellerLabel}{" "}
+                <span className="text-[#8a6f3c]">
+                  · {isBusiness ? t.listing.zakelijkKort : t.listing.priveKort}
+                </span>
               </>
             )}
-            {spec("Expertise", "Fysiek geauthenticeerd in ons atelier")}
-            {isBusiness && spec("Bedenktijd", "14 dagen herroepingsrecht")}
+            {spec(t.listing.expertise, t.listing.expertiseWaarde)}
+            {isBusiness && spec(t.listing.bedenktijd, t.listing.bedenktijdWaarde)}
           </dl>
 
-          <h2 className="caps-label mt-9 mb-3">Beschrijving</h2>
+          <h2 className="caps-label mt-9 mb-3">{t.listing.beschrijving}</h2>
           <p className="whitespace-pre-line text-sm leading-relaxed text-neutral-700">{listing.description}</p>
 
           {!isBusiness && (
             <p className="mt-7 border-l-2 border-[#a8894f] bg-white px-4 py-3 text-xs leading-relaxed text-neutral-500">
-              Je koopt van een particuliere verkoper; het wettelijk herroepingsrecht is niet van toepassing. Elk stuk
-              wordt vóór verzending fysiek geïnspecteerd en geauthenticeerd door ons atelier.
+              {t.listing.priveDisclaimer}
             </p>
           )}
         </div>

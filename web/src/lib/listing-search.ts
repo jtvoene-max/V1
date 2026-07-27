@@ -1,24 +1,23 @@
 import type { Prisma } from "@/generated/prisma/client";
 import { Condition } from "@/generated/prisma/client";
+import { t, formatPrice } from "@/lib/i18n";
+
+export { formatPrice };
 
 export const PAGE_SIZE = 24;
 
 export const CATEGORIES = [
-  { value: "bag", label: "Tassen" },
-  { value: "jewelry", label: "Sieraden" },
-  { value: "accessory", label: "Accessoires" },
+  { value: "bag", label: t.categorieen.bag },
+  { value: "jewelry", label: t.categorieen.jewelry },
+  { value: "accessory", label: t.categorieen.accessory },
 ] as const;
 
-export const CONDITION_LABELS: Record<string, string> = {
-  EXCELLENT: "Uitstekend",
-  GOOD: "Goed",
-  VISIBLE_WEAR: "Gebruikssporen",
-};
+export const CONDITION_LABELS: Record<string, string> = t.condities;
 
 export const SORT_OPTIONS = [
-  { value: "newest", label: "Nieuwste eerst" },
-  { value: "price_asc", label: "Prijs laag-hoog" },
-  { value: "price_desc", label: "Prijs hoog-laag" },
+  { value: "newest", label: t.sortering.newest },
+  { value: "price_asc", label: t.sortering.price_asc },
+  { value: "price_desc", label: t.sortering.price_desc },
 ] as const;
 
 export type SearchFilters = {
@@ -91,10 +90,6 @@ export function buildOrderBy(f: SearchFilters): Prisma.ListingOrderByWithRelatio
 export function pageNumber(f: SearchFilters): number {
   const p = Number(f.page);
   return Number.isInteger(p) && p >= 1 ? p : 1;
-}
-
-export function formatPrice(cents: number) {
-  return new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(cents / 100);
 }
 
 /** Querystring voor pagineringslinks, met behoud van actieve filters. */

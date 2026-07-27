@@ -1,4 +1,5 @@
 import type { AuditEntity, Prisma } from "@/generated/prisma/client";
+import { t } from "@/lib/i18n";
 
 // Eén plek voor alle papertrail-regels. Werkt binnen een transactie (tx)
 // of rechtstreeks op de client, zodat een audit-regel altijd samen met de
@@ -30,26 +31,6 @@ export async function logAudit(db: AuditClient, input: AuditInput) {
   });
 }
 
-export const ENTITY_LABELS: Record<AuditEntity, string> = {
-  USER: "Gebruiker",
-  LISTING: "Listing",
-  OFFER: "Bod",
-  ORDER: "Order",
-  SHIPMENT: "Verzending",
-  INSPECTION: "Inspectie",
-  PAYOUT: "Uitbetaling",
-};
+export const ENTITY_LABELS: Record<AuditEntity, string> = t.entiteiten;
 
-export const ACTION_LABELS: Record<string, string> = {
-  CREATED: "Aangemaakt",
-  STATUS_CHANGED: "Status gewijzigd",
-  INSPECTED: "Gekeurd",
-  PAYOUT_CREATED: "Uitbetaling klaargezet",
-  LABEL_CREATED: "Verzendlabel aangemaakt",
-  RECEIVED: "Ontvangen",
-  SHIPPED: "Verzonden",
-  DELIVERED: "Bezorgd",
-  RETURN_STARTED: "Retour gestart",
-  RETURN_FINISHED: "Retour afgerond",
-  RELISTED: "Terug naar concept",
-};
+export const ACTION_LABELS: Record<string, string> = t.auditActies;

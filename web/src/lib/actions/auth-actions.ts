@@ -7,12 +7,13 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { signIn, signOut } from "@/lib/auth";
 import { logAudit } from "@/lib/audit";
+import { t } from "@/lib/i18n";
 
 const registerSchema = z
   .object({
-    name: z.string().min(2, "Vul je naam in"),
-    email: z.string().email("Ongeldig e-mailadres"),
-    password: z.string().min(8, "Wachtwoord moet minimaal 8 tekens zijn"),
+    name: z.string().min(2, t.auth.foutNaam),
+    email: z.string().email(t.auth.foutEmail),
+    password: z.string().min(8, t.auth.foutWachtwoord),
     accountType: z.enum(["PRIVATE", "BUSINESS"]),
     companyName: z.string().optional(),
     vatNumber: z.string().optional(),
@@ -21,10 +22,10 @@ const registerSchema = z
   .superRefine((data, ctx) => {
     if (data.accountType === "BUSINESS") {
       if (!data.companyName?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["companyName"], message: "Bedrijfsnaam is verplicht voor zakelijke accounts" });
+        ctx.addIssue({ code: "custom", path: ["companyName"], message: t.auth.foutBedrijfsnaam });
       }
       if (!data.kvkNumber?.trim()) {
-        ctx.addIssue({ code: "custom", path: ["kvkNumber"], message: "KVK-nummer is verplicht voor zakelijke accounts" });
+        ctx.addIssue({ code: "custom", path: ["kvkNumber"], message: t.auth.foutKvk });
       }
     }
   });
@@ -49,7 +50,7 @@ export async function registerAction(_prev: FormState, formData: FormData): Prom
   const email = parsed.data.email.toLowerCase();
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
-    return { error: "Er bestaat al een account met dit e-mailadres" };
+    return { error: t.auth.foutBestaat };
   }
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 10);
@@ -88,7 +89,7 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      return { error: "Onjuist e-mailadres of wachtwoord" };
+      return { error: t.auth.foutInlog };
     }
     throw error; // redirect() gooit intern een error die door moet
   }

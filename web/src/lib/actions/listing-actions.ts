@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { CATEGORIES } from "@/lib/listing-search";
 import { logAudit } from "@/lib/audit";
+import { t } from "@/lib/i18n";
 
 const MAX_PHOTOS = 8;
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
@@ -19,23 +20,23 @@ const ALLOWED_TYPES: Record<string, string> = {
 };
 
 const listingSchema = z.object({
-  title: z.string().min(5, "Titel moet minimaal 5 tekens zijn").max(120),
+  title: z.string().min(5, t.verkopen.fouten.titel).max(120),
   model: z.string().max(80).optional(),
   category: z.enum(CATEGORIES.map((c) => c.value) as [string, ...string[]], {
-    message: "Kies een categorie",
+    message: t.verkopen.fouten.categorie,
   }),
-  condition: z.enum(["EXCELLENT", "GOOD", "VISIBLE_WEAR"], { message: "Kies een conditie" }),
+  condition: z.enum(["EXCELLENT", "GOOD", "VISIBLE_WEAR"], { message: t.verkopen.fouten.conditie }),
   productionYear: z.coerce
     .number()
     .int()
-    .min(1910, "Ongeldig jaartal")
-    .max(new Date().getFullYear(), "Jaartal kan niet in de toekomst liggen")
+    .min(1910, t.verkopen.fouten.jaarOngeldig)
+    .max(new Date().getFullYear(), t.verkopen.fouten.jaarToekomst)
     .optional(),
   priceEuro: z.coerce
-    .number({ message: "Vul een geldige prijs in" })
-    .min(50, "Minimale vraagprijs is 50 euro")
-    .max(100000, "Neem voor items boven 100.000 euro contact met ons op"),
-  description: z.string().min(30, "Beschrijf het item in minimaal 30 tekens").max(4000),
+    .number({ message: t.verkopen.fouten.prijsOngeldig })
+    .min(50, t.verkopen.fouten.prijsMin)
+    .max(100000, t.verkopen.fouten.prijsMax),
+  description: z.string().min(30, t.verkopen.fouten.beschrijving).max(4000),
   allowOffers: z.boolean(),
 });
 
@@ -64,17 +65,17 @@ export async function createListingAction(_prev: ListingFormState, formData: For
   // Foto's valideren vóór er iets wordt opgeslagen
   const files = formData.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
   if (files.length === 0) {
-    return { error: "Voeg minimaal 1 foto toe" };
+    return { error: t.verkopen.fouten.geenFoto };
   }
   if (files.length > MAX_PHOTOS) {
-    return { error: `Maximaal ${MAX_PHOTOS} foto's per item` };
+    return { error: t.verkopen.fouten.teVeelFotos(MAX_PHOTOS) };
   }
   for (const file of files) {
     if (!(file.type in ALLOWED_TYPES)) {
-      return { error: "Alleen JPG-, PNG- of WebP-foto's zijn toegestaan" };
+      return { error: t.verkopen.fouten.fotoType };
     }
     if (file.size > MAX_PHOTO_BYTES) {
-      return { error: "Elke foto mag maximaal 8 MB zijn" };
+      return { error: t.verkopen.fouten.fotoGrootte };
     }
   }
 
