@@ -1,6 +1,6 @@
 # Complete planning: Timeless Marketplace
 
-Marketplace voor vintage Chanel (items tot ca. 25.000 euro per stuk), met de ambitie de grootste van de EU te worden. Items gaan fysiek via het platform: verkoper stuurt in, jij inspecteert en authenticeert, jij stuurt door naar de koper. Geld wordt vastgehouden via Stripe Connect, fee bij koper en verkoper.
+Marketplace voor vintage Chanel (items tot ca. 10.000 euro per stuk; besluit 27-7-2026, was 25.000), met de ambitie de grootste van de EU te worden. Items gaan fysiek via het platform: verkoper stuurt in, jij inspecteert en authenticeert, jij stuurt door naar de koper. Geld wordt vastgehouden via Stripe Connect, fee bij koper en verkoper.
 
 ## Eén platform, vier handelsvormen (C2C, B2C, C2B, B2B)
 

@@ -60,11 +60,44 @@ Altijd een dienst van het platform, met deze beslistabel per ontvanger:
 
 Alle documenten genummerd, onveranderlijk opgeslagen, en gelogd in het papertrail (AuditLog).
 
+## Kunnen we de margeregeling zelf inbouwen?
+
+Vraag van 27 juli 2026. Antwoord: **deels, en het deel dat kan is een echte differentiator.**
+
+### Wat we sowieso bouwen (dat is geen keuze)
+
+1. Het **attest-vinkje** bij het plaatsen van een listing door een zakelijke verkoper
+2. De **factuur namens de verkoper**, met de verplichte vermelding "Bijzondere regeling – gebruikte goederen" en zonder BTW-bedrag
+3. Vastlegging van `vatScheme` op de order, plus een regel in het papertrail
+
+Dat is het minimum en dekt de verplichting. De BTW over de marge berekent en betaalt de verkoper vervolgens zelf.
+
+### Wat we extra zouden kúnnen bouwen: marge-administratie voor je verkopers
+
+Hier zit de kans. Een zakelijke verkoper moet per verkocht stuk zijn marge bijhouden: verkoopprijs min inkoopprijs, en over dat verschil BTW afdragen. De meeste kleine handelaren doen dat in een spreadsheet, en doen het slordig.
+
+**Wat we kunnen aanbieden:** de verkoper vult bij elke listing zijn **inkoopprijs** in (alleen zichtbaar voor hemzelf), en het platform rekent na elke verkoop automatisch uit wat zijn marge is en hoeveel BTW hij daarover verschuldigd is. Aan het eind van het kwartaal downloadt hij één overzicht dat zijn boekhouder direct kan gebruiken.
+
+**Waarom dit sterk is:**
+- Geen enkele concurrent doet dit. Vestiaire, Vinted en Catawiki laten de verkoper zelf uitzoeken
+- Het bindt zakelijke verkopers aan je platform: hun administratie zit bij jou
+- Het maakt je aantrekkelijk voor precies de doelgroep die je voor de B2C-kant nodig hebt
+- Het kost weinig extra bouwwerk: één veld op de listing, één berekening, één exportknop
+
+**Waar je op moet letten:**
+- Je bewaart dan **inkoopprijzen**, gevoelige bedrijfsinformatie. Die mag nooit zichtbaar zijn voor kopers of andere verkopers, en hoort in het beveiligingsontwerp
+- Je komt dicht bij belastingadvies. Zet er expliciet bij dat het een hulpmiddel is en dat de verkoper zelf verantwoordelijk blijft, en laat die formulering door de jurist bevestigen
+- **De rekenmethode moet de boekhouder bevestigen.** In Nederland bestaat naast de individuele methode ook de globalisatiemethode, waarbij de marge per tijdvak wordt berekend in plaats van per stuk, en het hangt van het soort goed af welke is toegestaan of verplicht. Bij stukken van duizenden euro's is dat een relevant verschil dat we niet moeten gokken
+
+**Advies:** bouw fase 1 (het verplichte deel) meteen mee, en zet de marge-administratie op de lijst voor ná livegang. Neem de rekenmethode wel nu al mee in het gesprek met de boekhouder, dan weet je of het kan voordat je het belooft.
+
 ## Checklist voor de boekhouder (afspraak A3)
 
 - [ ] Bevestig de bemiddelaarsstatus in combinatie met fysiek bezit (consignatie) en Stripe Connect-geldstromen
 - [ ] Bevestig de marge-attest-constructie en de factuurtekst namens de verkoper (machtiging in de voorwaarden regelen)
 - [ ] Bevestig de gefaseerde aanpak: fase 1 alleen marge, fase 2 ook standaard-BTW met verkoperskeuze per listing
+- [ ] **Individuele methode of globalisatiemethode?** Welke is toegestaan of verplicht bij gebruikte luxegoederen van duizenden euro's, en mag het platform die berekening voor de verkoper uitvoeren?
+- [ ] Mag het platform inkoopprijzen van verkopers bewaren en daarop een marge-overzicht baseren, of raakt dat aan belastingadvies?
 - [ ] Plaats van dienst voor fees aan EU-consumenten buiten NL (OSS ja/nee voor de fees)
 - [ ] DAC7-rapportageproces (drempels: 30 transacties of € 2.000 per verkoper per jaar)
 - [ ] Wat te doen bij export buiten de EU (latere fase)

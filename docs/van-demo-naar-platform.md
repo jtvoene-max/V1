@@ -33,7 +33,7 @@ Wat er in de demo bij is gekomen (mega-menu, conditie in 5 niveaus, kleur/materi
 **Straks:** een cloud-database. Aanbeveling: **Neon** (of Supabase). Beide zijn PostgreSQL, dus we hoeven niets aan het datamodel te veranderen; het is één regel in een instellingenbestand.
 
 - Neon: gratis om te starten, ongeveer € 19 per maand zodra je serieus draait
-- Automatische back-ups en herstelpunten, wat je bij items van € 25.000 echt wilt
+- Automatische back-ups en herstelpunten, wat je bij items van duizenden euro's echt wilt
 - Servers in de EU (Frankfurt), belangrijk voor de AVG
 
 **Wat jij moet doen:** een account aanmaken zodra we naar staging gaan. Verder niets; ik regel de koppeling.

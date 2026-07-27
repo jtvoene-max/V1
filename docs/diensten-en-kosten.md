@@ -73,11 +73,15 @@ Rekenvoorbeeld bij een tas van € 5.800 met iDEAL: € 0,29 aan Stripe. Jouw co
 
 | Dienst | Wat het doet | Kosten |
 |---|---|---|
-| **Sendcloud** | Maakt verzendlabels voor alle drie de trajecten (verkoper naar atelier, atelier naar koper, retour), met tracking die de order automatisch bijwerkt | **gratis** pakket: onbeperkt zendingen tegen Sendcloud-tarieven, 1 gebruiker. **€ 35 per maand** (Lite) voor 400 labels en meerdere gebruikers. **€ 109** (Growth) voor 1.000 labels met retourportaal |
+| **Sendcloud** | Maakt verzendlabels voor alle drie de trajecten, met tracking-webhooks die de order automatisch bijwerken, een eigen trackingpagina en meldingen per e-mail, sms en WhatsApp | **gratis** pakket tot 50 labels per maand. **Lite** vanaf ongeveer € 23 tot € 35 (eigen vervoerderscontract koppelen kan vanaf hier). **Growth** ongeveer € 70 tot € 109 met retourportaal en branded tracking |
+| **Eigen DHL-contract** | Verzekerde waarde tot € 100.000 zelf instelbaar, en claims lopen rechtstreeks bij DHL in plaats van via een tussenlaag | offerte opvragen; koppelen in Sendcloud vanaf Lite |
+| **Transportverzekering** | Dekking per zending. Sendcloud Protection stopt bij € 5.000 en sluit luxecategorieën uit, dus apart onderbrengen | **Claisy: 0,6% van de waarde** (bij € 8.000 dus € 48), tot € 100.000. Of een doorlopende polis via een makelaar |
 | **Verzendkosten zelf** | De daadwerkelijke pakketten | Per zending, doorberekend aan koper en verkoper |
-| **Verzekering** | Dekking voor items die in het atelier liggen | Offerte opvragen; dit staat nog open |
+| **Verzekering atelier** | Dekking voor items die fysiek bij jou liggen | Offerte opvragen; staat nog open |
 
-**Advies:** begin op het **gratis pakket**. Stap naar Lite of Growth zodra je meer dan een handvol zendingen per week hebt of het retourportaal wilt.
+**Advies:** begin op het **gratis pakket** van Sendcloud, maar regel je **eigen DHL-contract en een aparte transportverzekering** vóór de eerste echte verkoop. Zie [verzending-en-verzekering.md](verzending-en-verzekering.md) voor de onderbouwing; dit is het onderwerp met het grootste onvoorziene risico.
+
+**Kort waarom:** geen enkele gewone vervoerder verzekert luxegoederen tot hoge bedragen. UPS dekt juwelen en uurwerken tot $ 500, GLS sluit horloges en kunst boven € 750 uit, PostNL stopt bij € 5.000 met een uitsluiting voor kostbaarheden. Alleen DHL eCommerce zakelijk laat je tot € 100.000 zelf instellen. Jouw besluit om op € 10.000 te gaan zitten in plaats van € 25.000 maakt dit een stuk beter hanteerbaar.
 
 ---
 
@@ -121,7 +125,7 @@ De stap van € 100-150 naar € 150-200 komt volledig door twee keuzes die je b
 | Sentry | $ 26 per maand | Je weet van een storing vóórdat een klant belt |
 | Neon betaald | verbruik | Terug kunnen naar elk moment in de afgelopen dagen, niet alleen naar gisteren |
 
-Bij items van € 25.000 en geld van derden op je platform is dat ongeveer vijftig euro per maand voor aanzienlijk minder risico. Mijn advies is het te doen.
+Bij items tot € 10.000 en geld van derden op je platform is dat ongeveer vijftig euro per maand voor aanzienlijk minder risico. Mijn advies is het te doen.
 
 ---
 
