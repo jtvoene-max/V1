@@ -1,0 +1,19 @@
+# Automatische controle op verouderde en kwetsbare pakketten.
+# Beveiligingsupdates komen dagelijks binnen als aparte pull request,
+# gewone updates wekelijks en gegroepeerd zodat het overzichtelijk blijft.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      ontwikkelgereedschap:
+        dependency-type: development
+        update-types: [minor, patch]
+      productie-klein:
+        dependency-type: production
+        update-types: [patch]
+    labels: [dependencies]
