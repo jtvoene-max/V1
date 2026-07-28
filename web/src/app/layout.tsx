@@ -55,7 +55,11 @@ export default function RootLayout({
     >
       {/* pb-20 op de telefoon houdt de inhoud vrij van de vaste onderbalk. */}
       <body className="min-h-full flex flex-col pb-20 sm:pb-0">
-        {children}
+        {/* min-w-0 is hier geen detail: zonder deze regel krimpt de inhoud niet
+            mee met het scherm. Een flex-item wordt standaard nooit smaller dan
+            het breedste dat erin staat, dus één brede tabel of menubalk maakt
+            de hele pagina breder dan de telefoon en zet alles scheef. */}
+        <div className="min-w-0 flex-1">{children}</div>
         <MobileNav />
         <InstallPrompt />
       </body>

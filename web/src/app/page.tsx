@@ -49,8 +49,9 @@ export default async function Home({
   ]);
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
   const actief = activeFilterCount(filters);
+  // 16px op de telefoon, anders zoomt Safari in bij het aantikken van een veld.
   const inputClass =
-    "border hairline bg-white px-3 py-2 text-sm text-black focus:border-black focus:outline-none";
+    "w-full border hairline bg-white px-3 py-2.5 text-[16px] text-black focus:border-black focus:outline-none sm:py-2 sm:text-sm";
 
   const categorieLabel = CATEGORIES.find((c) => c.value === filters.category)?.label;
 
@@ -84,9 +85,30 @@ export default async function Home({
         <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-neutral-500">{t.collectie.intro}</p>
       </div>
 
-      {/* Zoeken en filters (GET: deelbare URL's) */}
-      <form method="GET" className="mb-8 flex flex-wrap items-end gap-3 border hairline bg-white p-5">
-        <label className="flex min-w-44 flex-1 flex-col gap-1.5">
+      {/* Zoeken en filters (GET: deelbare URL's).
+
+          Op de telefoon staat dit paneel dichtgeklapt, anders scrol je een
+          heel scherm aan filters door voordat je één stuk ziet. Open- en
+          dichtklappen gaat met een verborgen selectievakje in plaats van met
+          JavaScript, zodat deze pagina een servercomponent kan blijven.
+
+          De velden staan in een raster van twee kolommen in plaats van naast
+          elkaar te vloeien: dan is elk veld even breed en begint de rechterrij
+          overal op dezelfde plek. */}
+      <input type="checkbox" id="filterpaneel" className="peer sr-only" />
+      <label
+        htmlFor="filterpaneel"
+        className="btn-maison-line mb-4 flex cursor-pointer items-center justify-center !py-3 sm:hidden"
+      >
+        {t.collectie.filteren}
+        {actief > 0 && <span className="ml-2 text-[#8a6f3c]">({actief})</span>}
+      </label>
+
+      <form
+        method="GET"
+        className="mb-8 hidden grid-cols-2 gap-3 border hairline bg-white p-5 peer-checked:grid sm:grid sm:grid-cols-4 lg:grid-cols-6"
+      >
+        <label className="col-span-2 flex flex-col gap-1.5">
           <span className="caps-label">{t.collectie.zoeken}</span>
           <input
             type="search"
@@ -110,25 +132,34 @@ export default async function Home({
           { value: "PRIVATE", label: t.nav.private },
           { value: "BUSINESS", label: t.nav.business },
         ])}
-        <label className="flex w-24 flex-col gap-1.5">
-          <span className="caps-label">{t.collectie.minPrijs}</span>
-          <input type="number" name="minPrice" min={0} defaultValue={filters.minPrice ?? ""} className={inputClass} />
-        </label>
-        <label className="flex w-24 flex-col gap-1.5">
-          <span className="caps-label">{t.collectie.maxPrijs}</span>
-          <input type="number" name="maxPrice" min={0} defaultValue={filters.maxPrice ?? ""} className={inputClass} />
-        </label>
         {keuzeVeld("sort", t.collectie.sorteren, SORT_OPTIONS.map((s) => ({ value: s.value, label: s.label })))}
+
+        {/* Min en max in één blok, zodat ze nooit op verschillende rijen
+            belanden. Los van elkaar zeggen ze niets. */}
+        <div className="col-span-2 grid grid-cols-2 gap-3">
+          <label className="flex flex-col gap-1.5">
+            <span className="caps-label">{t.collectie.minPrijs}</span>
+            <input type="number" name="minPrice" min={0} defaultValue={filters.minPrice ?? ""} className={inputClass} />
+          </label>
+          <label className="flex flex-col gap-1.5">
+            <span className="caps-label">{t.collectie.maxPrijs}</span>
+            <input type="number" name="maxPrice" min={0} defaultValue={filters.maxPrice ?? ""} className={inputClass} />
+          </label>
+        </div>
+
         {/* Model komt uit het mega-menu; bewaren zodat filteren hem niet wist */}
         {filters.model && <input type="hidden" name="model" value={filters.model} />}
-        <button type="submit" className="btn-maison !px-5 !py-2.5">
-          {t.collectie.filteren}
-        </button>
-        {actief > 0 && (
-          <Link href="/" className="caps-label self-center underline">
-            {t.collectie.wissen} ({actief})
-          </Link>
-        )}
+
+        <div className="col-span-2 flex flex-wrap items-center gap-4 sm:col-span-4 lg:col-span-6">
+          <button type="submit" className="btn-maison w-full sm:w-auto sm:!px-5 sm:!py-2.5">
+            {t.collectie.filteren}
+          </button>
+          {actief > 0 && (
+            <Link href="/" className="caps-label underline">
+              {t.collectie.wissen} ({actief})
+            </Link>
+          )}
+        </div>
       </form>
 
       {actief > 0 && (

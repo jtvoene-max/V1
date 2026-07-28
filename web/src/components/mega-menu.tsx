@@ -74,11 +74,15 @@ export async function MegaMenu() {
     CATEGORIES.map(async (c) => ({ ...c, facets: await categoryFacets(c.value) }))
   );
 
-  const link = "block px-5 py-4 caps-label !text-[11px] !text-neutral-800 hover:!text-black";
+  const link = "block whitespace-nowrap px-4 py-3 caps-label !text-[11px] !text-neutral-800 hover:!text-black sm:px-5 sm:py-4";
 
   return (
-    <nav className="relative mb-10 border-y hairline bg-white">
-      <ul className="mx-auto flex max-w-6xl flex-wrap justify-center">
+    // Op de telefoon één regel die je opzij schuift, in plaats van drie regels
+    // die verticaal ruimte innemen voordat je de collectie ziet. min-w-0 zorgt
+    // dat de balk zelf krimpt en de inhoud schuift, in plaats van de pagina
+    // breder te maken dan het scherm.
+    <nav className="relative mb-6 min-w-0 border-y hairline bg-white sm:mb-10">
+      <ul className="mx-auto flex max-w-6xl flex-nowrap overflow-x-auto sm:flex-wrap sm:justify-center sm:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <li>
           <Link href="/" className={link}>
             {t.megamenu.deCollectie}

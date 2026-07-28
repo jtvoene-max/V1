@@ -16,24 +16,24 @@ export async function SiteHeader() {
           </Link>
           <p className="caps-label mt-2">{t.merk.tagline}</p>
         </div>
-        {/* Verkopen en account staan hier, want deze kop staat op elke pagina.
-            Het mega-menu eronder doet alleen de categorieën en staat alleen
-            op de collectie. */}
+        {/* Op de telefoon staat hier alleen wat níet in de onderbalk zit.
+            Verkopen en account zitten daar al, en vier losse items naast
+            elkaar breken op een klein scherm halverwege af. */}
         <nav className="flex flex-wrap items-center justify-center gap-5">
           <Link href="/verification" className="caps-label !text-black hover:!text-[#8a6f3c]">
             {t.verificatie.navLabel}
           </Link>
-          <Link href="/sell" className="caps-label !text-black hover:!text-[#8a6f3c]">
+          <Link href="/sell" className="caps-label hidden !text-black hover:!text-[#8a6f3c] sm:inline">
             {t.nav.sell}
           </Link>
           {isTeam && (
-            <Link href="/atelier" className="caps-label !text-black hover:!text-[#8a6f3c]">
+            <Link href="/atelier" className="caps-label hidden !text-black hover:!text-[#8a6f3c] sm:inline">
               {t.nav.atelier}
             </Link>
           )}
           {session?.user ? (
             <>
-              <Link href="/account" className="caps-label !text-black hover:!text-[#8a6f3c]">
+              <Link href="/account" className="caps-label hidden !text-black hover:!text-[#8a6f3c] sm:inline">
                 {session.user.name}
                 <span className="ml-1 text-[#a8894f]">
                   · {session.user.accountType === "BUSINESS" ? t.nav.business : t.nav.private}
@@ -47,7 +47,7 @@ export async function SiteHeader() {
             </>
           ) : (
             <>
-              <Link href="/login" className="caps-label !text-black hover:!text-[#8a6f3c]">
+              <Link href="/login" className="caps-label hidden !text-black hover:!text-[#8a6f3c] sm:inline">
                 {t.nav.signIn}
               </Link>
               <Link href="/register" className="btn-maison !px-4 !py-2">
