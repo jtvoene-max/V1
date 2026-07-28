@@ -19,7 +19,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
     include: {
       photos: { orderBy: { position: "asc" } },
       wearNotes: true,
-      seller: { select: { name: true, accountType: true, companyName: true } },
+      seller: { select: { name: true, accountType: true, companyName: true, shopSlug: true } },
     },
   });
 
@@ -123,7 +123,18 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
             {spec(
               t.listing.verkoper,
               <>
-                {sellerLabel}{" "}
+                {/* Zakelijke verkopers hebben een eigen winkelpagina; bij een
+                    particulier blijft het bij een voornaam, zonder pagina. */}
+                {listing.seller.shopSlug ? (
+                  <Link
+                    href={`/shop/${listing.seller.shopSlug}`}
+                    className="underline decoration-[#a8894f] underline-offset-4 hover:text-black"
+                  >
+                    {sellerLabel}
+                  </Link>
+                ) : (
+                  sellerLabel
+                )}{" "}
                 <span className="text-[#8a6f3c]">
                   · {isBusiness ? t.listing.zakelijkKort : t.listing.priveKort}
                 </span>

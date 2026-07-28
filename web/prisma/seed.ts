@@ -20,6 +20,7 @@ import {
   type Listing,
 } from "../src/generated/prisma/client";
 import { orderSnapshot } from "../src/lib/order-snapshot";
+import { naarSlug } from "../src/lib/model-slug";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -182,6 +183,10 @@ async function main() {
       companyName: "Vintage Boutique Ltd",
       vatNumber: "NL123456789B01",
       kvkNumber: "12345678",
+      shopSlug: "vintage-boutique-ltd",
+      shopCity: "Amsterdam",
+      shopStory:
+        "We have been buying and selling Chanel since 1998, first from a shop on the Spiegelgracht and now mostly online. We only take pieces we would carry ourselves, which means we turn a lot down.",
     },
   });
 
@@ -191,6 +196,7 @@ async function main() {
     const isBusiness = i % 4 === 0; // kwart zakelijk
     const first = faker.person.firstName();
     const last = faker.person.lastName();
+    const bedrijf = isBusiness ? faker.company.name() : null;
     extraSellers.push(
       await prisma.user.create({
         data: {
@@ -198,9 +204,18 @@ async function main() {
           passwordHash,
           name: `${first} ${last}`,
           accountType: isBusiness ? AccountType.BUSINESS : AccountType.PRIVATE,
-          companyName: isBusiness ? faker.company.name() : null,
+          companyName: bedrijf,
           vatNumber: isBusiness ? `NL${faker.string.numeric(9)}B01` : null,
           kvkNumber: isBusiness ? faker.string.numeric(8) : null,
+          // Winkelpagina alleen voor zakelijke verkopers. De -i achter de slug
+          // houdt hem uniek als faker twee keer dezelfde bedrijfsnaam geeft.
+          shopSlug: bedrijf ? `${naarSlug(bedrijf)}-${i}` : null,
+          shopCity: isBusiness
+            ? faker.helpers.arrayElement(["Amsterdam", "Antwerp", "Paris", "Milan", "Berlin", "Rotterdam"])
+            : null,
+          shopStory: isBusiness
+            ? "A small team of specialists. Every piece is checked in house before we list it, and we photograph everything ourselves in daylight."
+            : null,
           locale: faker.helpers.arrayElement(["nl", "en", "fr", "de"]),
         },
       })

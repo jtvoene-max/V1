@@ -132,6 +132,14 @@ model User {
   vatNumber   String?
   kvkNumber   String?
 
+  // Eigen winkelpagina, alleen voor zakelijke verkopers. Particulieren
+  // krijgen die bewust niet: bij een bedrijf is herkenbaar zijn als handelaar
+  // een verplichting (Digital Services Act), bij een particulier is een
+  // openbare pagina met naam en handelsgeschiedenis een privacykwestie.
+  shopSlug  String? @unique // bv. "vintage-boutique-ltd"
+  shopStory String? // eigen tekst van de verkoper
+  shopCity  String?
+
   // Stripe-koppelingen (milestone 3)
   stripeAccountId  String? @unique // Connect-account (verkoper)
   stripeCustomerId String? @unique // Customer (koper)

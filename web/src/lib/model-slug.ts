@@ -9,6 +9,11 @@
 
 /** "Classic Flap Medium" wordt "classic-flap-medium". */
 export function modelSlug(naam: string): string {
+  return naarSlug(naam);
+}
+
+/** Zelfde omzetting, ook gebruikt voor winkelnamen. */
+export function naarSlug(naam: string): string {
   return naam
     .toLowerCase()
     .normalize("NFD")

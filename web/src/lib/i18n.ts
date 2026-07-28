@@ -55,6 +55,28 @@ export const t = {
     alles: "The whole collection",
   },
 
+  // Winkelpagina van een zakelijke verkoper
+  winkel: {
+    voorregel: "Seller",
+    sindsWanneer: (datum: string) => `Selling here since ${datum}`,
+    teKoop: "Available now",
+    verkocht: "Sold through us",
+    stuk: "piece",
+    stukken: "pieces",
+    overOns: "About this seller",
+    handelsgegevens: "Trader details",
+    handelsgegevensUitleg:
+      "This is a registered business. We publish these details because European rules require a marketplace to make traders identifiable.",
+    bedrijfsnaam: "Registered name",
+    kvk: "Chamber of commerce",
+    btw: "VAT number",
+    plaats: "Based in",
+    herroeping: "Buying here carries the statutory 14 day right of withdrawal.",
+    geenVoorraad: "This seller has nothing listed at the moment.",
+    allesVan: (naam: string) => `Everything from ${naam}`,
+    naarArchief: "See what this seller has sold",
+  },
+
   // Archief van verkochte stukken
   archief: {
     navLabel: "Sold archive",
