@@ -14,8 +14,9 @@ export const CATEGORIES = [
 
 export const CONDITION_LABELS: Record<string, string> = t.condities;
 
-/** Volgorde van best naar meest gedragen, voor keuzelijsten. */
-export const CONDITION_ORDER = ["NEW", "EXCELLENT", "VERY_GOOD", "GOOD", "VISIBLE_WEAR"] as const;
+// Woont in listing-options omdat het verkoopformulier (browser) het nodig heeft
+// en dit bestand database-code bevat die daar niet mag komen.
+export { CONDITION_ORDER } from "@/lib/listing-options";
 
 export const SORT_OPTIONS = [
   { value: "newest", label: t.sortering.newest },

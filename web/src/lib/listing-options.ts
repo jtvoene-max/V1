@@ -1,6 +1,13 @@
 // Keuzelijsten voor het verkoopformulier. Vaste waarden in plaats van vrije
 // tekst, zodat filteren betrouwbaar blijft: "Lambskin" en "lamb skin" zouden
 // anders twee verschillende filterwaarden worden.
+//
+// LET OP: dit bestand mag NOOIT iets uit de database-client importeren.
+// Het wordt gebruikt door het verkoopformulier, dat in de browser draait,
+// en database-code kan daar niet bij.
+
+/** Conditie van best naar meest gedragen. */
+export const CONDITION_ORDER = ["NEW", "EXCELLENT", "VERY_GOOD", "GOOD", "VISIBLE_WEAR"] as const;
 
 export const COLORS = [
   "Black", "Beige", "Brown", "Navy", "Red", "Pink", "Ivory", "White",

@@ -2,8 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { createListingAction, type ListingFormState } from "@/lib/actions/listing-actions";
-import { COLORS, HARDWARE, INCLUSIONS, MATERIALS, WEAR_ZONES } from "@/lib/listing-options";
-import { CONDITION_ORDER } from "@/lib/listing-search";
+import { COLORS, CONDITION_ORDER, HARDWARE, INCLUSIONS, MATERIALS, WEAR_ZONES } from "@/lib/listing-options";
 import { t } from "@/lib/i18n";
 
 const CATEGORY_OPTIONS = [
