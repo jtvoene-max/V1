@@ -232,6 +232,9 @@ export const t = {
       teVeelFotos: (max: number) => `Maximum ${max} photographs per piece`,
       fotoType: "Only JPG, PNG or WebP photographs are allowed",
       fotoGrootte: "Each photograph may be up to 8 MB",
+      fotoOpslaan: "We could not store your photographs. Nothing was published; please try again.",
+      fotoOpslaanLokaal:
+        "Photo storage is not configured on this server, so nothing was published. Please let us know.",
     },
   },
 

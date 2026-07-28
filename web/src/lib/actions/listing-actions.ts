@@ -1,8 +1,5 @@
 "use server";
 
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
-import crypto from "node:crypto";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
@@ -10,16 +7,12 @@ import { auth } from "@/lib/auth";
 import { CATEGORIES, CONDITION_ORDER } from "@/lib/listing-search";
 import { COLORS, HARDWARE, INCLUSIONS, MATERIALS, WEAR_ZONES } from "@/lib/listing-options";
 import { logAudit } from "@/lib/audit";
+import { bewaarFoto, cloudOpslagActief, TOEGESTANE_TYPES } from "@/lib/storage";
 import { t } from "@/lib/i18n";
 import type { WearZone } from "@/generated/prisma/client";
 
 const MAX_PHOTOS = 8;
 const MAX_PHOTO_BYTES = 8 * 1024 * 1024; // 8 MB
-const ALLOWED_TYPES: Record<string, string> = {
-  "image/jpeg": ".jpg",
-  "image/png": ".png",
-  "image/webp": ".webp",
-};
 
 const leeg = (v: FormDataEntryValue | null) => {
   const s = typeof v === "string" ? v.trim() : "";
@@ -96,7 +89,7 @@ export async function createListingAction(_prev: ListingFormState, formData: For
     return { error: t.verkopen.fouten.teVeelFotos(MAX_PHOTOS) };
   }
   for (const file of files) {
-    if (!(file.type in ALLOWED_TYPES)) {
+    if (!(file.type in TOEGESTANE_TYPES)) {
       return { error: t.verkopen.fouten.fotoType };
     }
     if (file.size > MAX_PHOTO_BYTES) {
@@ -104,14 +97,14 @@ export async function createListingAction(_prev: ListingFormState, formData: For
     }
   }
 
-  // Opslaan in public/uploads (lokaal; cloud-opslag komt bij de hosting-milestone)
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
-  const urls: string[] = [];
-  for (const file of files) {
-    const name = `${crypto.randomUUID()}${ALLOWED_TYPES[file.type]}`;
-    await writeFile(path.join(uploadDir, name), Buffer.from(await file.arrayBuffer()));
-    urls.push(`/uploads/${name}`);
+  // Foto's eerst opslaan, pas daarna de listing aanmaken. Mislukt het opslaan,
+  // dan komt er geen halve listing zonder foto's in de database te staan.
+  let urls: string[];
+  try {
+    urls = await Promise.all(files.map((file) => bewaarFoto(file)));
+  } catch (fout) {
+    console.error("Foto opslaan mislukt", fout);
+    return { error: cloudOpslagActief() ? t.verkopen.fouten.fotoOpslaan : t.verkopen.fouten.fotoOpslaanLokaal };
   }
 
   const sellerId = session.user.id;
