@@ -143,6 +143,9 @@ export function PhotoShots() {
                   name="photos"
                   accept="image/jpeg,image/png,image/webp"
                   capture="environment"
+                  // Waarmerk voor de stappenflow: hierop controleert stap 3 of
+                  // de verplichte opnames er zijn.
+                  data-verplicht={verplicht ? "1" : undefined}
                   onChange={(e) => gekozen(key, e.currentTarget)}
                   className="absolute inset-0 cursor-pointer opacity-0"
                   aria-label={shot.label}

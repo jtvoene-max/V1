@@ -22,15 +22,6 @@ export default async function SellPage() {
       <h1 className="mb-2 font-serif text-3xl">{t.verkopen.titel}</h1>
       <p className="mb-8 text-sm leading-relaxed text-neutral-600">{t.verkopen.intro}</p>
 
-      <section className="mb-8 border hairline bg-white p-5 text-sm">
-        <h2 className="caps-label mb-3">{t.verkopen.richtlijnenTitel}</h2>
-        <ul className="list-disc space-y-1 pl-5 text-neutral-600">
-          {t.verkopen.richtlijnen.map((r) => (
-            <li key={r}>{r}</li>
-          ))}
-        </ul>
-      </section>
-
       <SellForm />
     </main>
   );

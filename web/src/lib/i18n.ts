@@ -319,6 +319,13 @@ export const t = {
       hersteld: "We kept the listing you started earlier.",
       wissen: "Start fresh",
     },
+    stappen: {
+      voortgang: (huidig: number, totaal: number) => `Step ${huidig} of ${totaal}`,
+      vorige: "Back",
+      volgende: "Next",
+      namen: ["The piece", "Condition", "Photographs", "Details", "Price"],
+      fotosTekort: "Add the four required photographs before you continue.",
+    },
     biedenToestaan: "Allow offers on this piece",
     plaatsen: "List this piece",
     bezig: "Publishing...",
