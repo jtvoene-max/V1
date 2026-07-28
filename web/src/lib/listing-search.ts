@@ -134,6 +134,34 @@ export function filterQuery(f: SearchFilters, overrides: Partial<SearchFilters>)
   return s ? `?${s}` : "";
 }
 
+/**
+ * Filters in gewone taal, bv. "Bags · Black · Caviar · up to €5,000".
+ * Gebruikt voor bewaarde zoekopdrachten: een querystring zegt een koper niets.
+ */
+export function describeFilters(f: SearchFilters): string {
+  const delen: string[] = [];
+  if (f.q?.trim()) delen.push(`"${f.q.trim()}"`);
+  const categorie = CATEGORIES.find((c) => c.value === f.category);
+  if (categorie) delen.push(categorie.label);
+  if (f.model) delen.push(f.model);
+  if (f.condition && CONDITION_LABELS[f.condition]) delen.push(CONDITION_LABELS[f.condition]);
+  if (f.color) delen.push(f.color);
+  if (f.material) delen.push(f.material);
+  if (f.hardware) delen.push(`${f.hardware} hardware`);
+  if (f.era) delen.push(`${f.era}s`);
+  if (f.sellerType) delen.push(f.sellerType === "BUSINESS" ? t.nav.business : t.nav.private);
+
+  const min = Number(f.minPrice);
+  const max = Number(f.maxPrice);
+  const heeftMin = Number.isFinite(min) && min > 0;
+  const heeftMax = Number.isFinite(max) && max > 0;
+  if (heeftMin && heeftMax) delen.push(`${formatPrice(min * 100)} to ${formatPrice(max * 100)}`);
+  else if (heeftMin) delen.push(`from ${formatPrice(min * 100)}`);
+  else if (heeftMax) delen.push(`up to ${formatPrice(max * 100)}`);
+
+  return delen.length > 0 ? delen.join(" · ") : t.collectie.alles;
+}
+
 /** Aantal actieve filters, voor de "wissen"-knop. */
 export function activeFilterCount(f: SearchFilters): number {
   const telbaar: (keyof SearchFilters)[] = [

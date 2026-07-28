@@ -19,6 +19,7 @@ import {
   type User,
   type Listing,
 } from "../src/generated/prisma/client";
+import { orderSnapshot } from "../src/lib/order-snapshot";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
@@ -414,6 +415,8 @@ async function main() {
           sellerFeeCents: sellerFee,
           buyerShippingCents: 1250,
           sellerShippingCents: 950,
+          // Kenmerken bevriezen, net als de bedragen hierboven.
+          ...orderSnapshot(listing),
         },
       });
 

@@ -4,8 +4,9 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { ORDER_STATUS_LABELS } from "@/lib/order-flow";
-import { formatPrice } from "@/lib/listing-search";
-import { t } from "@/lib/i18n";
+import { buildWhere, describeFilters, formatPrice, parseFilters } from "@/lib/listing-search";
+import { deleteSavedSearchAction, markSearchSeenAction } from "@/lib/actions/search-actions";
+import { formatDate, t } from "@/lib/i18n";
 
 export const metadata = { title: "My account — Still Iconic" };
 
@@ -36,6 +37,24 @@ export default async function AccountPage() {
       include: { order: { include: { listing: { select: { title: true } } } } },
     }),
   ]);
+
+  // Per bewaarde zoekopdracht tellen hoeveel stukken er sinds de laatste keer
+  // bij zijn gekomen. De filters worden opnieuw door dezelfde bouwer gehaald
+  // als de collectiepagina, dus de telling klopt altijd met wat je te zien
+  // krijgt als je erop klikt.
+  const bewaard = await prisma.savedSearch.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+  });
+  const savedSearches = await Promise.all(
+    bewaard.map(async (zoekopdracht) => {
+      const filters = parseFilters(Object.fromEntries(new URLSearchParams(zoekopdracht.query)));
+      const nieuw = await prisma.listing.count({
+        where: { ...buildWhere(filters), createdAt: { gt: zoekopdracht.lastSeenAt } },
+      });
+      return { zoekopdracht, nieuw };
+    })
+  );
 
   const isBusiness = session.user.accountType === "BUSINESS";
 
@@ -138,6 +157,62 @@ export default async function AccountPage() {
           </div>
         </section>
       )}
+
+      <section className="mt-8">
+        <h2 className="mb-3 font-medium">
+          {t.bewaardeZoekopdracht.kopTitel} ({savedSearches.length})
+        </h2>
+        {savedSearches.length === 0 ? (
+          <p className="border border-dashed hairline p-4 text-sm text-neutral-400">
+            {t.bewaardeZoekopdracht.geen}
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2">
+            {savedSearches.map(({ zoekopdracht, nieuw }) => (
+              <div
+                key={zoekopdracht.id}
+                className="flex flex-wrap items-center justify-between gap-3 border hairline bg-white px-4 py-3 text-sm"
+              >
+                <div className="min-w-0">
+                  <p className="font-medium">{zoekopdracht.name}</p>
+                  <p className="text-xs text-neutral-500">
+                    {describeFilters(parseFilters(Object.fromEntries(new URLSearchParams(zoekopdracht.query))))}
+                  </p>
+                  <p className="text-xs text-neutral-400">
+                    {t.bewaardeZoekopdracht.sinds(formatDate(zoekopdracht.lastSeenAt))}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  {nieuw > 0 ? (
+                    <span className="bg-[#a8894f] px-2 py-1 text-xs text-white">
+                      {t.bewaardeZoekopdracht.nieuw(nieuw)}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-neutral-400">{t.bewaardeZoekopdracht.geenNieuw}</span>
+                  )}
+                  <Link href={`/?${zoekopdracht.query}`} className="caps-label underline hover:!text-black">
+                    {t.bewaardeZoekopdracht.bekijken}
+                  </Link>
+                  {nieuw > 0 && (
+                    <form action={markSearchSeenAction}>
+                      <input type="hidden" name="id" value={zoekopdracht.id} />
+                      <button type="submit" className="caps-label cursor-pointer underline hover:!text-black">
+                        {t.bewaardeZoekopdracht.gezien}
+                      </button>
+                    </form>
+                  )}
+                  <form action={deleteSavedSearchAction}>
+                    <input type="hidden" name="id" value={zoekopdracht.id} />
+                    <button type="submit" className="caps-label cursor-pointer underline hover:!text-black">
+                      {t.bewaardeZoekopdracht.verwijderen}
+                    </button>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 }

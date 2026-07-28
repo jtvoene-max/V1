@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { SiteHeader } from "@/components/site-header";
 import { t } from "@/lib/i18n";
 import { CATEGORIES, CONDITION_LABELS, eraLabel, formatPrice } from "@/lib/listing-search";
+import { modelSlug } from "@/lib/model-slug";
 import type { WearZone } from "@/generated/prisma/client";
 
 // Vaste volgorde, zodat het rapport op elke pagina hetzelfde leest
@@ -81,7 +82,15 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
         {/* Info */}
         <div>
           <p className="caps-gold mb-3">
-            {listing.model ?? categoryLabel}
+            {/* Modelnaam is een link naar het naslagwerk: wat is dit model en
+                wat is het waard. */}
+            {listing.model ? (
+              <Link href={`/model/${modelSlug(listing.model)}`} className="hover:underline">
+                {listing.model}
+              </Link>
+            ) : (
+              categoryLabel
+            )}
             {listing.productionYear ? ` · ${listing.productionYear}` : ""} · {t.listing.vintage}
           </p>
           <h1 className="font-serif text-4xl">{listing.title}</h1>

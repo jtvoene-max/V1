@@ -52,6 +52,47 @@ export const t = {
     vorige: "Previous",
     volgende: "Next",
     pagina: (huidig: number, totaal: number) => `Page ${huidig} of ${totaal}`,
+    alles: "The whole collection",
+  },
+
+  // Modelpagina's
+  model: {
+    voorregel: "The model",
+    beschikbaar: (n: number) => `${n} available now`,
+    geenBeschikbaar: "Nothing available right now",
+    prijsbereik: "Price range",
+    gemiddeld: "Average asking price",
+    verkocht: (n: number) => `${n} sold through our atelier`,
+    gemiddeldVerkocht: "Average sold price",
+    nogGeenVerkoop: "No sales through us yet. This overview grows with every piece we handle.",
+    watErIs: "What is available",
+    materialen: "Materials",
+    kleuren: "Colours",
+    hardware: "Hardware",
+    eras: "Eras",
+    allesBekijken: "See all in the collection",
+    terug: "← The collection",
+    watJeMoetWeten: "What to look for",
+    uitleg:
+      "Every piece under this model is verified by hand in our atelier: stitching, hardware, serial and the interior. The condition report on each listing tells you where the wear sits, zone by zone.",
+  },
+
+  // Bewaarde zoekopdrachten
+  bewaardeZoekopdracht: {
+    titelKort: "Save this search",
+    uitleg: "Every piece here is one of a kind. Save this search and we will tell you when something arrives.",
+    naamPlaceholder: "Name it, e.g. black caviar flap",
+    opslaan: "Save search",
+    opgeslagen: "Saved. You will find it under your account.",
+    inloggen: "Sign in to save this search",
+    kopTitel: "Saved searches",
+    geen: "You have no saved searches yet. Set some filters on the collection and save them.",
+    nieuw: (n: number) => `${n} new`,
+    geenNieuw: "Nothing new",
+    bekijken: "View",
+    gezien: "Mark as seen",
+    verwijderen: "Remove",
+    sinds: (datum: string) => `Checked ${datum}`,
   },
 
   categorieen: {

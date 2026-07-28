@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { categoryFacets, type CategoryFacets } from "@/lib/facets";
+import { modelSlug } from "@/lib/model-slug";
 import { CATEGORIES, formatPrice } from "@/lib/listing-search";
 import { t } from "@/lib/i18n";
 
@@ -17,7 +18,14 @@ function Kolom({ titel, items, param, category }: { titel: string; items: { valu
         {items.slice(0, 8).map((i) => (
           <li key={i.value}>
             <Link
-              href={`/?category=${category}&${param}=${encodeURIComponent(i.value)}`}
+              // Modelnamen gaan naar hun eigen pagina, de rest naar een
+              // gefilterde collectie. Een model is een naslagwerk, een kleur
+              // is een filter.
+              href={
+                param === "model"
+                  ? `/model/${modelSlug(i.value)}`
+                  : `/?category=${category}&${param}=${encodeURIComponent(i.value)}`
+              }
               className="block py-1.5 text-[13px] font-medium text-neutral-800 hover:text-black"
             >
               {i.label}

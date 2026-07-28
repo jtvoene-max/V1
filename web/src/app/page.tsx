@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { SiteHeader } from "@/components/site-header";
 import { MegaMenu } from "@/components/mega-menu";
+import { SaveSearch } from "@/components/save-search";
 import { allFacets } from "@/lib/facets";
 import { t } from "@/lib/i18n";
 import {
@@ -12,6 +14,7 @@ import {
   CATEGORIES,
   CONDITION_LABELS,
   CONDITION_ORDER,
+  describeFilters,
   filterQuery,
   formatPrice,
   PAGE_SIZE,
@@ -28,6 +31,7 @@ export default async function Home({
   const filters = parseFilters(await searchParams);
   const where = buildWhere(filters);
   const page = pageNumber(filters);
+  const session = await auth();
 
   const [listings, totalCount, facets] = await Promise.all([
     prisma.listing.findMany({
@@ -127,7 +131,15 @@ export default async function Home({
         )}
       </form>
 
-      <p className="caps-label mb-5">
+      {actief > 0 && (
+        <SaveSearch
+          query={filterQuery(filters, { page: undefined, sort: undefined }).replace(/^\?/, "")}
+          omschrijving={describeFilters(filters)}
+          ingelogd={Boolean(session?.user)}
+        />
+      )}
+
+      <p className="caps-label mb-5 mt-5">
         {totalCount} {totalCount === 1 ? t.collectie.stuk : t.collectie.stukken}
         {filters.model && <span className="ml-2 text-[#8a6f3c]">· {filters.model}</span>}
       </p>

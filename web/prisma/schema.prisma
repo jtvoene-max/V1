@@ -148,6 +148,24 @@ model User {
   inspections    InspectionReport[]
   orderEvents    OrderEvent[]
   auditLogs      AuditLog[]
+  savedSearches  SavedSearch[]
+}
+
+// Een bewaarde zoekopdracht. Bij unieke voorraad vindt vrijwel niemand zijn
+// stuk op de eerste dag; zonder iets dat hen terugroept komen ze niet terug.
+model SavedSearch {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name  String // wat de koper zoekt, in gewone taal
+  query String // de filters als querystring, bv. "category=bag&color=Black"
+
+  // Alles dat na dit moment is geplaatst telt als nieuw voor deze zoekopdracht.
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
 
 model Address {
@@ -292,6 +310,18 @@ model Order {
 
   stripePaymentIntentId String? @unique
 
+  // Kenmerken van het stuk, bevroren op moment van koop. Net als de bedragen
+  // hierboven: de listing kan later gewijzigd worden, deze regels niet. Zonder
+  // deze velden is er over twee jaar geen betrouwbaar prijsoverzicht per model
+  // te maken, en die geschiedenis is achteraf niet meer op te bouwen.
+  itemModel          String?
+  itemCategory       String?
+  itemCondition      Condition?
+  itemColor          String?
+  itemMaterial       String?
+  itemHardware       String?
+  itemProductionYear Int?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -303,6 +333,7 @@ model Order {
   @@index([status])
   @@index([buyerId])
   @@index([sellerId])
+  @@index([itemModel, createdAt]) // voor het prijsoverzicht per model
 }
 
 // Audit-log van elke statusovergang: wie, wat, wanneer.
