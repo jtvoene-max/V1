@@ -63,6 +63,17 @@ Labels voor alle drie de verzendbenen, tracking-webhooks die de order automatisc
 
 End-to-end tests op checkout, inspectie, retour en uitbetaling. Beveiligingsronde. AVG. Snelheidstest met 10.000+ listings. Pentest-bevindingen oplossen.
 
+**Verplicht vóór de eerste echte listing: ontwikkelen loskoppelen van live.**
+Nu wijzen beide werkcomputers én de live site naar dezelfde database in
+Frankfurt. Bewust zo gelaten tijdens de bouw, want er staat alleen testdata in.
+Dat is niet houdbaar zodra er echte klanten en orders in zitten: het
+seed-script begint met alles wissen (`prisma/seed.ts`, de deleteMany-regels),
+en dat raakt dan de echte site.
+
+Oplossen met een Neon-branch `dev` (zit in het gratis pakket): die connection
+string in `web/.env` op beide computers, de originele blijft in Vercel staan
+voor live. Daarna kan lokaal werk de echte site niet meer raken.
+
 ## Herziene inschatting (die weken hierboven zijn te ruim)
 
 De weken hierboven zijn traditionele inschattingen: wat een ontwikkelaar die alles typt eraan kwijt is. Dat klopt niet met hoe wij werken. Kijk naar één dag, 27 juli 2026: in die dag zijn milestone 1, 2 en 4 van de echte app gebouwd (datamodel, auth, zoeken/filteren, verkoopflow, atelier-dashboard, account), plus het platformbrede papertrail met CSV-export, plus de complete demo, plus het concurrentie-onderzoek over acht platformen. Traditioneel is dat maanden werk.
