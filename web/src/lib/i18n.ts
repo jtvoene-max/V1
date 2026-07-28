@@ -236,6 +236,7 @@ export const t = {
       verplicht: "Required",
       bezig: "Preparing",
       verwijderen: "Remove",
+      hulplijnen: "Show the outline over my photographs to check the framing",
       shots: {
         FRONT: { label: "Front", hint: "The whole piece, straight on" },
         BACK: { label: "Back", hint: "The whole piece, reverse" },
