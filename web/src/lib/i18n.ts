@@ -55,6 +55,24 @@ export const t = {
     alles: "The whole collection",
   },
 
+  // Archief van verkochte stukken
+  archief: {
+    navLabel: "Sold archive",
+    voorregel: "The archive",
+    titel: "What has passed through our hands",
+    intro:
+      "Every piece we have sold, with the price it actually fetched. Not an asking price, but what someone paid. Kept public so you can see what a piece is worth before you buy or sell one.",
+    aantal: (n: number) => `${n} sold`,
+    totaleWaarde: "Total value",
+    gemiddeld: "Average price",
+    verkochtVoor: "Sold for",
+    vraagprijsWas: (prijs: string) => `asking price was ${prijs}`,
+    geenResultaat: "Nothing in the archive matches this search yet.",
+    bekijkModel: "See this model",
+    naarCollectie: "Browse what is available now",
+    privacy: "We show what was sold and for how much, never who sold it.",
+  },
+
   // Verificatiepagina: de drie niveaus waaruit de koper kiest
   verificatie: {
     navLabel: "Verification",

@@ -59,8 +59,13 @@ export function parseFilters(params: Record<string, string | string[] | undefine
   };
 }
 
-export function buildWhere(f: SearchFilters): Prisma.ListingWhereInput {
-  const where: Prisma.ListingWhereInput = { status: "ACTIVE" };
+/**
+ * Bouwt de databasevraag uit de filters.
+ * `status` staat standaard op ACTIVE (de collectie); het archief van
+ * verkochte stukken gebruikt dezelfde filters met status SOLD.
+ */
+export function buildWhere(f: SearchFilters, status: "ACTIVE" | "SOLD" = "ACTIVE"): Prisma.ListingWhereInput {
+  const where: Prisma.ListingWhereInput = { status };
 
   if (f.q?.trim()) {
     const q = f.q.trim();

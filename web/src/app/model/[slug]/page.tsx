@@ -163,10 +163,14 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <Waardeblok label={t.model.gemiddeld} waarde={formatPrice(Math.round(aggregaat._avg.priceCents))} />
         )}
         {verkochtAantal > 0 && verkoopAggregaat._avg.itemPriceCents !== null ? (
-          <Waardeblok
-            label={t.model.verkocht(verkochtAantal)}
-            waarde={formatPrice(Math.round(verkoopAggregaat._avg.itemPriceCents))}
-          />
+          // Doorklikbaar naar het archief: wie wil weten wat dit model doet,
+          // wil de losse verkopen zien en niet alleen het gemiddelde.
+          <Link href={`/archive?model=${encodeURIComponent(naam)}`} className="block hover:shadow-[0_8px_22px_rgba(10,10,10,0.08)]">
+            <Waardeblok
+              label={t.model.verkocht(verkochtAantal)}
+              waarde={formatPrice(Math.round(verkoopAggregaat._avg.itemPriceCents))}
+            />
+          </Link>
         ) : (
           <div className="border border-dashed hairline px-4 py-3 text-center text-xs leading-relaxed text-neutral-400">
             {t.model.nogGeenVerkoop}

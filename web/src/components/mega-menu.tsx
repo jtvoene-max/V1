@@ -101,6 +101,11 @@ export async function MegaMenu() {
             {t.megamenu.nieuwBinnen}
           </Link>
         </li>
+        <li>
+          <Link href="/archive" className={link}>
+            {t.archief.navLabel}
+          </Link>
+        </li>
       </ul>
     </nav>
   );
