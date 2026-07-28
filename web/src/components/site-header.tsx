@@ -20,6 +20,9 @@ export async function SiteHeader() {
             Het mega-menu eronder doet alleen de categorieën en staat alleen
             op de collectie. */}
         <nav className="flex flex-wrap items-center justify-center gap-5">
+          <Link href="/verification" className="caps-label !text-black hover:!text-[#8a6f3c]">
+            {t.verificatie.navLabel}
+          </Link>
           <Link href="/sell" className="caps-label !text-black hover:!text-[#8a6f3c]">
             {t.nav.sell}
           </Link>

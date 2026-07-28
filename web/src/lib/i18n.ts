@@ -34,7 +34,7 @@ export const t = {
     voorregel: "The Collection",
     titel: "Vintage Chanel, expertised",
     intro:
-      "Every piece passes through our atelier before it reaches you: authenticity, condition and provenance, checked by our experts.",
+      "Every listing is checked by our team before it goes live. At checkout you decide how far we go: photo check, hand expertise in our atelier, or a full certificate.",
     zoeken: "Search",
     zoekenPlaceholder: "Classic Flap, Boy Bag...",
     categorie: "Category",
@@ -53,6 +53,73 @@ export const t = {
     volgende: "Next",
     pagina: (huidig: number, totaal: number) => `Page ${huidig} of ${totaal}`,
     alles: "The whole collection",
+  },
+
+  // Verificatiepagina: de drie niveaus waaruit de koper kiest
+  verificatie: {
+    navLabel: "Verification",
+    voorregel: "Verification",
+    titel: "You decide how far we go",
+    intro:
+      "Every listing is checked by our team before it goes live. Beyond that, certainty is your choice: a scarf of €200 does not need what a bag of €8,000 needs. You pick the level at checkout, and the piece travels accordingly.",
+    vanaf: "from €39",
+
+    niveaus: [
+      {
+        nummer: "01",
+        naam: "Photo check",
+        prijs: "Included",
+        levertijd: "2 to 4 days",
+        route: "Straight from the seller to you",
+        wat: "Before a listing goes live, our team reviews the eight standard photographs and the seller's condition report: stitching, hardware, serial or hologram, interior and the wear on every zone. Anything that does not add up is sent back to the seller before you ever see it.",
+        grens:
+          "This is a judgement made from photographs. It catches what a photograph can show, and it does not replace a piece in the hand.",
+        voorWie: "Accessories, jewellery and pieces where the seller has a track record with us.",
+      },
+      {
+        nummer: "02",
+        naam: "Atelier expertise",
+        prijs: "€39",
+        levertijd: "5 to 7 days",
+        route: "Via our atelier, then on to you",
+        wat: "The piece comes to us first. We assess authenticity and condition by hand: the grain and smell of the leather, the weight and finish of the hardware, the stitch count, the serial against the era, the lining and the glue lines. We rewrite the condition report with the piece in front of us, and photograph anything the seller missed.",
+        grens:
+          "If we disagree with the seller, the piece goes back and you are refunded in full, including what you paid for the expertise.",
+        voorWie: "Bags, and anything above roughly €1,000.",
+      },
+      {
+        nummer: "03",
+        naam: "Entrupy certificate",
+        prijs: "€89",
+        levertijd: "5 to 7 days",
+        route: "Via our atelier, then on to you",
+        wat: "Everything in level 02, plus machine authentication: microscopic imaging of the leather grain, stitching and hardware, compared against a reference database of hundreds of thousands of pieces. You receive a certificate that stays with the piece and passes to its next owner.",
+        grens: "Entrupy covers bags only. It does not cover clothing, jewellery or accessories.",
+        voorWie: "Pieces you intend to keep, or to resell later.",
+      },
+    ],
+
+    altijdTitel: "What you get at every level",
+    altijd: [
+      "Your payment is held until the piece reaches you. The seller is paid after delivery, not before.",
+      "The eight standard photographs and a condition report per zone on every listing.",
+      "Every step recorded, from listing to payout, so there is always a record of what happened and when.",
+      "A dispute is decided by our team, not left between buyer and seller.",
+    ],
+
+    eerlijkTitel: "What we do not claim",
+    eerlijk:
+      "We are not Chanel and we have no relationship with the maison. What we sell is our own judgement, made by people who handle these pieces every day. A photo check is not an expertise, and an expertise is not a guarantee against every possible forgery. Where we are wrong, we say so and we put it right.",
+
+    keuzeTitel: "When do you choose which",
+    keuzeIntro: "A rough guide, not a rule. You choose per purchase.",
+    keuzeRijen: [
+      { situatie: "Accessory or scarf under €500", advies: "Photo check" },
+      { situatie: "Jewellery, any price", advies: "Photo check or atelier expertise (Entrupy does not cover it)" },
+      { situatie: "Bag between €500 and €2,000", advies: "Atelier expertise" },
+      { situatie: "Bag above €2,000", advies: "Entrupy certificate" },
+      { situatie: "Buying to resell later", advies: "Entrupy certificate, the paperwork travels with the piece" },
+    ],
   },
 
   // Modelpagina's
@@ -74,7 +141,7 @@ export const t = {
     terug: "← The collection",
     watJeMoetWeten: "What to look for",
     uitleg:
-      "Every piece under this model is verified by hand in our atelier: stitching, hardware, serial and the interior. The condition report on each listing tells you where the wear sits, zone by zone.",
+      "Every listing under this model is checked by our team before it goes live, and the condition report tells you where the wear sits, zone by zone. At checkout you can add a hand expertise in our atelier.",
   },
 
   // Bewaarde zoekopdrachten
@@ -125,7 +192,7 @@ export const t = {
     inclusies: "Comes with",
     conditierapport: "Condition report",
     conditierapportVoetnoot:
-      "Noted by the seller; our atelier checks and refines this report during the physical expertise.",
+      "Noted by the seller and checked by our team against the photographs. If you add an atelier expertise at checkout, we verify and refine this report with the piece in hand.",
     geverifieerd: "verified by our atelier",
   },
 
@@ -152,8 +219,8 @@ export const t = {
     conditie: "Condition",
     model: "Model",
     verkoper: "Seller",
-    expertise: "Expertise",
-    expertiseWaarde: "Physically authenticated in our atelier",
+    expertise: "Verification",
+    expertiseWaarde: "Photo check included · hand expertise from €39 at checkout",
     bedenktijd: "Cooling-off period",
     bedenktijdWaarde: "14 days right of withdrawal",
     beschrijving: "Description",
@@ -164,7 +231,7 @@ export const t = {
     zakelijkKort: "business",
     priveKort: "private",
     priveDisclaimer:
-      "You are buying from a private seller, so the statutory right of withdrawal does not apply. Every piece is physically inspected and authenticated by our atelier before dispatch.",
+      "You are buying from a private seller, so the statutory right of withdrawal does not apply. Your payment is held until the piece reaches you, and at checkout you can have it pass through our atelier first.",
     binnenkort: {
       kopen: "Checkout arrives in the next build round",
       bod: "Offers arrive in the next build round",
@@ -203,13 +270,13 @@ export const t = {
   verkopen: {
     titel: "Sell a piece",
     intro:
-      "After the sale you send the piece to our atelier. We verify authenticity and condition, then forward it to the buyer. Payout follows straight after delivery.",
+      "After the sale we tell you where to send the piece: straight to the buyer, or to our atelier first if the buyer asked for a hand expertise. Either way we create the label and hold the payment until it arrives. Payout follows straight after delivery.",
     richtlijnenTitel: "Photography guidelines",
     richtlijnen: [
       "Daylight, neutral background, no filters",
       "Front, back, interior and base",
       "Close-ups of hardware, stitching and the serial number or hologram sticker",
-      "Photograph wear honestly; our atelier inspects every piece by hand",
+      "Photograph wear honestly; our team checks every listing against these photographs, and buyers can ask for a hand expertise",
     ],
     titelVeld: "Title",
     titelPlaceholder: "e.g. Chanel Classic Flap Medium 1995",
@@ -232,7 +299,7 @@ export const t = {
       voortgang: (klaar: number, totaal: number) => `${klaar} of ${totaal} added`,
       verplichtRest: (n: number) => `${n} required shot${n === 1 ? "" : "s"} to go`,
       allesKlaar: "all required shots added",
-      nogVerplicht: (n: number) => `The first ${n} shots are required. Our atelier uses them to check the piece.`,
+      nogVerplicht: (n: number) => `The first ${n} shots are required. Our team uses them to check your listing before it goes live.`,
       verplicht: "Required",
       bezig: "Preparing",
       verwijderen: "Remove",

@@ -129,7 +129,12 @@ export default async function ListingDetail({ params }: { params: Promise<{ id: 
                 </span>
               </>
             )}
-            {spec(t.listing.expertise, t.listing.expertiseWaarde)}
+            {spec(
+              t.listing.expertise,
+              <Link href="/verification" className="underline decoration-[#a8894f] underline-offset-4 hover:text-black">
+                {t.listing.expertiseWaarde}
+              </Link>
+            )}
             {isBusiness && spec(t.listing.bedenktijd, t.listing.bedenktijdWaarde)}
           </dl>
 
