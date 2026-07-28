@@ -9,14 +9,14 @@ export async function SiteHeader() {
 
   return (
     <header className="mb-10 border-b hairline pb-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+      <div className="flex flex-col items-center gap-5 text-center">
         <div>
           <Link href="/" className="font-serif text-3xl tracking-wide">
             Still <span className="text-[#a8894f]">Iconic</span>
           </Link>
           <p className="caps-label mt-2">{t.merk.tagline}</p>
         </div>
-        <nav className="flex items-center gap-5">
+        <nav className="flex flex-wrap items-center justify-center gap-5">
           <Link href="/sell" className="caps-label !text-black hover:!text-[#8a6f3c]">
             {t.nav.sell}
           </Link>
