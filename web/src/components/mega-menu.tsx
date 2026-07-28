@@ -89,11 +89,6 @@ export async function MegaMenu() {
             {t.megamenu.nieuwBinnen}
           </Link>
         </li>
-        <li>
-          <Link href="/sell" className={link}>
-            {t.nav.sell}
-          </Link>
-        </li>
       </ul>
     </nav>
   );

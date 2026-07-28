@@ -21,6 +21,15 @@ export const t = {
     backToCollection: "← The collection",
   },
 
+  // Onderbalk op de telefoon. Korte woorden: er is weinig ruimte.
+  mobielNav: {
+    collectie: "Collection",
+    verkopen: "Sell",
+    atelier: "Atelier",
+    account: "Account",
+    inloggen: "Sign in",
+  },
+
   collectie: {
     voorregel: "The Collection",
     titel: "Vintage Chanel, expertised",
@@ -175,8 +184,32 @@ export const t = {
     beschrijving: "Description",
     beschrijvingPlaceholder:
       "Tell the story of this piece: provenance, condition, what is included (dust bag, authenticity card)...",
-    fotos: "Photographs (1 to 8, JPG/PNG/WebP, max 8 MB each)",
-    fotosGekozen: (n: number) => `${n} photograph${n === 1 ? "" : "s"} selected`,
+    fotolijst: {
+      titel: "Photographs",
+      uitleg:
+        "Tap a tile to photograph. On a phone this opens the camera straight away. Each photograph is resized on your device before it is sent, so this works on mobile data.",
+      voortgang: (klaar: number, totaal: number) => `${klaar} of ${totaal} added`,
+      verplichtRest: (n: number) => `${n} required shot${n === 1 ? "" : "s"} to go`,
+      allesKlaar: "all required shots added",
+      nogVerplicht: (n: number) => `The first ${n} shots are required. Our atelier uses them to check the piece.`,
+      verplicht: "Required",
+      bezig: "Preparing",
+      verwijderen: "Remove",
+      shots: {
+        FRONT: { label: "Front", hint: "The whole piece, straight on" },
+        BACK: { label: "Back", hint: "The whole piece, reverse" },
+        INTERIOR: { label: "Interior", hint: "Lining and pockets" },
+        SERIAL: { label: "Serial number", hint: "Or the hologram sticker" },
+        HARDWARE: { label: "Hardware", hint: "Clasp, chain and feet" },
+        CORNERS: { label: "Corners", hint: "Close up on the edges" },
+        BASE: { label: "Base", hint: "Underside of the piece" },
+        STRAP: { label: "Strap", hint: "Chain or shoulder strap" },
+      },
+    },
+    concept: {
+      hersteld: "We kept the listing you started earlier.",
+      wissen: "Start fresh",
+    },
     biedenToestaan: "Allow offers on this piece",
     plaatsen: "List this piece",
     bezig: "Publishing...",

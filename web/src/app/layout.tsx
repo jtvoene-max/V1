@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { InstallPrompt } from "@/components/install-prompt";
+import { MobileNav } from "@/components/mobile-nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -52,8 +53,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      {/* pb-20 op de telefoon houdt de inhoud vrij van de vaste onderbalk. */}
+      <body className="min-h-full flex flex-col pb-20 sm:pb-0">
         {children}
+        <MobileNav />
         <InstallPrompt />
       </body>
     </html>

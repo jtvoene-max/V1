@@ -16,6 +16,9 @@ export async function SiteHeader() {
           </Link>
           <p className="caps-label mt-2">{t.merk.tagline}</p>
         </div>
+        {/* Verkopen en account staan hier, want deze kop staat op elke pagina.
+            Het mega-menu eronder doet alleen de categorieën en staat alleen
+            op de collectie. */}
         <nav className="flex flex-wrap items-center justify-center gap-5">
           <Link href="/sell" className="caps-label !text-black hover:!text-[#8a6f3c]">
             {t.nav.sell}
