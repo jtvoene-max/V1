@@ -296,6 +296,68 @@ Concreet, zodat je me eraan kunt houden:
 - Als je een team krijgt dat een standaard platform kan onderhouden en
   aanpassen, want dat is een vak apart
 
+### Waarom je er wél voor zou kiezen
+
+De argumenten hierboven zijn tegen. Hier het tegenverhaal, zo sterk als ik het
+kan maken, want je moet dit kunnen wegen en niet alleen mijn kant horen.
+
+**1. Je kunt een Medusa-ontwikkelaar inhuren. Een Still Iconic-ontwikkelaar
+niet.** Dit is het zwaarste argument en het heeft niets met techniek te maken.
+Wil je over een jaar iemand aannemen, een bureau inschakelen, of gewoon een
+week op vakantie zonder dat alles stilstaat, dan is een bekend platform een
+vacaturetekst en een maatwerkcodebase een leercurve van maanden.
+
+**2. Overdraagbaarheid bij verkoop of investering.** Als je het bedrijf ooit
+verkoopt of geld ophaalt, kijkt iemand naar wat je hebt gebouwd. "Draait op
+Medusa" is een bekend risicoprofiel. "Eigen platform" is een korting, want de
+koper moet inschatten wat het kost om het over te nemen.
+
+**3. Het meeste van wat we bouwen is niet uniek.** Listings, zoeken, filteren,
+accounts, orders, verzendingen, facturen, meerdere talen, belastingregels:
+dat is misschien negentig procent van de code en het bestaat allemaal al. Het
+deel dat echt van jou is, het atelier, de verificatieniveaus, de slijtage per
+zone, is de resterende tien procent. Bouw je die negentig procent zelf, dan
+betaal je die ook zelf, voor altijd.
+
+**4. Hun roadmap is gratis.** Wat het Mercur-team volgend jaar bouwt, krijg je
+erbij. Bij maatwerk is elke functie jouw rekening.
+
+**5. Je moat is misschien niet de software.** Dit is de vraag die alles
+beslist. Bij Still Iconic zit het onderscheid in het atelier, de kennis van
+echtheid, en het vertrouwen dat je opbouwt. Niet in een zoekfilter. Als de
+software vooral een middel is, waarom zou je hem dan zelf onderhouden?
+
+### Waarom ik dan tóch nee zeg, en waar je mij moet wantrouwen
+
+**Ik ben niet neutraal.** Ik heb dit gebouwd, dus ik heb een reden om het te
+verdedigen die niets met jouw belang te maken heeft. Weeg mijn antwoord daarop.
+
+Mijn nee rust eigenlijk maar op twee dingen, en geen van beide gaat over of
+maatwerk beter is:
+
+- **Het draait al.** Overstappen betekent maanden herbouwen en je livegang
+  opschuiven, terwijl je nog niet één euro hebt verdiend. Dat is een dure
+  manier om een architectuurdiscussie te winnen.
+- **Het atelier zit in de weg.** Niveau 2 en 3 lopen fysiek langs jou, en de
+  uitbetaling volgt pas na goedkeuring. Dat is precies waar die platformen
+  andere aannames hebben, en het is niet toevallig ook waar je marge zit.
+
+**Wat ik níet volhoud:** dat maatwerk in het algemeen de betere keuze was
+geweest. Zat je op dag nul, dan zou punt 1 en punt 3 hierboven zwaar wegen en
+zou ik waarschijnlijk Mercur hebben aangeraden.
+
+### De vraag die het beslist
+
+Niet "wat is technisch beter", maar: **wie onderhoudt dit over twee jaar?**
+
+Blijf je het zelf doen met hulp zoals nu, dan is maatwerk prima en zelfs
+prettiger, want je zit nergens aan vast. Wil je op termijn een team of een
+bureau, of wil je dit ooit kunnen verkopen, dan telt punt 1 zwaarder dan
+alles wat ik hierboven tegen heb ingebracht, en dan is het beter om nú te
+schuiven dan over een jaar.
+
+Dat is geen technische vraag. Die kun jij beantwoorden en ik niet.
+
 ### De eerlijke samenvatting
 
 Stond je op dag nul, dan was Mercur een verdedigbare keuze geweest, misschien
