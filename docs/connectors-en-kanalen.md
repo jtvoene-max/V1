@@ -179,18 +179,26 @@ vraagt een beoordeling door Shopify.*
 
 ## "Neem een standaard opensource platform, dat kan dit al"
 
-Een terugkerend advies, en geen dom advies. Medusa, Saleor, Vendure en Mercur
-hebben een plugin-ecosysteem waar koppelingen met Shopify en marktplaatsen al
-in zitten. Bouwde je een gewone webshop met meerdere verkopers, dan zou dat
-waarschijnlijk de juiste keuze zijn. Waarom het hier alsnog niet klopt:
+Een terugkerend advies, en geen dom advies. Concreet gaat het om **Mercur**
+(mercurjs.com), een opensource marktplaats bovenop MedusaJS.
+
+**Correctie op het eerdere advies:** in
+[advies-mercur-mangopay.md](advies-mercur-mangopay.md) heb ik Mercur afgeraden
+zonder **Mercur Connect** mee te wegen, en dat was incompleet. Connect is een
+integratielaag die producten, voorraad, prijzen en orders in twee richtingen
+synchroniseert met Shopify en Magento. Dat is precies waar de vraag over ging,
+en het bestaat dus echt. Mercur biedt daarnaast kant en klaar: verkopers-panel,
+commissies, uitbetalingen, order splitting, beoordelingen, retourescalatie en
+verkopers-onboarding.
+
+Dat is een reële lijst. Waarom het hier alsnog niet de juiste stap is:
 
 **1. Die connectors lossen de makkelijke helft op.** Producten en voorraad heen
-en weer sturen is het werk van een week, ook zelf. Wat geen enkele plugin voor
-je oplost is de regel dat een stuk uniek is, dat een reservering over alle
-kanalen tegelijk moet gelden, en dat het stuk bij niveau 2 en 3 eerst naar jouw
-atelier gaat en pas daarna naar de koper. Dat is geen instelling maar je
-bedrijfsmodel. Je zou de connector krijgen en de moeilijke helft alsnog zelf
-bouwen, maar dan binnen de aannames van iemand anders.
+en weer sturen is het werk van een week, ook zelf. Wat Connect niet voor je
+oplost is dat het stuk bij verificatieniveau 2 en 3 eerst naar jouw atelier
+gaat, daar wordt gekeurd, en pas daarna naar de koper. Dat is geen instelling
+maar je bedrijfsmodel. Je krijgt de connector en bouwt de moeilijke helft
+alsnog, maar dan binnen de aannames van iemand anders.
 
 **2. Uitbetalen botst nog steeds.** Die platformen betalen de verkoper uit
 zodra hij verzendt. Bij ons gaat het geld pas naar de verkoper ná levering, en
@@ -229,6 +237,29 @@ Concreet, zodat je me eraan kunt houden:
   eigen aanbod
 - Als je een team krijgt dat een standaard platform kan onderhouden en
   aanpassen, want dat is een vak apart
+
+### De eerlijke samenvatting
+
+Stond je op dag nul, dan was Mercur een verdedigbare keuze geweest, misschien
+zelfs de betere. Je staat niet op dag nul: er draait een werkend platform met
+modelpagina's, archief, verificatieniveaus, papertrail en winkelpagina's.
+Overstappen betekent dat allemaal opnieuw bouwen binnen Medusa, plus Medusa
+leren, plus de consignatielaag alsnog schrijven. Reken op maanden, en de
+livegang schuift mee.
+
+Daar staat tegenover dat het enige dat Mercur nu écht toevoegt, de connectors,
+pas ná de livegang nodig is en zelf in één tot twee weken te bouwen is voor
+Shopify.
+
+**Advies: niet overstappen, wel serieus houden.** Wordt koppelen straks je
+hoofdthema, kijk dan opnieuw, en dan naar Mercur Connect als losse component
+naast wat er staat, niet als vervanging ervan.
+
+Twee dingen om zelf na te gaan voordat je dit met je adviseur bespreekt: wat
+Mercur kost (op de site staat geen prijs, dus dat is een gesprek), en hoe het
+project er nu voor staat qua onderhoud en beveiliging. Mijn eerdere notitie
+daarover is van vorige maand en verdient een frisse blik in plaats van
+overschrijven.
 
 ## Advies: wat wanneer
 
