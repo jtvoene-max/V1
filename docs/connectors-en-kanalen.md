@@ -117,6 +117,64 @@ in de voorwaarden en op de
 
 ---
 
+## Hoe makkelijk is dit in onze eigen opzet?
+
+Redelijk makkelijk, en dat komt doordat vier dingen die een connector nodig
+heeft al gebouwd zijn voor iets anders.
+
+**Het patroon staat er en werkt.** `web/src/lib/storage.ts` is precies dit:
+één functie naar buiten, per aanbieder een aansluitstuk erachter, en de rest
+van de app weet niet waar een foto staat. Een kanaal is hetzelfde met andere
+inhoud. Dat is geen theorie meer, dat draait.
+
+**Het papertrail is er al.** Elke synchronisatie kun je wegschrijven met
+`logAudit()`, in dezelfde transactie als de wijziging. Bij koppelingen is dat
+geen luxe maar het eerste waar je naar grijpt als een dealer belt met "mijn
+tas staat er niet op". Zonder logboek is zo'n gesprek onwinbaar.
+
+**De reservering is er al.** `reservedUntil` op een listing is precies het
+haakje waar de bescherming tegen dubbelverkoop op aanhaakt: vastzetten,
+van de andere kanalen halen, dan pas afrekenen.
+
+**Het datamodel is expliciet.** Model, materiaal, hardware, era, conditie in
+vijf niveaus, slijtage per zone: allemaal echte velden met vaste waarden. Een
+koppeling die daarop moet mappen heeft een duidelijk doelwit. Bij vrije tekst
+was dat een gok geweest.
+
+**Een API-eindpunt toevoegen is in Next.js een bestand.** Geen aparte server,
+geen extra infrastructuur.
+
+### Wat dan wél het werk is
+
+Eerlijk zijn over waar de tijd in gaat zitten, want dat is niet de koppeling
+zelf:
+
+| Onderdeel | Tijd | Hangt af van het platform? |
+|---|---|---|
+| Aansluitstuk en datamodel (`Channel`, `ChannelListing`) | 2 tot 3 dagen | nee |
+| Shopify-app, installatie en toegang | 2 tot 3 dagen | nee |
+| Velden vertalen naar onze attributen | 2 tot 4 dagen | nee |
+| Webhooks ontvangen en controleren op echtheid | 2 dagen | nee |
+| Controleronde, opnieuw proberen, dubbele meldingen negeren | 3 tot 5 dagen | nee |
+| Beschikbaarheid in twee richtingen sluitend krijgen | 1 tot 2 weken | nee |
+
+**Bijna niets in die tabel wordt goedkoper van een standaard platform.** Wat
+je daar bespaart is het eerste rijtje; de rest, en dat is het meeste, schrijf
+je hoe dan ook. Dat is de kern van waarom "dat platform heeft de connector al"
+minder oplevert dan het klinkt.
+
+### Wat we kunnen dat een kant-en-klare connector niet kan
+
+Omdat we het zelf schrijven, kan de koppeling onze eigen regels afdwingen:
+
+- **Binnen als concept, niet als publicatie.** Ontbreken de acht opnames of de
+  slijtage per zone, dan blijft het stuk staan tot de verkoper aanvult. Een
+  standaard connector publiceert gewoon wat hij krijgt, en dan verwatert je
+  aanbod met precies datgene waarop je je onderscheidt.
+- **Routering per verificatieniveau.** Kiest de koper niveau 2, dan moet het
+  label naar het atelier en niet naar de koper. Geen enkele generieke connector
+  weet dat, want geen enkel ander platform heeft een atelier.
+
 ## De omkering: laat hén op ons aansluiten
 
 Hierboven staat dat Vestiaire, The RealReal en Fashionphile dicht zitten. Dat
