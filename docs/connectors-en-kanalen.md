@@ -117,6 +117,119 @@ in de voorwaarden en op de
 
 ---
 
+## De omkering: laat hén op ons aansluiten
+
+Hierboven staat dat Vestiaire, The RealReal en Fashionphile dicht zitten. Dat
+is een nadeel, maar er zit een kans in die je makkelijk over het hoofd ziet.
+
+**Precies omdat zij dicht zijn, is open zijn een wapen.**
+
+Een dealer met 200 tassen zit vast aan het inbrengproces van die platformen:
+handmatig, per stuk, in hún formulier. Iedereen in die markt klaagt daarover.
+Ben jij de partij waar zijn voorraad in een middag in staat, dan kies je niet
+op bereik maar op gemak, en gemak is het enige waarop een nieuwkomer kán
+winnen. Bereik heb je nog niet.
+
+Dit is bovendien de kant die aansluit op wat er al staat: de winkelpagina voor
+zakelijke verkopers is er, de handelsgegevens staan erop, en het datamodel
+maakt al onderscheid tussen particulier en zakelijk.
+
+### Drie niveaus, van eenvoudig naar volledig
+
+**1. Bestandsimport (spreadsheet).** Onderschat dit niet: veel handelaren in
+vintage draaien op een spreadsheet, op Instagram-berichten en op hun geheugen.
+Geen API, geen systeem. Een import waarbij ze hun eigen kolommen aanwijzen en
+de foto's per stuk toevoegen, dekt het grootste deel van die groep.
+*Werk: ongeveer een week. Bereikt de meeste verkopers.*
+
+**2. Verkopers-API met een sleutel per winkel.** Voor de dealer die wél een
+systeem heeft. Listing aanmaken en bijwerken, foto's toevoegen, verkocht
+melden, en een webhook terug zodra er hier iets verkocht is. Dat laatste is
+niet optioneel: zonder terugmelding krijg je precies de dubbelverkoop uit het
+begin van dit document.
+*Werk: twee tot drie weken, inclusief sleutelbeheer en limieten.*
+
+**3. Een Shopify-app die ze installeren.** De koninklijke weg voor dealers die
+op Shopify zitten. Zij klikken installeren, kiezen welke producten mee moeten,
+en klaar. Bouwt voort op niveau 2.
+*Werk: twee tot drie weken bovenop de API. Publiceren in de Shopify-winkel
+vraagt een beoordeling door Shopify.*
+
+### Wat dit oplevert dat een gewone koppeling niet doet
+
+- Het is een **reden om voor jou te kiezen** die niets met traffic te maken
+  heeft, en dat is precies wat je in jaar één mist
+- Elke aangesloten dealer levert **voorraad**, en voorraad trekt kopers
+- Het is **niet na te doen door de grote partijen** zonder hun eigen model om
+  te gooien: die willen juist de controle over de inbreng houden
+
+### Wat je erbij moet regelen
+
+- **Elke sleutel is een deur.** Een sleutel per winkel, alleen rechten op de
+  eigen listings, een limiet op het aantal verzoeken, en intrekbaar. Dit hoort
+  bij de beveiligingsronde op de
+  [checklist voor de livegang](checklist-livegang.md)
+- **Kwaliteitsdrempel.** Wat via een koppeling binnenkomt is standaard te mager
+  (zie hierboven). Ook hier: binnen als concept, publiceren pas nadat de
+  ontbrekende velden en de acht opnames er zijn. Anders koop je voorraad met
+  je eigen onderscheidend vermogen
+- **Beschikbaarheid blijft van ons.** Zodra iets hier live staat, bepalen wij
+  of het te koop is. De dealer meldt door wat hij elders verkoopt, wij melden
+  terug wat hier verkoopt
+
+## "Neem een standaard opensource platform, dat kan dit al"
+
+Een terugkerend advies, en geen dom advies. Medusa, Saleor, Vendure en Mercur
+hebben een plugin-ecosysteem waar koppelingen met Shopify en marktplaatsen al
+in zitten. Bouwde je een gewone webshop met meerdere verkopers, dan zou dat
+waarschijnlijk de juiste keuze zijn. Waarom het hier alsnog niet klopt:
+
+**1. Die connectors lossen de makkelijke helft op.** Producten en voorraad heen
+en weer sturen is het werk van een week, ook zelf. Wat geen enkele plugin voor
+je oplost is de regel dat een stuk uniek is, dat een reservering over alle
+kanalen tegelijk moet gelden, en dat het stuk bij niveau 2 en 3 eerst naar jouw
+atelier gaat en pas daarna naar de koper. Dat is geen instelling maar je
+bedrijfsmodel. Je zou de connector krijgen en de moeilijke helft alsnog zelf
+bouwen, maar dan binnen de aannames van iemand anders.
+
+**2. Uitbetalen botst nog steeds.** Die platformen betalen de verkoper uit
+zodra hij verzendt. Bij ons gaat het geld pas naar de verkoper ná levering, en
+bij een atelier-expertise pas na goedkeuring. Dat is precies de plek waar jouw
+kopersbescherming zit, en precies de plek waar je tegen het framework in werkt.
+
+**3. Wat je zou weggooien staat er al.** Modelpagina's, het verkocht-archief,
+conditie per zone, de drie verificatieniveaus, het papertrail, de winkelpagina
+met handelsgegevens. Dat opnieuw bouwen binnen andermans abstracties is
+zelden minder werk dan het zelf houden; meestal meer.
+
+**4. Je optimaliseert nu voor iets van later.** Koppelingen komen ná de
+livegang. Je architectuur vandaag kiezen op een eis van over een jaar is de
+verkeerde volgorde, zeker als die eis met een week werk alsnog te bouwen is.
+
+### Wat er wél veranderd is sinds het eerdere advies
+
+In [advies-mercur-mangopay.md](advies-mercur-mangopay.md) staat wanneer je dit
+zou heroverwegen: *"als het atelier ooit optioneel wordt en verkopers standaard
+zelf verzenden"*. Dat is sinds het besluit over de drie verificatieniveaus
+gedeeltelijk gebeurd: bij niveau 1 verstuurt de verkoper rechtstreeks naar de
+koper.
+
+Eerlijk is eerlijk, die botsing is dus kleiner geworden. Maar hij is niet weg:
+bij niveau 2 en 3 loopt het nog steeds via het atelier, en dát zijn de niveaus
+met de marge en het onderscheidend vermogen. Een framework dat je op de
+goedkoopste route helpt en op de waardevolste tegenwerkt, is geen winst.
+
+### Wanneer ik van gedachten verander
+
+Concreet, zodat je me eraan kunt houden:
+
+- Als na een jaar blijkt dat verreweg de meeste kopers niveau 1 kiezen en het
+  atelier een uitzondering is
+- Als koppelingen met kanalen je belangrijkste groeikanaal blijken en niet je
+  eigen aanbod
+- Als je een team krijgt dat een standaard platform kan onderhouden en
+  aanpassen, want dat is een vak apart
+
 ## Advies: wat wanneer
 
 **Niet nu.** Voor de livegang heb je Stripe, de jurist, de verzekering en de
