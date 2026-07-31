@@ -105,6 +105,65 @@ Op basis van bovenstaande, twee toevoegingen:
 
 ---
 
+## "Is een standaard platform niet veiliger?"
+
+Terugkerende vraag, meestal in de context van Mercur of Medusa. Het antwoord is
+niet zwart-wit, dus hier de drie stukken apart.
+
+### Waar zo'n platform écht wint
+
+**Veiligheidsfuncties die je anders zelf bouwt.** Wachtwoord vergeten,
+e-mailverificatie, sessiebeheer, tweestapsverificatie, een rollen- en
+rechtensysteem. Zelf gebouwde inlogsystemen zijn een klassieke bron van
+ellende, en dat is precies waar wij nu nog zwak staan.
+
+**Veel ogen op dezelfde code.** Duizenden gebruikers, een meldproces voor
+kwetsbaarheden, updates die je installeert in plaats van zelf schrijven.
+
+### Waar het gelijk staat
+
+**Jouw eigen logica blijft jouw probleem.** Wie mag welke order zien, klopt de
+uitbetaling, kan iemand andermans listing wijzigen. Dat is bij ons maatwerk en
+op Mercur óók maatwerk, want consignatie en het atelier zitten in geen enkel
+framework. En dat is nu net de code waar geld en goederen doorheen gaan.
+
+**Configuratie is waar het in de praktijk misgaat.** Niet in slimme aanvallen,
+maar in vergeten deuren. Het probleem dat vandaag boven kwam, een openbare
+repo met een beheerderswachtwoord erin en één database voor test en live, was
+op Mercur precies hetzelfde geweest. Dat is discipline, geen architectuur.
+
+### Waar het juist minder veilig is
+
+**Aanvalsoppervlak.** Een marktplaatsframework kan honderd dingen; jij gebruikt
+er twintig. Die andere tachtig draaien wel mee. Onze app heeft een handvol
+pagina's en een korte lijst afhankelijkheden, en alles wat er niet is kan ook
+niet lek zijn.
+
+**Toeleveringsketen.** Dit is in deze wereld het grootste reële risico, niet
+hackers. Elk pakket dat je installeert is code van een vreemde op jouw server.
+Een standaard platform met plugins betekent al snel een veelvoud aan
+afhankelijkheden. Bij Mercur stond eind januari 2026 een week lang kwaadaardige
+code in de admin-repository voordat het gemeld werd. Dat is geen verwijt aan
+dat project in het bijzonder, het overkomt grotere ook, maar het laat zien
+welke kant het risico op zit.
+
+**Bekende deuren.** Een standaard platform heeft een beheerderspagina op een
+adres dat iedereen kent. Dat wordt structureel afgezocht. Onze atelierpagina
+staat op een pad dat verder niemand kent en geeft een harde 403.
+
+### De praktische conclusie
+
+Wat je van zo'n platform zou willen, zijn de veiligheidsfuncties rond inloggen.
+Die kun je **kopen zonder te verhuizen**: Clerk of Better Auth geeft je
+tweestapsverificatie, e-mailverificatie, wachtwoordherstel en botbescherming,
+met een partij die er aansprakelijk voor is. Dat staat al als eerste punt op de
+[checklist voor de livegang](checklist-livegang.md).
+
+Je krijgt dan het voordeel van een standaard platform op precies het punt waar
+het telt, zonder de nadelen op de andere drie.
+
+---
+
 ## Eerlijk antwoord op "geen gezeur"
 
 Wat je koopt met deze keuzes:

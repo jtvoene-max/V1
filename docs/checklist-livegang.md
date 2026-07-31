@@ -18,6 +18,14 @@ tot en met 5: die kosten geen code, maar wel doorlooptijd.
 Uitgewerkt in [veiligheid-en-stabiliteit.md](veiligheid-en-stabiliteit.md) en
 [cloudflare-en-beveiliging.md](cloudflare-en-beveiliging.md). Hier de poort:
 
+- [ ] **[jij] NU: repo op privé zetten.** GitHub → Settings → General →
+      Change repository visibility. De repo staat openbaar, en in
+      `prisma/seed.ts` staat het testwachtwoord met `admin@test.local` erbij.
+      Omdat test en live dezelfde database delen, werken die accounts op de
+      live site. Er staat alleen testdata in, dus de schade is nu beperkt,
+      maar dit moet dicht vóór er iets echts in komt.
+- [ ] **[ik]** Geen werkende testaccounts meer in de database die live
+      bedient. Vervalt vanzelf zodra de ontwikkeldatabase losstaat.
 - [ ] **[ik]** Inloggen van Auth.js naar Clerk of Better Auth. Auth.js staat na
       jaren nog in beta en had in juli 2026 twee kritieke lekken, waarvan één
       die open faalt.
